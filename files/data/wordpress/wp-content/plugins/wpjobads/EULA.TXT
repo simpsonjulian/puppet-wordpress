@@ -1,0 +1,14 @@
+End User License Agreement (EULA)
+
+Copyright (C) 2008 - 2009 WPJobAds. All rights reserved.
+
+This End User License Agreement is a binding legal agreement between you and WPJobAds (the "Author"). By purchasing, installing and using WPJobAds (the "Software"), you agree to be bound by the terms of this license:
+
+1. You must ensure that, prior to any use of the Software by your employees or agents, all such parties are notified and also agree to the terms of this license agreement.
+2. The Author grants you the right to install the Software on a single installation of WordPress for an unlimited amount of time.
+3. The Author retains all the intellectual property rights in the Software. You may not share, rent, lease, sub-licence, sell, assign, pledge, transfer or otherwise dispose of the license key and/or Software in any way or form, on a temporary or permanent basis, without prior written consent from the Author.
+4. You may not modify, defeat, remove or replace any license checking mechanisms.
+5. The licence is effective until terminated or revoked. You may terminate it at any time by uninstalling the Software and destroying any license keys and any copies of the software in any form.
+6. If any of the terms of this license agreement are violated, we reserve the right to revoke the licence at any time.
+
+THE SOFTWARE IS OFFERED ON AN "AS-IS" BASIS AND NO WARRANTY, EITHER EXPRESSED OR IMPLIED, IS GIVEN. THE AUTHOR EXPRESSLY DISCLAIMS ALL WARRANTIES OF ANY KIND, WHETHER EXPRESS OR IMPLIED, INCLUDING, BUT NOT LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. YOU ASSUME ALL RISK ASSOCIATED WITH THE QUALITY, PERFORMANCE, INSTALLATION AND USE OF THE SOFTWARE INCLUDING, BUT NOT LIMITED TO, THE RISKS OF PROGRAM ERRORS, DAMAGE TO EQUIPMENT, LOSS OF DATA OR SOFTWARE PROGRAMS, OR UNAVAILABILITY OR INTERRUPTION OF OPERATIONS. YOU ARE SOLELY RESPONSIBLE FOR DETERMINING THE APPROPRIATENESS OF USE THE SOFTWARE AND ASSUME ALL RISKS ASSOCIATED WITH ITS USE.

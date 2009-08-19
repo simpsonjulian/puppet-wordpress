@@ -1,0 +1,115 @@
+Thu, 11 Oct 2007 11:41:03 -0700 Asheesh Laroia <asheesh@creativecommons.org>
+ * Removed capital 'l' from most places (not the svn module yet)
+ * imported fresh CSS from widget
+
+Wed, 10 Oct 2007 17:08:11 -0700 Asheesh Laroia <asheesh@creativecommons.org>
+ * Updated JsWidget to use 0.92
+
+Tue, 28 Aug 2007 12:21:21 -0700 Asheesh Laroia <asheesh@creativecommons.org>
+ * Updated JsWidget references to use version 0.91
+ * Handle the removing of a license as well as the addition of a license
+
+Fri Dec 30 16:34:31 EST 2005  Nathan R. Yergler <nathan@yergler.net>
+  * line-ending
+  No line ending at the end of the file makes Safari (and presumably Konqueror) crazy.
+
+Tue Jul 12 10:25:52 EST 2005  Nathan R. Yergler <nathan@yergler.net>
+  tagged wplicense-0.5.0
+
+Tue Jul 12 10:25:26 EST 2005  Nathan R. Yergler <nathan@yergler.net>
+  * update-version-number
+
+Tue Jul 12 09:28:42 EST 2005  Nathan R. Yergler <nathan@yergler.net>
+  * behaviour-mapping-fixup
+  
+  Converted last explicit onchange attribute to use Behaviour mappings; added
+  delay when updating the license question display to allow Gecko to rebuild
+  the DOM before updating the action bindings.
+  
+
+Tue Jul 12 09:27:41 EST 2005  Nathan R. Yergler <nathan@yergler.net>
+  * force-jurisdiction
+  
+  Added code to force generic jurisdiction if none is specified.
+  
+
+Tue Jul 12 08:26:58 EST 2005  Nathan R. Yergler <nathan@yergler.net>
+  * add-minixml
+
+Tue Jul 12 08:25:58 EST 2005  Nathan R. Yergler <nathan@yergler.net>
+  * wsclient-html-extraction
+  
+  Use a regexp to extract the license HTML from the web service response; this
+  avoids the entire problem of serializing/deserializing the RDF-in-a-comment
+  properly.
+  
+
+Tue Jul 12 08:25:16 EST 2005  Nathan R. Yergler <nathan@yergler.net>
+  * reenable-working-graphic
+
+Tue Jul 12 08:23:37 EST 2005  Nathan R. Yergler <nathan@yergler.net>
+  * update-admin-layout
+  
+  Some minor cleanup of the admin page layout; changed "working" indicator to 
+  use less intrusive throbber graphic.
+  
+
+Mon Jul 11 20:49:55 EST 2005  Nathan R. Yergler <nathan@yergler.net>
+  * ccwsclient-fixup
+  
+  Converted from libcurl to basic remote file opening to support PHP w/o libcurl;
+  Fixed up object de-referencing to work with PHP < 5.
+  
+
+Mon Jul 11 20:46:49 EST 2005  Nathan R. Yergler <nathan@yergler.net>
+  * remove-whitespace
+  
+  Removed whitespace to prevent header blarfing in PHP < 5.
+  
+
+Mon Jul 11 17:41:30 EST 2005  Nathan R. Yergler <nathan@yergler.net>
+  * cosmetic-fixups
+
+Mon Jul 11 17:40:33 EST 2005  Nathan R. Yergler <nathan@yergler.net>
+  * not-simplexml
+  
+  Converted XML parsing and extraction from SimpleXml (PHP5-only) to MiniXML (bundled PHP4/PHP5 library); added MiniXML support library.
+  
+
+Sun Jul 10 15:23:47 EST 2005  Nathan R. Yergler <nathan@yergler.net>
+  * stripped-visual-effects
+  
+  Stripped fancy visual effects from the admin UI until I know what I'm actually doing.
+  
+
+Sun Jul 10 13:52:16 EST 2005  Nathan R. Yergler <nathan@yergler.net>
+  * wpfooter-support
+  Added option to automatically output license RDF+HTML in the standard wp_footer() function call, which is used by the default Kubrick theme.
+  
+
+Sun Jul 10 13:27:09 EST 2005  Nathan R. Yergler <nathan@yergler.net>
+  * remove-license-support
+  Added support for explicitly removing a selected license.
+
+Sun Jul 10 12:21:06 EST 2005  Nathan R. Yergler <nathan@yergler.net>
+  * wplicense-sajax-to-sack-conversion
+
+Sun Jul 10 11:39:27 EST 2005  Nathan R. Yergler <nathan@yergler.net>
+  * add-behavior-library
+  
+  Added Behaviour javascript library.  Behaviour provides sane application of Javascript functions using CSS-style selectors.  More information on Behaviour at http://www.ripcord.co.nz/behaviour/.
+  
+
+Sun Jul 10 11:38:28 EST 2005  Nathan R. Yergler <nathan@yergler.net>
+  * remove-sajax-library
+
+Sun Jul 10 11:35:43 EST 2005  Nathan R. Yergler <nathan@yergler.net>
+  * add-sack-library
+  
+  Added the Simple Ajax Code Kit for simple click-server AJAX communications.  This replaces the heavier, and somewhat magical, SAJAX library.
+  
+  More information on SACK at http://twilightuniverse.com/projects/sack.
+
+Mon Jun 20 09:31:00 EST 2005  Nathan R. Yergler <nathan@yergler.net>
+  * wplicense-0.2-initial-import
+  Initial import of wpLicense to darcs; this is the 0.2 release.

@@ -1,0 +1,341 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>WPJobAds 1.2.3 Manual</title>
+        <style type="text/css">
+            body {margin:0;padding:0;font-family:'Verdana','Arial',sans-serif;font-size:smaller;text-align:center;background-color:#E3E3E3;}
+            h1, h2, h3 {font-size:small;margin-top:0;padding-top:.5em;}
+            #container {margin:0 auto;padding:0 1em 1em;border:1px solid #B6B6B6;border-top:none;text-align:left;width:90%;background-color:white;}
+            hr {border:none;border-top:1px solid gray;margin:1em 0 0;}
+            pre {font-size:larger;}
+            code {font-size:larger;}
+            .panel {border:1px solid #ddd;padding:.5em;margin:0 0 1em;}
+            img.screenshot {border:1px solid #ddd;padding:1px;}
+            .note {font-weight:normal;letter-spacing:0px;background-color:#fff9d8;}
+            ol li {margin:1em 0;}
+            ol#toc li {margin:0;}
+        </style>
+    </head>
+    <body>
+        <div id="container">
+
+            <h1>WPJobAds 1.2.3 Manual</h1>
+            <p>Table of Contents</p>
+            <ol id="toc">
+                <li><a href="#systemrequirements">System Requirements</a></li>
+                <li><a href="#installation">Installation</a></li>
+                <li><a href="#adminpage">Administrative Page</a></li>
+                <li><a href="#paypaltesting">PayPal Testing</a></li>
+                <li><a href="#sidebarwidgets">Sidebar Widgets</a></li>
+                <li><a href="#themes">Modifying themes</a></li>
+                <li><a href="#translations">Adding translations</a></li>
+                <li><a href="#updating">Updating WPJobAds</a></li>
+                <li><a href="#support">Support</a></li>
+            </ol>
+
+            <hr>
+
+            <div id="systemrequirements">
+                <h2>System Requirements</h2>
+                <p>To install WPJobAds, you must first meet the minimum server system requirements:</p>
+                <ol>
+                    <li>WordPress 2.5 or greater. We recommend that you always use the <a href="http://wordpress.org/latest.zip">latest stable release</a>.</li>
+                    <li>PayPal Premier or Business Account with Instant Payment Notification enabled (optional &mdash; only if you're planning to charge for ad placements)</li>
+                </ol>
+                <p><a title="Table of Contents" href="#toc">ToC</a></p>
+            </div><!-- #systemrequirements -->
+
+            <hr>
+
+            <div id="installation">
+                <h2>Installation</h2>
+                <p>Installing WPJobAds is straightforward: install it just like you would any other plugin. Upload the folder <code>wpjobads</code> to the <code>wp-content/plugins</code> directory of your WordPress installation and activate it via the Plugin administrative page.</p>
+                <img class="screenshot" src="images/install.png">
+                <p><span class="note">The installation process will create one page entry, two additional tables: <code>wpjobads_category</code> and <code>wpjobads_job</code> (prefixed with whatever your WordPress tables are prefixed with), one option entry: <code>wpjobads_options</code> and one top level menu.</span></p>
+                <p>To enable logging, simply make the <code>logs</code> folder writable. Logs are grouped and put in files according to their date (e.g, 2008-10-25.txt and so on).</p>
+                <p>After installation, click on the top level menu "WPJobAds" and you will be presented a form where you need to insert your license key:</p>
+                <img class="screenshot" src="images/activation.png">
+                <p><a title="Table of Contents" href="#toc">ToC</a></p>
+            </div><!-- #installation -->
+
+            <hr>
+
+            <div id="usage">
+                <h2>General Usage</h2>
+                <div class="panel">
+                    <h3>Job Listing</h3>
+                    <p>The Job Listing page lists all active job ads sorted by their expiry date and grouped by category. The category grouping order can be reordered via the admin panel.</p>
+                    <img class="screenshot" src="images/usage-joblisting.png">
+                </div>
+                <div class="panel">
+                    <h3>Post New Job</h3>
+                    <p>New job ad submission form can be accessed via the invite link in the Job Listing page or Sidebar Widget.</p>
+                    <img class="screenshot" src="images/usage-jobform.png">
+                    <p>The fields are by default divided into two fieldsets, Job Details and Employer Details. All fields are mandatory except for <u>Zipcode</u> and <u>Company URL</u>.</p>
+                </div>
+                <p><a title="Table of Contents" href="#toc">ToC</a></p>
+            </div><!-- #usage -->
+
+            <hr>
+
+            <div id="adminpage">
+                <h2>Administrative Page</h2>
+                <div class="panel">
+                    <h3>Overview</h3>
+                    <p>The Overview page shows how old your WPJobAds version.</p>
+                    <img class="screenshot" src="images/admin-overview.png">
+                </div>
+                <div class="panel">
+                    <h3>Jobs</h3>
+                    <p>The Jobs page lists your job ads:</p>
+                    <img class="screenshot" src="images/admin-jobs.png">
+                    <p>You can directly add new job ads:</p>
+                    <img class="screenshot" src="images/admin-jobs-add.png">
+                    <p><span class="note">Keep in mind that all fields are mandatory except for <u>Zipcode</u> and <u>Company URL</u>. One field you would <b>not</b> normally fill in manually is <u>PayPal Transaction ID</u>.</span></p>
+                </div>
+                <div class="panel">
+                    <h3>Awaiting Approval</h3>
+                    <p>The Awaiting Approval page gives you a nice list of new job ads waiting for moderation. You can approve, edit or delete incoming job ads.</p>
+                    <img class="screenshot" src="images/awaiting-approval.png">
+                </div>
+                <div class="panel">
+                    <h3>Categories</h3>
+                    <p>The Categories page gives you the available categories. You can add, edit, delete and even set the view ordering of each category.</p>
+                    <img class="screenshot" src="images/categories.png">
+                </div>
+                <div class="panel">
+                    <h3>Options</h3>
+                    <p>The Options page gives you full control of WPJobAds</p>
+                    <img class="screenshot" src="images/admin-options.png">
+                    <p>The following is a list of all options within WPJobAds and their explanation:</p>
+                    <table border="1" style="font-size:small;">
+                        <tr>
+                            <th>Option</th>
+                            <th>Explanation</th>
+                        </tr>
+                        <tr>
+                            <td>Job board title</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Description</td>
+                            <td>Shown at the top of the front-end job ad submission form.</td>
+                        </tr>
+                        <tr>
+                            <td>Invite</td>
+                            <td>The link label inviting potential advertisers to advertise (e.g, "Post a job and find the right person").</td>
+                        </tr>
+                        <tr>
+                            <td>Enable new job listings</td>
+                            <td>Enables or disables the front-end job ad submission form.</td>
+                        </tr>
+                        <tr>
+                            <td>Auto approve listings <b>(new in 1.2)</b></td>
+                            <td>Enables or disables auto approval of any incoming job ads. Utilize this option with care.</td>
+                        </tr>
+                        <tr>
+                            <td>Send payment email on auto approve <b>(new in 1.2.2)</b></td>
+                            <td>Checking this will send the payment email message (if any) even if auto approve is on</td>
+                        </tr>
+                        <tr>
+                            <td>Duration</td>
+                            <td>How long the ad will be up for display in days.</td>
+                        </tr>
+                        <tr>
+                            <td>Currency</td>
+                            <td>Currencies supported by PayPal</td>
+                        </tr>
+                        <tr>
+                            <td>Full time price</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Part time price</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Freelance price</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Internship price</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>PayPal email</td>
+                            <td>Your PayPal account email address.</td>
+                        </tr>
+                        <tr>
+                            <td>PayPal URL</td>
+                            <td>The PayPal URL. This is normally <code>https://www.paypal.com/cgi-bin/webscr</code> for the live server and <code>https://www.sandbox.paypal.com/cgi-bin/webscr</code> for the test server.</td>
+                        </tr>
+                        <tr>
+                            <td>PayPal verification URL</td>
+                            <td>The PayPal verification URL used to verify IPN data. This is normally <code>ssl://www.paypal.com:443/cgi-bin/webscr</code> for the live server and <code>ssl://www.sandbox.paypal.com:443/cgi-bin/webscr</code> for the test server.</td>
+                        </tr>
+                        <tr>
+                            <td>SSL availability <b>(new in 1.2.3)</b></td>
+                            <td>Determines whether SSL is installed or not. In order for PayPal to work right, you <em>must</em> enable SSL (openssl) support.</td>
+                        </tr>
+                        <tr>
+                            <td>Job listing date format</td>
+                            <td>The date format used in the job listing area. <a href="http://codex.wordpress.org/Formatting_Date_and_Time">Documentation on date formatting</a> in WordPress.</td>
+                        </tr>
+                        <tr>
+                            <td>Terms</td>
+                            <td>The terms &amp; conditions shown to advertisers prior to submitting their ad.</td>
+                        </tr>
+                        <tr>
+                            <td>Payment email</td>
+                            <td>
+                                The email subject &amp; message to be sent to the advertiser prior to payment (if any).<br><br>
+                                Available substitution syntax in the subject: %job_title% and %contact_name%<br>
+                                Available substitution syntax in the message: %job_title%, %payment_url%, %payment_link%, %company_name%, %company_url%, %contact_name%, %contact_email% and %ad_expiration%<br><br>
+                                The difference between %payment_url% and %payment_link% is %payment_link% will output the URL in HTML anchor link instead of plain text.<br><br>
+                                For example, in the message you would put something like: "Dear %contact_name%, Your job ad %job_title% ..."
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Publish email</td>
+                            <td>
+                                The email subject &amp; message to be sent to the advertiser prior to ad publishing.<br><br>
+                                Available substitution syntax in the subject: %job_title% and %contact_name%<br>
+                                Available substitution syntax in the message: %job_title%, %ad_url%, %ad_link%, %company_name%, %company_url%, %contact_name%, %contact_email% and %ad_expiration%<br><br>
+                                The difference between %ad_url% and %ad_link% is %ad_link% will output the URL in HTML anchor link instead of plain text.<br><br>
+                                For example, in the message you would put something like: "Dear %contact_name%, Your job ad %job_title% ..."
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Email from</td>
+                            <td>The email reply name and address.</td>
+                        </tr>
+                        <tr>
+                            <td>Email notification <b>(new in 1.2)</b></td>
+                            <td>Email address to be notified when a new listing is submitted. Empty this field if you do not want notifications.</td>
+                        </tr>
+                        <tr>
+                            <td>Notification email <b>(new in 1.2)</b></td>
+                            <td>
+                                The email subject &amp; message to be sent to the notification email defined above each time a new job is submitted.<br><br>
+                                Available substitution syntax in the subject: %job_id% and %job_title%<br>
+                                Available substitution syntax in the message: %job_id%, %job_title%, %company_name%, %company_url%, %contact_name%, %contact_email% and %ad_expiration%
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Expired ads viewable</td>
+                            <td>Whether to allow visitors to view expired job ads or not.</td>
+                        </tr>
+                        <tr>
+                            <td>Enable random job ad in posts</td>
+                            <td>Whether to show random job ad in every job post or not.</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="panel">
+                    <h3>Uninstall</h3>
+                    <p>The Uninstall page gives you the option of cleanly uninstalling WPJobAds, permanently deleting all plugin data in the process.</p>
+                    <img class="screenshot" src="images/admin-uninstall.png">
+                    <p><span class="note">Note: This action is not reversible. You should proceed carefully.</span></p>
+                </div>
+                <p><a title="Table of Contents" href="#toc">ToC</a></p>
+            </div><!-- #adminpage -->
+
+            <hr>
+
+            <div id="paypaltesting">
+                <h2>PayPal Testing</h2>
+                <p>Before going live with WPJobAds, you should test the PayPal connectivity with your own <a href="https://developer.paypal.com/">test PayPal account</a>.</p>
+                <img class="screenshot" src="images/paypal-testing.png">
+                <p>Use <code>https://www.sandbox.paypal.com/cgi-bin/webscr</code> as the PayPal URL and <code>ssl://www.sandbox.paypal.com:443/cgi-bin/webscr</code> as the PayPal verification URL. <span class="note">Note that your server <b>must</b> support SSL. If it does not, you can try substituting <code>https</code> for the <code>ssl</code> part.</span> If that does not work, you should contact your hosting provider.</p>
+                <p><a title="Table of Contents" href="#toc">ToC</a></p>
+            </div><!-- #paypaltesting -->
+
+            <hr>
+
+            <div id="sidebarwidgets">
+                <h2>Sidebar Widgets</h2>
+                <p>WPJobAds comes with three sidebar widgets.</p>
+                <h3>Main Widget</h3>
+                <p>You can customize the Title and Invite label from the Widgets option page (go to Design -&gt; Widgets).</p>
+                <img class="screenshot" src="images/sidebar-widget.png">
+                <h3>Search Widget (new in 1.1)</h3>
+                <p>Active jobs can now be searched using the new WPJobAds Search sidebar widget.</p>
+                <h3>RSS Feed (new in 1.1)</h3>
+                <p>RSS feed for active jobs is now automatically added as a list entry in your Meta widget. The link for the Feed is in the form such as: <code>http://www.example.com/path/to/wpjobads/main/page?jobfeed=rss2</code> (you can just copy the link from the Meta widget directly)</p>
+                <p>TIP #1: You can directly embed the RSS feed in your blog by using the RSS feed link above with the RSS widget that comes built-in with your WordPress installation.</p>
+                <p>TIP #2: You can specify RSS feed for a certain category by appending the category ID e.g, <code>&amp;cat_ID=3</code> at the end of the above link.</p>
+                <p>TIP #3 <b>(new in 1.2.3)</b>: You can also specify RSS feed for a certain job type by appending the job type e.g, <code>&amp;jobtype=fulltime</code> at the end of the above link. This can also be used in conjunction with the category parameter in TIP #2.</p>
+                <p><a title="Table of Contents" href="#toc">ToC</a></p>
+            </div><!-- #paypaltesting -->
+
+            <hr>
+
+            <div id="themes">
+                <h2>Modifying Themes</h2>
+                <p>WPJobAds works with virtually any WordPress compatible theme. This is because our plugin does not modify any core files. If you have some experience with PHP and HTML you can modify WPJobAds' templates.</p>
+                <p>We have separated all front-end template functions in a file named <code>wpjobads-template.php</code> which you can modify with care to suit your custom theme. WPJobAds will first check to see if a template function file named <code>wpjobads-template-&lt;WORDPRESS_THEME&gt;.php</code> exists &mdash; where <code>&lt;WORDPRESS_THEME&gt;</code> is the name of the current WordPress theme installed (without the angle brackets, of course) and use that template function file. If none found, the default <code>wpjboads-template.php</code> will be used instead.</p>
+                <table border="1" style="font-size:small;">
+                    <tr>
+                        <th>Function</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr>
+                        <td><code>wpjobads_template_job_listing</code></td>
+                        <td>Job listing on the front page</td>
+                    </tr>
+                    <tr>
+                        <td><code>wpjobads_template_view_job</code></td>
+                        <td>Detailed job ad page</td>
+                    </tr>
+                    <tr>
+                        <td><code>wpjobads_template_random_ad</code></td>
+                        <td>Random job ad shown in individual blog posts</td>
+                    </tr>
+                </table>
+                <p>You can modify the above functions for example to add or omit certain fields in the job listing page.</p>
+                <p><a title="Table of Contents" href="#toc">ToC</a></p>
+            </div><!-- #themes -->
+
+            <hr>
+
+            <div id="translations">
+                <h2>Adding Translations</h2>
+                <p>It is best to keep all your pages in the same language. For this reason, we have included a <code>.po</code> file which you can translate into a language of your choice by using software such as <A href="http://www.poedit.net">Poedit</a>:</p>
+                <img class="screenshot" src="images/poedit.png">
+                <p>The following is the necessary steps:</p>
+                <ol>
+                    <li>Copy the provided <code>wpjobads.po</code> as <code>wpjobads-&lt;CODE&gt;.po</code> where <code>&lt;CODE&gt;</code> is your language code (i.e, <code>de_DE</code> for German, <code>fr_FR</code> for French and so on)</li>
+                    <li>Open the file using Poedit</li>
+                    <li>Add your translations</li>
+                    <li>Save the catalog</li>
+                    <li>Poedit will generate the .mo file which you will need to upload into your WPJobAds installation directory in your server</li>
+                </ol>
+                <p>If you've done the above steps correctly, WPJobAds' interface should now be in the language specified by your <code>wp-config.php</code> file</p>
+                <p><a title="Table of Contents" href="#toc">ToC</a></p>
+            </div><!-- #translations -->
+
+            <hr>
+
+            <div id="updating">
+                <h2>Updating WPJobAds</h2>
+                <p>Updating WPJobAds is very easy. Download the plugin from <a href="http://www.wpjobads.com/download">our download page</a>, deactivate the current installation, upload the new files to the <code>wp-content/plugins</code> directory of your WordPress installation and activate.</p>
+                <p><a title="Table of Contents" href="#toc">ToC</a></p>
+            </div>
+
+            <hr>
+
+            <div id="support">
+                <h2>Support</h2>
+                <p>The best and fastest way of getting support is to send a message to <a href="mailto:support@wpjobads.com">support@wpjobads.com</a> stating the problem in detail and steps to recreate the problem.</p>
+                <p><a title="Table of Contents" href="#toc">ToC</a></p>
+            </div><!-- #support -->
+
+            <hr>
+
+            <div style="padding:1em 0;font-size:smaller;">
+                Copyright &copy; 2008 - 2009 <a href="http://www.wpjobads.com">WPJobAds</a>. All rights reserved.
+            </div>
+
+        </div><!-- #container -->
+    </body>
+</html>
