@@ -5,39 +5,39 @@ class wordpress::base {
   
   package { 'php5-mysql': ensure => installed  }
   
-  remotefile { $wordpress_dir:
-		mode => 755, 
+  remotefile { "wordpress install":
+    # make it owned by root 
+    path => $wordpress_dir
+    mode => 755, 
+    owner => root,
+    group => root,
     source => "/data/wordpress",
-		recurse => 'inf'
+	  recurse => 'inf'
   }
-  
-  file {"wordpress upload dir":
-    path => "${wordpress_dir}/wp-content/uploads",
-		mode => 0755,
+    
+}
+
+define wordpress::sitemap {
+  include wordpress::base
+  file {"$wordpress_dir/sitemap.xml":
 		owner => '${www_user}',
-		group => '${www_group}',
-		recurse => 'inf'
+		group => '${www_group}'
 	}
+	
+	file {"$wordpress_dir/sitemap.xml.gz":
+		owner => '${www_user}',
+		group => '${www_group}'
+	}
+
 }
 
 class wordpress::apache inherits wordpress::base {
  	
 
 	exec { "/usr/sbin/a2ensite www.build-doctor.com":
-	    	path => "/usr/bin:/usr/sbin:/bin",
-	    	require => Package["wordpress"]
+	  path => "/usr/bin:/usr/sbin:/bin",
+	  require => File["wordpress"]
 	            
-	}
-	
-	file {"/usr/local/share/wordpress/sitemap.xml":
-			owner => '${www_user}',
-			group => '${www_group}'
-	}
-	
-	file {"/usr/local/share/wordpress/sitemap.xml.gz":
-			owner => '${www_user}',
-			group => '${www_group}'
-	}
 	
 	remotefile { "//wordpress":
 		    mode => 755, 
