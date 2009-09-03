@@ -1,17 +1,17 @@
-class wordpress::base { 
+class wordpress::installation { 
   $www_user = 'www-data'
   $www_group = 'www-data'
   $wordpress_dir = '/data/wordpress'
   
   package { 'php5-mysql': ensure => installed  }
   
-  remotefile { "wordpress install":
+  file { "wordpress install":
     # make it owned by root 
-    path => $wordpress_dir
+    path => $wordpress_dir,
     mode => 755, 
     owner => root,
     group => root,
-    source => "/data/wordpress",
+    source => "puppet:///files/data/wordpress",
 	  recurse => 'inf'
   }
     
@@ -31,22 +31,11 @@ define wordpress::sitemap {
 
 }
 
-class wordpress::apache inherits wordpress::base {
- 	
-
-	exec { "/usr/sbin/a2ensite www.build-doctor.com":
-	  path => "/usr/bin:/usr/sbin:/bin",
-	  require => File["wordpress"]
-	            
-	
-	remotefile { "//wordpress":
-		    mode => 755, 
-		    source => "/etc/wordpress",
-		    recurse => 'inf',
-		    require => Package["wordpress"]
-	}	
-	
+class wordpress::apache inherits wordpress::installation {
+ 		
 	exec {
-		"/usr/sbin/a2enmod deflate": require => Package["apache2"];
+		"/usr/sbin/a2enmod deflate": 
+		unless => "test -f /etc/apache2/mods-enabled/deflate.load",
+		require => Package["apache2"];
 	}
 }
