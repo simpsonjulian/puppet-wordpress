@@ -12,8 +12,16 @@ class wordpress::installation {
     owner => root,
     group => root,
     source => "puppet:///files/data/wordpress",
-	  recurse => 'inf'
-  }
+	  recurse => 'inf';
+	  
+  "upload dir":
+    path => "${wordpress_dir}/wp-content/uploads",
+		mode => 0755,
+		owner => $www_user,
+		group => $www_group,
+		recurse => 'inf',
+		require => File["wordpress install"];
+	}
     
 }
 
@@ -28,10 +36,6 @@ define wordpress::sitemap {
 		owner => '${www_user}',
 		group => '${www_group}'
 	}
-
-}
-
-class wordpress::apache inherits wordpress::installation {
  		
 	exec {
 		"/usr/sbin/a2enmod deflate": 

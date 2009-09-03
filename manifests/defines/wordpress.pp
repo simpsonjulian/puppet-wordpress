@@ -1,4 +1,4 @@
-define wordpress::blog ($fq_host,$name, $password) {
+define wordpress::blog ($fq_host, $password) {
   include wordpress::installation
   file {
     "wordpress config":
