@@ -11,7 +11,7 @@ class wordpress::installation {
     mode => 755, 
     owner => root,
     group => root,
-    source => "puppet:///files/data/wordpress",
+    source => "puppet:///wordpress/data/wordpress",
 	  recurse => 'inf';
 	  
   "upload dir":
