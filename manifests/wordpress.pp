@@ -10,7 +10,7 @@ class wordpress::installation {
     'php5': ensure => present; 
     'php5-cgi': ensure => present; 
     'libphp-phpmailer':   
-      ensure => '1.73-4';
+      ensure => latest;
     'php5-gd':  ensure => present;  
              
     
