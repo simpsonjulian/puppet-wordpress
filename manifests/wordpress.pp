@@ -3,7 +3,18 @@ class wordpress::installation {
   $www_group = 'www-data'
   $wordpress_dir = '/data/wordpress'
   
-  package { 'php5-mysql': ensure => installed  }
+  package { 
+    'php5-mysql': ensure => present; 
+    'php5-cli':  ensure => present; 
+    'libapache2-mod-php5': ensure => present; 
+    'php5': ensure => present; 
+    'php5-cgi': ensure => present; 
+    'libphp-phpmailer':   
+      ensure => '1.73-4';
+    'php5-gd':  ensure => present;  
+             
+    
+    }
   
   file { "wordpress install":
     # make it owned by root 
