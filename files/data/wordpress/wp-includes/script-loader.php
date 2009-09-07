@@ -240,7 +240,7 @@ function wp_default_scripts( &$scripts ) {
 		$scripts->add( 'user-profile', "/wp-admin/js/user-profile$suffix.js", array('jquery'), '20090514' );
 		$scripts->add_data( 'user-profile', 'group', 1 );
 
-		$scripts->add( 'admin-comments', "/wp-admin/js/edit-comments$suffix.js", array('wp-lists', 'jquery-ui-resizable', 'quicktags'), '20090209' );
+		$scripts->add( 'admin-comments', "/wp-admin/js/edit-comments$suffix.js", array('wp-lists', 'jquery-ui-resizable', 'quicktags'), '20090627' );
 		$scripts->add_data( 'admin-comments', 'group', 1 );
 		$scripts->localize( 'admin-comments', 'adminCommentsL10n', array(
 			'hotkeys_highlight_first' => isset($_GET['hotkeys_highlight_first']),
@@ -249,7 +249,7 @@ function wp_default_scripts( &$scripts ) {
 
 		$scripts->add( 'xfn', "/wp-admin/js/xfn$suffix.js", false, '3517m' );
 
-		$scripts->add( 'postbox', "/wp-admin/js/postbox$suffix.js", array('jquery-ui-sortable'), '20090327' );
+		$scripts->add( 'postbox', "/wp-admin/js/postbox$suffix.js", array('jquery-ui-sortable'), '20090618' );
 		$scripts->add_data( 'postbox', 'group', 1 );
 		$scripts->localize( 'postbox', 'postboxL10n', array(
 			'requestFile' => admin_url('admin-ajax.php')
@@ -264,7 +264,7 @@ function wp_default_scripts( &$scripts ) {
 			'l10n_print_after' => 'try{convertEntities(slugL10n);}catch(e){};'
 		) );
 
-		$scripts->add( 'post', "/wp-admin/js/post$suffix.js", array('suggest', 'wp-lists', 'postbox', 'slug'), '20090526' );
+		$scripts->add( 'post', "/wp-admin/js/post$suffix.js", array('suggest', 'wp-lists', 'postbox', 'slug'), '20090624' );
 		$scripts->add_data( 'post', 'group', 1 );
 		$scripts->localize( 'post', 'postL10n', array(
 			'tagsUsed' =>  __('Tags used on this post:'),
@@ -377,7 +377,7 @@ function wp_default_scripts( &$scripts ) {
 
 		$scripts->add( 'farbtastic', '/wp-admin/js/farbtastic.js', array('jquery'), '1.2' );
 
-		$scripts->add( 'dashboard', "/wp-admin/js/dashboard$suffix.js", array( 'jquery', 'admin-comments', 'postbox' ), '20090201' );
+		$scripts->add( 'dashboard', "/wp-admin/js/dashboard$suffix.js", array( 'jquery', 'admin-comments', 'postbox' ), '20090618' );
 		$scripts->add_data( 'dashboard', 'group', 1 );
 
 		$scripts->add( 'hoverIntent', "/wp-includes/js/hoverIntent$suffix.js", array('jquery'), '20090102' );
@@ -421,12 +421,12 @@ function wp_default_styles( &$styles ) {
 	$rtl_styles = array( 'global', 'colors', 'dashboard', 'ie', 'install', 'login', 'media', 'theme-editor', 'upload', 'widgets', 'press-this', 'plugin-install', 'farbtastic' );
 
 	// all colors stylesheets need to have the same query strings (cache manifest compat)
-	$colors_version = '20090610';
+	$colors_version = '20090625';
 
-	$styles->add( 'wp-admin', '/wp-admin/wp-admin.css', array(), '20090610' );
+	$styles->add( 'wp-admin', '/wp-admin/wp-admin.css', array(), '20090625' );
 	$styles->add_data( 'wp-admin', 'rtl', '/wp-admin/rtl.css' );
 
-	$styles->add( 'ie', '/wp-admin/css/ie.css', array(), '20090514' );
+	$styles->add( 'ie', '/wp-admin/css/ie.css', array(), '20090630' );
 	$styles->add_data( 'ie', 'conditional', 'lte IE 7' );
 
 	// Register "meta" stylesheet for admin colors. All colors-* style sheets should have the same version string.
@@ -438,12 +438,12 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'colors-classic', '/wp-admin/css/colors-classic.css', array(), $colors_version);
 	$styles->add_data( 'colors-classic', 'rtl', true );
 
-	$styles->add( 'global', '/wp-admin/css/global.css', array(), '20090514' );
+	$styles->add( 'global', '/wp-admin/css/global.css', array(), '20090630' );
 	$styles->add( 'media', '/wp-admin/css/media.css', array(), '20090516' );
 	$styles->add( 'widgets', '/wp-admin/css/widgets.css', array(), '20090603' );
 	$styles->add( 'dashboard', '/wp-admin/css/dashboard.css', array(), '20090514' );
 	$styles->add( 'install', '/wp-admin/css/install.css', array(), '20090514' );
-	$styles->add( 'theme-editor', '/wp-admin/css/theme-editor.css', array(), '20090514' );
+	$styles->add( 'theme-editor', '/wp-admin/css/theme-editor.css', array(), '20090625' );
 	$styles->add( 'press-this', '/wp-admin/css/press-this.css', array(), '20090514' );
 	$styles->add( 'thickbox', '/wp-includes/js/thickbox/thickbox.css', array(), '20090514' );
 	$styles->add( 'login', '/wp-admin/css/login.css', array(), '20090514' );

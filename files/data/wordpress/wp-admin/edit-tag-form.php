@@ -6,6 +6,13 @@
  * @subpackage Administration
  */
 
+// don't load directly
+if ( !defined('ABSPATH') )
+	die('-1');
+
+if ( !current_user_can('manage_categories') )
+	wp_die(__('You do not have sufficient permissions to edit tags for this blog.'));
+
 if ( empty($tag_ID) ) { ?>
 	<div id="message" class="updated fade"><p><strong><?php _e('A tag was not selected for editing.'); ?></strong></p></div>
 <?php
@@ -39,6 +46,7 @@ do_action('edit_tag_form_pre', $tag); ?>
 			<td><textarea name="description" id="description" rows="5" cols="50" style="width: 97%;"><?php echo esc_html($tag->description); ?></textarea><br />
             <span class="description"><?php _e('The description is not prominent by default, however some themes may show it.'); ?></span></td>
 		</tr>
+		<?php do_action('edit_tag_form_fields', $tag); ?>
 	</table>
 <p class="submit"><input type="submit" class="button-primary" name="submit" value="<?php esc_attr_e('Update Tag'); ?>" /></p>
 <?php do_action('edit_tag_form', $tag); ?>

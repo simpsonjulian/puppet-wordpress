@@ -526,8 +526,10 @@ class WP_Widget_Recent_Posts extends WP_Widget {
 		if ( !is_array($cache) )
 			$cache = array();
 
-		if ( isset($cache[$args['widget_id']]) )
-			return $cache[$args['widget_id']];
+		if ( isset($cache[$args['widget_id']]) ) {
+			echo $cache[$args['widget_id']];
+			return;
+		}
 
 		ob_start();
 		extract($args);
@@ -710,7 +712,7 @@ class WP_Widget_RSS extends WP_Widget {
 		if ( ! is_wp_error($rss) ) {
 			$desc = esc_attr(strip_tags(@html_entity_decode($rss->get_description(), ENT_QUOTES, get_option('blog_charset'))));
 			if ( empty($title) )
-				$title = htmlentities(strip_tags($rss->get_title()));
+				$title = esc_html(strip_tags($rss->get_title()));
 			$link = esc_url(strip_tags($rss->get_permalink()));
 			while ( stristr($link, 'http') != $link )
 				$link = substr($link, 1);

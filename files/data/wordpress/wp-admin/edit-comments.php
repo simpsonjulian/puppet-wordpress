@@ -9,6 +9,9 @@
 /** WordPress Administration Bootstrap */
 require_once('admin.php');
 
+if ( !current_user_can('edit_posts') )
+	wp_die(__('Cheatin&#8217; uh?'));
+
 wp_enqueue_script('admin-comments');
 enqueue_comment_hotkeys_js();
 
@@ -193,7 +196,7 @@ else
 
 $start = $offset = ( $page - 1 ) * $comments_per_page;
 
-list($_comments, $total) = _wp_get_comment_list( $comment_status, $search_dirty, $start, $comments_per_page + 5, $post_id, $comment_type ); // Grab a few extra
+list($_comments, $total) = _wp_get_comment_list( $comment_status, $search_dirty, $start, $comments_per_page + 8, $post_id, $comment_type ); // Grab a few extra
 
 $_comment_post_ids = array();
 foreach ( $_comments as $_c ) {
@@ -358,7 +361,8 @@ if ( $page_links )
 	<input type="hidden" name="s" value="<?php echo esc_attr($search); ?>" />
 	<input type="hidden" name="mode" value="<?php echo esc_attr($mode); ?>" />
 	<input type="hidden" name="comment_status" value="<?php echo esc_attr($comment_status); ?>" />
-	<input type="hidden" name="page" value="<?php echo isset($_REQUEST['page']) ? absint( $_REQUEST['page'] ) : 1; ?>" />
+	<input type="hidden" name="page" value="<?php echo esc_attr($page); ?>" />
+	<input type="hidden" name="per_page" value="<?php echo esc_attr($comments_per_page); ?>" />
 	<input type="hidden" name="p" value="<?php echo esc_attr( $post_id ); ?>" />
 	<input type="hidden" name="comment_type" value="<?php echo esc_attr( $comment_type ); ?>" />
 	<?php wp_nonce_field( 'add-comment', '_ajax_nonce', false ); ?>

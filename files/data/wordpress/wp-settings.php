@@ -60,8 +60,8 @@ $_REQUEST = array_merge($_GET, $_POST);
 if ( ! isset($blog_id) )
 	$blog_id = 1;
 
-// Fix for IIS, which doesn't set REQUEST_URI
-if ( empty( $_SERVER['REQUEST_URI'] ) ) {
+// Fix for IIS when running with PHP ISAPI
+if ( empty( $_SERVER['REQUEST_URI'] ) || ( php_sapi_name() != 'cgi-fcgi' && preg_match( '/^Microsoft-IIS\//', $_SERVER['SERVER_SOFTWARE'] ) ) ) {
 
 	// IIS Mod-Rewrite
 	if (isset($_SERVER['HTTP_X_ORIGINAL_URL'])) {
@@ -316,6 +316,7 @@ if ( !is_blog_installed() && (strpos($_SERVER['PHP_SELF'], 'install.php') === fa
 		$link = preg_replace('|/[^/]+?$|', '/', $_SERVER['PHP_SELF']) . 'wp-admin/install.php';
 	require_once(ABSPATH . WPINC . '/kses.php');
 	require_once(ABSPATH . WPINC . '/pluggable.php');
+	require_once(ABSPATH . WPINC . '/formatting.php');
 	wp_redirect($link);
 	die(); // have to die here ~ Mark
 }
@@ -527,6 +528,10 @@ if ( !defined( 'AUTOSAVE_INTERVAL' ) )
 
 
 require (ABSPATH . WPINC . '/vars.php');
+
+// make taxonomies available to plugins and themes
+// @plugin authors: warning: this gets registered again on the init hook
+create_initial_taxonomies();
 
 // Check for hacks file if the option is enabled
 if ( get_option('hack_file') ) {

@@ -9,6 +9,9 @@
 /** WordPress Administration Bootstrap */
 require_once('./admin.php');
 
+if ( ! current_user_can('manage_options') )
+	wp_die(__('You do not have sufficient permissions to manage options for this blog.'));
+
 $title = __('General Settings');
 $parent_file = 'options-general.php';
 /* translators: date and time format for exact current time, mainly about timezones, see http://php.net/date */
@@ -157,7 +160,7 @@ if (empty($tzstring)) { // set the Etc zone if no timezone string exists
 <span class="description"><?php _e('Choose a city in the same timezone as you.'); ?></span>
 <br />
 <span>
-<?php if (get_option('timezone_string')) : ?>
+<?php if ($tzstring) : ?>
 	<?php
 	$now = localtime(time(),true);
 	if ($now['tm_isdst']) _e('This timezone is currently in daylight savings time.');
@@ -165,11 +168,11 @@ if (empty($tzstring)) { // set the Etc zone if no timezone string exists
 	?>
 	<br />
 	<?php
-	if (function_exists('timezone_transitions_get') && $tzstring) {
+	if (function_exists('timezone_transitions_get')) {
 		$dateTimeZoneSelected = new DateTimeZone($tzstring);
 		foreach (timezone_transitions_get($dateTimeZoneSelected) as $tr) {
 			if ($tr['ts'] > time()) {
-			    	$found = true;
+			    $found = true;
 				break;
 			}
 		}
@@ -179,10 +182,7 @@ if (empty($tzstring)) { // set the Etc zone if no timezone string exists
 			$message = $tr['isdst'] ?
 				__('Daylight savings time begins on: <code>%s</code>.') :
 				__('Standard time begins  on: <code>%s</code>.');
-			$tz = new DateTimeZone($tzstring);
-			$d = new DateTime( "@{$tr['ts']}" );
-			$d->setTimezone($tz);
-			printf( $message, date_i18n(get_option('date_format').' '.get_option('time_format'), $d->format('U') ) );
+			printf( $message, date_i18n(get_option('date_format').' '.get_option('time_format'), $tr['ts'] ) );
 		} else {
 			_e('This timezone does not observe daylight savings time.');
 		}

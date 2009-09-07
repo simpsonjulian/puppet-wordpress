@@ -9,4 +9,3 @@ define('ABSPATH', '/data/wordpress/');
 
 require_once(ABSPATH.'wp-settings.php');
 ?>
-

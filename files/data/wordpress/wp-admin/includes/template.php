@@ -1447,6 +1447,8 @@ function _post_row($a_post, $pending_comments, $mode) {
 			if ( current_user_can('edit_post', $post->ID) ) {
 				$actions['edit'] = '<a href="' . get_edit_post_link($post->ID, true) . '" title="' . esc_attr(__('Edit this post')) . '">' . __('Edit') . '</a>';
 				$actions['inline hide-if-no-js'] = '<a href="#" class="editinline" title="' . esc_attr(__('Edit this post inline')) . '">' . __('Quick&nbsp;Edit') . '</a>';
+			}
+			if ( current_user_can('delete_post', $post->ID) ) {
 				$actions['delete'] = "<a class='submitdelete' title='" . esc_attr(__('Delete this post')) . "' href='" . wp_nonce_url("post.php?action=delete&amp;post=$post->ID", 'delete-post_' . $post->ID) . "' onclick=\"if ( confirm('" . esc_js(sprintf( ('draft' == $post->post_status) ? __("You are about to delete this draft '%s'\n 'Cancel' to stop, 'OK' to delete.") : __("You are about to delete this post '%s'\n 'Cancel' to stop, 'OK' to delete."), $post->post_title )) . "') ) { return true;}return false;\">" . __('Delete') . "</a>";
 			}
 			if ( in_array($post->post_status, array('pending', 'draft')) ) {
@@ -1660,6 +1662,8 @@ foreach ($posts_columns as $column_name=>$column_display_name) {
 		if ( current_user_can('edit_page', $page->ID) ) {
 			$actions['edit'] = '<a href="' . $edit_link . '" title="' . esc_attr(__('Edit this page')) . '">' . __('Edit') . '</a>';
 			$actions['inline'] = '<a href="#" class="editinline">' . __('Quick&nbsp;Edit') . '</a>';
+		}
+		if ( current_user_can('delete_page', $page->ID) ) {
 			$actions['delete'] = "<a class='submitdelete' title='" . esc_attr(__('Delete this page')) . "' href='" . wp_nonce_url("page.php?action=delete&amp;post=$page->ID", 'delete-page_' . $page->ID) . "' onclick=\"if ( confirm('" . esc_js(sprintf( ('draft' == $page->post_status) ? __("You are about to delete this draft '%s'\n 'Cancel' to stop, 'OK' to delete.") : __("You are about to delete this page '%s'\n 'Cancel' to stop, 'OK' to delete."), $page->post_title )) . "') ) { return true;}return false;\">" . __('Delete') . "</a>";
 		}
 		if ( in_array($post->post_status, array('pending', 'draft')) ) {
@@ -2081,9 +2085,7 @@ function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true,
 	$author_url = get_comment_author_url();
 	if ( 'http://' == $author_url )
 		$author_url = '';
-	$author_url_display = $author_url;
-	$author_url_display = str_replace('http://www.', '', $author_url_display);
-	$author_url_display = str_replace('http://', '', $author_url_display);
+	$author_url_display = preg_replace('|http://(www\.)?|i', '', $author_url);
 	if ( strlen($author_url_display) > 50 )
 		$author_url_display = substr($author_url_display, 0, 49) . '...';
 
@@ -3470,11 +3472,6 @@ function screen_meta($screen) {
 				$help = plugins_search_help();
 				$_wp_contextual_help[$screen] = $help;
 			}
-			break;
-		case 'theme-editor':
-		case 'plugin-editor':
-			$settings = '<p><a id="codepress-on" href="' . $screen . '.php?codepress=on">' . __('Enable syntax highlighting') . '</a><a id="codepress-off" href="' . $screen . '.php?codepress=off">' . __('Disable syntax highlighting') . "</a></p>\n";
-			$show_screen = true;
 			break;
 		case 'widgets':
 			if ( !isset($_wp_contextual_help['widgets']) ) {

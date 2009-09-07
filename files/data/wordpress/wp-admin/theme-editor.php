@@ -22,8 +22,7 @@ if (empty($theme)) {
 	$theme = get_current_theme();
 } else {
 	$theme = stripslashes($theme);
- }
-
+}
 
 if ( ! isset($themes[$theme]) )
 	wp_die(__('The requested theme does not exist.'));
@@ -65,8 +64,8 @@ case 'update':
 	}
 
 	$location = wp_kses_no_null($location);
-	$strip = array('%0d', '%0a');
-	$location = str_replace($strip, '', $location);
+	$strip = array('%0d', '%0a', '%0D', '%0A');
+	$location = _deep_replace($strip, $location);
 	header("Location: $location");
 	exit();
 
@@ -76,9 +75,6 @@ default:
 
 	if ( !current_user_can('edit_themes') )
 		wp_die('<p>'.__('You do not have sufficient permissions to edit themes for this blog.').'</p>');
-
-	if ( use_codepress() )
-		wp_enqueue_script( 'codepress' );
 
 	require_once('admin-header.php');
 
@@ -117,8 +113,13 @@ $desc_header = ( $description != $file_show ) ? "<strong>$description</strong> (
 <div class="wrap">
 <?php screen_icon(); ?>
 <h2><?php echo esc_html( $title ); ?></h2>
-<div class="bordertitle">
-	<form id="themeselector" action="theme-editor.php" method="post">
+
+<div class="fileedit-sub">
+<div class="alignleft">
+<big><?php echo sprintf($desc_header, $file_show); ?></big>
+</div>
+<div class="alignright">
+	<form action="theme-editor.php" method="post">
 		<strong><label for="theme"><?php _e('Select theme to edit:'); ?> </label></strong>
 		<select name="theme" id="theme">
 <?php
@@ -134,15 +135,11 @@ $desc_header = ( $description != $file_show ) ? "<strong>$description</strong> (
 		<input type="submit" name="Submit" value="<?php esc_attr_e('Select') ?>" class="button" />
 	</form>
 </div>
-<div class="tablenav">
-<div class="alignleft">
-<big><?php echo sprintf($desc_header, $file_show); ?></big>
-</div>
 <br class="clear" />
 </div>
-<br class="clear" />
-	<div id="templateside">
-	<h3 id="bordertitle"><?php _e("Theme Files"); ?></h3>
+
+<div id="templateside">
+	<h3><?php _e("Theme Files"); ?></h3>
 
 <?php
 if ($allowed_files) :
@@ -193,10 +190,9 @@ if ($allowed_files) :
 	</ul>
 <?php endif; ?>
 </div>
-	<?php
-	if (!$error) {
-	?>
-	<form name="template" id="template" action="theme-editor.php" method="post">
+
+<?php if (!$error) { ?>
+<form name="template" id="template" action="theme-editor.php" method="post">
 	<?php wp_nonce_field('edit-theme_' . $file . $theme) ?>
 		 <div><textarea cols="70" rows="25" name="newcontent" id="newcontent" tabindex="1" class="codepress <?php echo $codepress_lang ?>"><?php echo $content ?></textarea>
 		 <input type="hidden" name="action" value="update" />
@@ -222,16 +218,16 @@ if ($allowed_files) :
 <p><em><?php _e('You need to make this file writable before you can save your changes. See <a href="http://codex.wordpress.org/Changing_File_Permissions">the Codex</a> for more information.'); ?></em></p>
 <?php endif; ?>
 		</div>
-	</form>
-	<?php
+</form>
+<?php
 	} else {
 		echo '<div class="error"><p>' . __('Oops, no such file exists! Double check the name and try again, merci.') . '</p></div>';
 	}
-	?>
-<div class="clear"> &nbsp; </div>
+?>
+<br class="clear" />
 </div>
 <?php
 break;
 }
 
-include("admin-footer.php") ?>
+include("admin-footer.php");

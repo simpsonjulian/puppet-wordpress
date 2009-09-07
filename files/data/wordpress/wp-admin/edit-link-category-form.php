@@ -6,6 +6,13 @@
  * @subpackage Administration
  */
 
+// don't load directly
+if ( !defined('ABSPATH') )
+	die('-1');
+
+if ( !current_user_can('manage_categories') )
+	wp_die(__('You do not have sufficient permissions to edit link categories for this blog.'));
+
 /**
  * @var object
  */
@@ -74,6 +81,7 @@ _fill_empty_link_category($category);
 			<th scope="row" valign="top"><label for="description"><?php _e('Description (optional)') ?></label></th>
 			<td><textarea name="description" id="description" rows="5" cols="50" style="width: 97%;"><?php echo $category->description; ?></textarea></td>
 		</tr>
+		<?php do_action('edit_link_category_form_fields', $category); ?>
 	</table>
 <p class="submit"><input type="submit" class="button-primary" name="submit" value="<?php echo esc_attr($submit_text) ?>" /></p>
 <?php do_action('edit_link_category_form', $category); ?>

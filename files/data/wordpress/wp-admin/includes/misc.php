@@ -72,7 +72,9 @@ function insert_with_markers( $filename, $marker, $insertion ) {
 			$markerdata = explode( "\n", implode( '', file( $filename ) ) );
 		}
 
-		$f = fopen( $filename, 'w' );
+		if ( !$f = @fopen( $filename, 'w' ) )
+			return false;
+
 		$foundit = false;
 		if ( $markerdata ) {
 			$state = true;
@@ -268,6 +270,9 @@ function show_message($message) {
 
 function wp_doc_link_parse( $content ) {
 	if ( !is_string( $content ) || empty( $content ) )
+		return array();
+
+	if ( !function_exists('token_get_all') )
 		return array();
 
 	$tokens = token_get_all( $content );

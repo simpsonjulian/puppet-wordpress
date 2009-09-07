@@ -29,7 +29,7 @@ require_once(ABSPATH . WPINC . '/feed.php');
 /** Admin Image API for metadata updating */
 require_once(ABSPATH . '/wp-admin/includes/image.php');
 
-$_SERVER['PATH_INFO'] = preg_replace( '/.*\/wp-app\.php/	', '', $_SERVER['REQUEST_URI'] );
+$_SERVER['PATH_INFO'] = preg_replace( '/.*\/wp-app\.php/', '', $_SERVER['REQUEST_URI'] );
 
 /**
  * Whether to enable Atom Publishing Protocol Logging.
