@@ -32,6 +32,10 @@ class wordpress::installation {
 		group => $www_group,
 		recurse => 'inf',
 		require => File["wordpress install"];
+		
+		"wordpress etc dir":
+      path => "/etc/wordpress",
+      ensure => directory;
 	}
     
 }

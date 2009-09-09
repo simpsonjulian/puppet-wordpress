@@ -1,11 +1,8 @@
 define wordpress::blog ($name, $user, $fq_host, $password) {
   
   file {
-    "wordpress etc dir":
-      path => "/etc/wordpress",
-      ensure => directory;
       
-    "wordpress config":
+    "wordpress config ${fq_host}":
       path => "/etc/wordpress/config-${fq_host}.php",
       ensure => file,
       content => template("wordpress/config-fqdn.php.erb"),
