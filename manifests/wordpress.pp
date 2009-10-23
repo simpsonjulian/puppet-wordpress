@@ -35,7 +35,7 @@ class wordpress::installation {
     mode => 0755,
     owner => $www_user,
     group => $www_group,
-    require => File["content_dir"];
+    require => File["content dir"];
 		
    "wordpress etc dir":
       path => "/etc/wordpress",
