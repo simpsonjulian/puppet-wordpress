@@ -23,20 +23,24 @@ class wordpress::installation {
     owner => root,
     group => root,
     source => "puppet:///wordpress/data/wordpress",
-	  recurse => 'inf';
-	  
+    recurse => 'inf';
+
+  "content dir":
+    path => "${wordpress_dir}/wp-content",
+    ensure => directory;
+      	  
   "upload dir":
     path => "${wordpress_dir}/wp-content/uploads",
-		mode => 0755,
-		owner => $www_user,
-		group => $www_group,
-		recurse => 'inf',
-		require => File["wordpress install"];
+    ensure => directory,
+    mode => 0755,
+    owner => $www_user,
+    group => $www_group,
+    require => File["content_dir"];
 		
-		"wordpress etc dir":
+   "wordpress etc dir":
       path => "/etc/wordpress",
       ensure => directory;
-	}
+  }
     
 }
 
