@@ -16,18 +16,15 @@ class wordpress::installation {
     
     }
   
-  file { "wordpress install":
-    # make it owned by root 
-    path => $wordpress_dir,
-    mode => 755, 
-    owner => root,
-    group => root,
-    source => "puppet:///wordpress/data/wordpress",
-    recurse => 'inf';
+  exec { 
+    "wordpress files":
+      command => "/usr/bin/rsync -avp modules/wordpress/files/data/wordpress /data",
+  }
 
-  "content dir":
-    path => "${wordpress_dir}/wp-content",
-    ensure => directory;
+  file {
+    "content dir":
+      path => "${wordpress_dir}/wp-content",
+      ensure => directory;
       	  
   "upload dir":
     path => "${wordpress_dir}/wp-content/uploads",
