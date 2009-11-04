@@ -18,7 +18,7 @@ class wordpress::installation {
   
   exec { 
     "wordpress files":
-      command => "/usr/bin/rsync -avp modules/wordpress/files/data/wordpress /data",
+      command => "/usr/bin/rsync -avp /etc/puppet/modules/wordpress/files/data/wordpress /data",
   }
 
   file {
