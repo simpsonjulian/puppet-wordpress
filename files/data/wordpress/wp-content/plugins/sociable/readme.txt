@@ -1,10 +1,9 @@
 === Sociable ===
-Contributors: joostdevalk
-Donate link: http://yoast.com/donate/
-Tags: social, bookmark, bookmarks, bookmarking, social bookmarking, social bookmarks
+Contributors: sociable
+Tags: social, bookmark, bookmarks, bookmarking, social bookmarking, social bookmarks, blogplay
 Requires at least: 2.6
-Tested up to: 2.8
-Stable tag: 3.3.1
+Tested up to: 2.8.5
+Stable tag: 3.5.2
 
 Automatically add links on your posts, pages and RSS feed to your favorite social bookmarking sites. 
 
@@ -13,17 +12,75 @@ Automatically add links to your favorite social bookmarking sites on your posts,
 
 More info:
 
-* More info on [Sociable](http://yoast.com/wordpress/sociable/), with info on how to add sites to it, and how to integrate it into your WordPress in other ways.
-* Check out the authors [WordPress Hosting](http://yoast.com/wordpress-hosting/) experience. Good hosting is hard to come by, but it doesn't have to be expensive, Joost tells you why!
-* Check out the other [Wordpress plugins](http://yoast.com/wordpress/) by the same author, and read his blog: [Yoast](http://yoast.com).
+* More info on [Sociable](http://www.blogplay.com/plugin), with info on how to add sites to it, and how to integrate it into your WordPress in other ways.
++ For an update log follow [@blogplaycom](http://www.twitter.com/blogplaycom)
 
 == Screenshots ==
 
 1. The Sociable backend, easily select sites and drag & drop to change the order of appearance.
 2. Sociable with its default styling.
-3. Sociable in use on [Yoast.com](http://yoast.com/), with the custom image options and its own styling.
 
 == Changelog ==
+
+= 3.5.2 = 
+* Added new services MOB, 豆瓣, 豆瓣九点, QQ书签, LaTafanera, SheToldMe, viadeo FR, Diggita, Design Float
+* Removed ID properties from sociable anchor tags (share links) 
+* FIXED: Having a custom image directory now disables sprite usage, and the icons of services are displayed on sociable configuration page.
+
+= 3.5.1 =
+* Fixed the xhtml validation issues
+* 'target=blank' (open link in new window) issue solved
+* Sprites can now be disabled, allowing for custom icons
+* Sprites have been disabled for RSS
+* You can now deactivate the blogplay widget from your wordpress dashboard
+
+= 3.5.0 =
+* The icons now load in a CSS Sprites, allowing for faster download times.
+* These services have been discontinued: BlogMeme FR, BlogMeme SP, co.mments, DesignFloat.com, PPNow.net, Symbaloo.com.
+* You can now add links to your browser favorites.
+* iFrames added for services that support them.
+* You can know unselect the transparency effect on the sociable icons.
+
+= 3.4.4 =
+* Another fix for the sociableoff dilemma's, no backwards compatibility unfortunately, so disable sociable again on pages where you want to disable it.
+
+= 3.4.3 =
+* Fixed the bug mentioned [here](http://wordpress.org/support/topic/288487) and [here](http://wordpress.org/support/topic/290753) that made it impossible to disable Sociable on a per post/page basis (for real, now).
+
+= 3.4.2 =
+* Added a site specific id to each links anchor tag.
+* Fixed the bug mentioned [here](http://wordpress.org/support/topic/288487) and [here](http://wordpress.org/support/topic/290753) that made it impossible to disable Sociable on a per post/page basis. 
+* "Reintroduced" TwitThis as Twitter.
+
+= 3.4.1 =
+* Fixed the Sphinn submit link.
+
+= 3.4 =
+* Added the option to add a site to Sociable through a filter, read [How to add a site to Sociable](http://yoast.com/add-sites-to-sociable/).
+
+= 3.3.8 =
+* Fixed the option to disable Sociable on a per post / page basis.
+
+= 3.3.7 =
+* More bugfixery.
+
+= 3.3.6 =
+* Reverted plugin URL fix because of too many people on old WordPress installations complaining. (Upgrade, people, upgrade!)
+* Added PHPDoc throughout the plugins code.
+
+= 3.3.5 =
+* Added a Hyves button.
+* Fixed MSN Reporter button.
+
+= 3.3.4 =
+* Fixed RSS.
+
+= 3.3.3 =
+* Brought back Tumblr
+* Updated PDF link
+* Added Posterous
+* Smushed all images using [Smush.it](http://smush.it/), reducing the total image file size with 31.72 KB (42.03%)!
+* Removed pre - 2.6 compatibility code
 
 = 3.3.1 =
 * Added new option to use pure text links, instead of image links.
@@ -258,4 +315,4 @@ If you find any bugs or have any ideas, please mail me.
 
 **Advanced Users**
 
-For advanced use of the plugin, see the [Sociable](http://yoast.com/wordpress/sociable/) page on [Yoast](http://yoast.com/)
+For advanced use of the plugin, see the [Sociable](http://www.blogplay.com/sociable-for-wordpress) page on [Blogplay](http://www.blogplay.com/plugin)

@@ -204,7 +204,6 @@
                         Moved global post definitions for other plugins
                         Added small icon for ozh admin menu
                         Added more help links in UI
-
  2009-08-24     3.1.5   Added option to completely disable the last modification time
                         Fixed bug regarding the use of the HTTPS url for the XSL stylesheet if the sitemap was build via the admin panel
                         Improved handling of homepage if a single page was set for it
@@ -214,6 +213,12 @@
  2009-08-31     3.1.6   Fixed PHP error "Only variables can be passed by reference"
                         Fixed wrong URLS of multi-page posts (Thanks artstorm!)
  2009-10-21     3.1.7   Added support for custom taxonomies (Thanks to Lee!)
+ 2009-11-07     3.1.8   Improved custom taxonomy handling and fixed wrong last modification date
+                        Changed readme and backlinks
+                        Fixed fatal error in WP < 2.3
+                        Fixed Update Notice in WP 2.8+
+                        Added warning if blog privacy is activated
+                        Fixed custom URLs priorities were shown as 0 instead of 1
 
  Maybe Todo:
  ==============================================================================
