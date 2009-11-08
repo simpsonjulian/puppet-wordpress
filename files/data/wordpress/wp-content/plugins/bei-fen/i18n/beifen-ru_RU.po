@@ -1,0 +1,349 @@
+# Copyright (C) 2009 David Schneider
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Bei-Fen WP Plugin translation\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/beifen\n"
+"POT-Creation-Date: 2009-10-29 05:19+0100\n"
+"PO-Revision-Date: 2009-11-03 21:25+0600\n"
+"Last-Translator: iMiKE <M-I-B@yandex.ru>\n"
+"Language-Team: MiB Co.Entertainment <M-I-B@yandex.ru>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Russian\n"
+"X-Poedit-Country: Russia\n"
+
+#: beifen.php:121
+#: beifen.php:129
+#: pages/settings.php:160
+msgid "Settings"
+msgstr "Настройки"
+
+#: beifen.php:130
+#: pages/manage_backups.php:121
+msgid "Manage Backups"
+msgstr "Резервные копии"
+
+#: beifen.php:131
+#: pages/create_backup.php:85
+#: pages/create_backup.php:145
+msgid "Create New Backup"
+msgstr "Создание новой резервной копии"
+
+#: beifen.php:133
+msgid "Backup"
+msgstr "Резервные копии"
+
+#: beifen.php:181
+#: beifen.php:226
+#: includes/change_settings.php:13
+#: includes/change_settings.php:22
+#: includes/change_settings.php:30
+#: includes/change_settings.php:38
+#: includes/create_backup.php:31
+#: includes/create_backup.php:39
+#: includes/create_backup.php:47
+#: includes/create_backup.php:57
+#: includes/create_backup.php:116
+#: includes/get_directories.php:34
+#: includes/restore_backup.php:49
+#: includes/restore_backup.php:62
+#: includes/restore_backup.php:70
+#: includes/restore_backup.php:85
+#: includes/restore_backup.php:93
+#: pages/create_backup.php:68
+#: pages/manage_backups.php:77
+#: pages/manage_backups.php:107
+#: pages/settings.php:112
+#: pages/settings.php:142
+msgid "Error"
+msgstr "Ошибка"
+
+#: beifen.php:182
+msgid "The requested task is invalid!"
+msgstr "Запрошенная задача неверна!"
+
+#: beifen.php:210
+msgid "Warning"
+msgstr "Предупреждение"
+
+#: beifen.php:211
+msgid "A warning! Request aborted!"
+msgstr "Предупреждение! Операция отменена!"
+
+#: beifen.php:227
+msgid "A critical error occured! Request aborted!"
+msgstr "Произошла критическая ошибка! Операция отменена!"
+
+#: includes/change_settings.php:14
+msgid "The backup directory does not exist and cannot be created!"
+msgstr "Директория с резервными копиями не существует и не может быть создана!"
+
+#: includes/change_settings.php:23
+msgid "The path is not a valid directory!"
+msgstr "Путь не является правильной директорией!"
+
+#: includes/change_settings.php:31
+msgid "The backup directory is not writable!"
+msgstr "Запись в директорию с резервными копиями невозможна!"
+
+#: includes/change_settings.php:39
+msgid "The execution time limit is invalid!"
+msgstr "Лимит на время выполнение задачи неверен"
+
+#: includes/change_settings.php:87
+#: includes/create_backup.php:143
+#: includes/delete_backup.php:18
+#: includes/get_backup_count.php:11
+#: includes/get_directories.php:28
+#: includes/restore_backup.php:74
+#: pages/settings.php:71
+msgid "Success"
+msgstr "Выполнено!"
+
+#: includes/change_settings.php:88
+msgid "All changes were saved successfully!"
+msgstr "Изменения сохранены!"
+
+#: includes/create_backup.php:32
+msgid "There is already a backup with this name. Please change the name!"
+msgstr "Резервная копия с таким именем уже имеется. Пожалуйста, измените имя!"
+
+#: includes/create_backup.php:40
+msgid "The backup folder is not writable. Please check write-permissions!"
+msgstr "Запись в директорию с резервными копиями невозможна! Пожалуйста, выставьте верные разрешения на запись!"
+
+#: includes/create_backup.php:48
+msgid "Could not create backup folder. Please check write-permissions!"
+msgstr "Невозможно создать папку с резервными копиями. Пожалуйста, выставьте верные разрешения на запись!"
+
+#: includes/create_backup.php:58
+msgid "The database backup folder is not writable. Please check write-permissions!"
+msgstr "Запись в директорию с резервными копиями невозможна! Пожалуйста, выставьте верные разрешения на запись!"
+
+#: includes/create_backup.php:117
+#: includes/restore_backup.php:71
+msgid "This is not a valid backup type!"
+msgstr "Неверный тип резервной копии!"
+
+#: includes/create_backup.php:144
+msgid "Backup has been successfully created!"
+msgstr "Резерная копия успешно создана!"
+
+#: includes/delete_backup.php:19
+msgid "Backup deleted"
+msgstr "Резервная копия удалена"
+
+#: includes/restore_backup.php:50
+#: includes/restore_backup.php:63
+msgid "Could not restore database!"
+msgstr "Восстановить резервную копию невозможно!"
+
+#: includes/restore_backup.php:75
+msgid "Backup was successfully restored!"
+msgstr "Резервная копия успешно восстановлена!"
+
+#: includes/restore_backup.php:94
+msgid "Invalid backup ID!"
+msgstr "Неверный ID резервной копии!"
+
+#: pages/create_backup.php:22
+msgid "Creating backup, please don't leave this page!"
+msgstr "Создаём резервную копию, пожалуйста, не покидайте страницу!"
+
+#: pages/create_backup.php:33
+msgid "You are going to create a new backup! This may take some time!"
+msgstr "Вы приступаете к созданию новой резервной копии, процесс может занять некоторое время!"
+
+#: pages/create_backup.php:69
+#: pages/manage_backups.php:78
+#: pages/manage_backups.php:108
+#: pages/settings.php:113
+#: pages/settings.php:143
+msgid "The server response was invalid!"
+msgstr "Неверный ответ сервера!"
+
+#: pages/create_backup.php:71
+#: pages/manage_backups.php:80
+#: pages/manage_backups.php:110
+#: pages/settings.php:115
+#: pages/settings.php:145
+msgid "Server Response"
+msgstr "Ответ сервера"
+
+#: pages/create_backup.php:91
+#: pages/manage_backups.php:127
+msgid "Please review your settings before first use."
+msgstr "Пожалуйста, проверьте Ваши настройки перед первым использованием."
+
+#: pages/create_backup.php:91
+#: pages/manage_backups.php:102
+#: pages/manage_backups.php:127
+#: pages/manage_backups.php:201
+msgid "You can do so"
+msgstr "Вы можете это сделать"
+
+#: pages/create_backup.php:91
+#: pages/manage_backups.php:102
+#: pages/manage_backups.php:127
+#: pages/manage_backups.php:203
+msgid "here"
+msgstr "здесь"
+
+#: pages/create_backup.php:100
+#: pages/manage_backups.php:142
+#: pages/manage_backups.php:151
+msgid "Backup Name"
+msgstr "Название резервной копии"
+
+#: pages/create_backup.php:106
+msgid "Backup Type"
+msgstr "Тип резервной копии"
+
+#: pages/create_backup.php:109
+msgid "Complete"
+msgstr "Полная копия (БД+файлы)"
+
+#: pages/create_backup.php:110
+msgid "Files Only"
+msgstr "Только файлы"
+
+#: pages/create_backup.php:111
+msgid "Database Only"
+msgstr "Только база данных"
+
+#: pages/create_backup.php:117
+msgid "Compress files with GZIP"
+msgstr "Архивировать при помощи GZIP"
+
+#: pages/create_backup.php:119
+#: pages/manage_backups.php:182
+#: pages/settings.php:184
+#: pages/settings.php:211
+msgid "No"
+msgstr "Нет"
+
+#: pages/create_backup.php:120
+#: pages/manage_backups.php:178
+#: pages/settings.php:186
+#: pages/settings.php:213
+msgid "Yes"
+msgstr "Да"
+
+#: pages/create_backup.php:125
+msgid "Timeout (seconds)"
+msgstr "Таймаут (в секундах)"
+
+#: pages/manage_backups.php:32
+msgid "Deleting backup"
+msgstr "Удаление резервной копии"
+
+#: pages/manage_backups.php:34
+msgid "You are going to delete this backup! You won't be able to restore it later!"
+msgstr "Вы собираетесь удалить эту резервную копию! Вы больше не сможете ею воспользоваться!"
+
+#: pages/manage_backups.php:34
+#: pages/manage_backups.php:49
+msgid "Are you sure?"
+msgstr "Вы уверены?"
+
+#: pages/manage_backups.php:47
+msgid "Restoring backup"
+msgstr "Восстановление из резервной копии"
+
+#: pages/manage_backups.php:49
+msgid "You are going to restore this backup! Please backup all files, if your are not sure!"
+msgstr "Вы собираетесь восстановить данные из этой резервной копии! Если Вы не уверены - восстанавливайте все файлы из резервной копии!"
+
+#: pages/manage_backups.php:102
+#: pages/manage_backups.php:199
+msgid "No backups created so far!"
+msgstr "Не было создано ни одной резервной копии!"
+
+#: pages/manage_backups.php:143
+#: pages/manage_backups.php:152
+msgid "Create Date"
+msgstr "Дата создания"
+
+#: pages/manage_backups.php:144
+#: pages/manage_backups.php:153
+msgid "Type"
+msgstr "Тип"
+
+#: pages/manage_backups.php:145
+#: pages/manage_backups.php:154
+msgid "Is Zipped?"
+msgstr "Архив?"
+
+#: pages/manage_backups.php:146
+#: pages/manage_backups.php:155
+msgid "Actions"
+msgstr "Действия"
+
+#: pages/manage_backups.php:186
+msgid "Delete"
+msgstr "Удалить"
+
+#: pages/manage_backups.php:187
+msgid "Restore"
+msgstr "Восстановить"
+
+#: pages/settings.php:31
+msgid "Saving settings, please don't leave this page!"
+msgstr "Сохранение настроек, пожалуйста, не покидайте страницу!"
+
+#: pages/settings.php:76
+msgid "Close"
+msgstr "Закрыть"
+
+#: pages/settings.php:98
+msgid "Directory is empty!"
+msgstr "Директория пуста!"
+
+#: pages/settings.php:166
+msgid "Backup directory"
+msgstr "Директория с резервными копиями"
+
+#: pages/settings.php:172
+msgid "Directory List"
+msgstr "Список директорий"
+
+#: pages/settings.php:181
+msgid "Include backup directory, when creating new backups"
+msgstr "Включать в бэкап директорию с резервными копиями"
+
+#: pages/settings.php:190
+msgid "Default timeout (seconds)"
+msgstr "Таймаут по-умолчанию (в секундах)"
+
+#: pages/settings.php:208
+msgid "Enable debugging"
+msgstr "Показывать отладочную информацию"
+
+#: pages/settings.php:220
+msgid "Save Changes"
+msgstr "Сохранить изменения"
+
+#. Plugin Name of an extension
+msgid "Bei Fen"
+msgstr "Bei Fen"
+
+#. Plugin URI of an extension
+msgid "http://www.david-schneider.name/projects/beifen/"
+msgstr "http://www.david-schneider.name/projects/beifen/"
+
+#. Description of an extension
+msgid "A backup plugin for Wordpress. You can create full, files-only, and database-only backups!"
+msgstr "Плагин создания резервных копий сайта для Wordpress. Создаёт резервные копии за считанные секунды! Вы можете создавать полные копии либо исключительно базы данных или файлов!"
+
+#. Author of an extension
+msgid "David Schneider"
+msgstr "Дэвид Шнейдер"
+
+#. Author URI of an extension
+msgid "http://www.david-schneider.name/"
+msgstr "http://www.david-schneider.name/"
+

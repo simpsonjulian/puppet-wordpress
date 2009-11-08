@@ -1,0 +1,355 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: x\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/beifen\n"
+"POT-Creation-Date: 2009-10-29 05:19+0100\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: German\n"
+"X-Poedit-Country: GERMANY\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-Basepath: .\n"
+
+#: beifen.php:121
+#: beifen.php:129
+#: pages/settings.php:160
+msgid "Settings"
+msgstr "Einstellungen"
+
+#: beifen.php:130
+#: pages/manage_backups.php:121
+msgid "Manage Backups"
+msgstr "Backup Verwaltung"
+
+#: beifen.php:131
+#: pages/create_backup.php:85
+#: pages/create_backup.php:145
+msgid "Create New Backup"
+msgstr "Neues Backup erstellen"
+
+#: beifen.php:133
+msgid "Backup"
+msgstr "Backup"
+
+#: beifen.php:181
+#: beifen.php:226
+#: includes/change_settings.php:13
+#: includes/change_settings.php:22
+#: includes/change_settings.php:30
+#: includes/change_settings.php:38
+#: includes/create_backup.php:31
+#: includes/create_backup.php:39
+#: includes/create_backup.php:47
+#: includes/create_backup.php:57
+#: includes/create_backup.php:116
+#: includes/get_directories.php:34
+#: includes/restore_backup.php:49
+#: includes/restore_backup.php:62
+#: includes/restore_backup.php:70
+#: includes/restore_backup.php:85
+#: includes/restore_backup.php:93
+#: pages/create_backup.php:68
+#: pages/manage_backups.php:77
+#: pages/manage_backups.php:107
+#: pages/settings.php:112
+#: pages/settings.php:142
+msgid "Error"
+msgstr "Fehler"
+
+#: beifen.php:182
+msgid "The requested task is invalid!"
+msgstr "Die angeforderte Aufgabe ist ungültig"
+
+#: beifen.php:210
+msgid "Warning"
+msgstr "Warnung"
+
+#: beifen.php:211
+msgid "A warning! Request aborted!"
+msgstr "Warnung! Die Anfrage wurde abgebrochen!"
+
+#: beifen.php:227
+msgid "A critical error occured! Request aborted!"
+msgstr "Ein schwerer Fehler ist aufgetreten! Die Anfrage wurde abgebrochen!"
+
+#: includes/change_settings.php:14
+msgid "The backup directory does not exist and cannot be created!"
+msgstr "Der Backup-Ordner existiert nicht und kann nicht erstellt werden!"
+
+#: includes/change_settings.php:23
+msgid "The path is not a valid directory!"
+msgstr "Dieser Dateipfad ist kein gültiges Verzeichnis!"
+
+#: includes/change_settings.php:31
+msgid "The backup directory is not writable!"
+msgstr "Der Backup-Ordner ist nicht beschreibbar!"
+
+#: includes/change_settings.php:39
+msgid "The execution time limit is invalid!"
+msgstr "Die angegebene Zeit ist ungültig!"
+
+#: includes/change_settings.php:87
+#: includes/create_backup.php:143
+#: includes/delete_backup.php:18
+#: includes/get_backup_count.php:11
+#: includes/get_directories.php:28
+#: includes/restore_backup.php:74
+#: pages/settings.php:71
+msgid "Success"
+msgstr "Erfolg"
+
+#: includes/change_settings.php:88
+msgid "All changes were saved successfully!"
+msgstr "Alle Änderungen wurden erfolgreich gespeichert!"
+
+#: includes/create_backup.php:32
+msgid "There is already a backup with this name. Please change the name!"
+msgstr "Es existiert bereits ein Backup mit diesem Namen. Bitte ändern Sie den Namen!"
+
+#: includes/create_backup.php:40
+msgid "The backup folder is not writable. Please check write-permissions!"
+msgstr "Der Backup-Ordner ist nicht beschreibbar! Bitte prüfen Sie die Zugriffsrechte!"
+
+#: includes/create_backup.php:48
+msgid "Could not create backup folder. Please check write-permissions!"
+msgstr "Konnte den Backup-Ordner nicht erstellen! Bitte prüfen Sie die Zugriffsrechte!"
+
+#: includes/create_backup.php:58
+msgid "The database backup folder is not writable. Please check write-permissions!"
+msgstr "Der Backup-Ordner ist nicht beschreibbar! Bitte prüfen Sie die Zugriffsrechte!"
+
+#: includes/create_backup.php:117
+#: includes/restore_backup.php:71
+msgid "This is not a valid backup type!"
+msgstr "Dies ist kein gültiger Backup-Typ"
+
+#: includes/create_backup.php:144
+msgid "Backup has been successfully created!"
+msgstr "Das Backup wurde erfolgreich erstellt!"
+
+#: includes/delete_backup.php:19
+msgid "Backup deleted"
+msgstr "Backup gelöscht"
+
+#: includes/restore_backup.php:50
+#: includes/restore_backup.php:63
+msgid "Could not restore database!"
+msgstr "Konnte die Datenbank nicht wiederherstellen!"
+
+#: includes/restore_backup.php:75
+msgid "Backup was successfully restored!"
+msgstr "Das Backup wurde erfolgreich erstellt!"
+
+#: includes/restore_backup.php:94
+msgid "Invalid backup ID!"
+msgstr "Ungültige Backup-ID!"
+
+#: pages/create_backup.php:22
+msgid "Creating backup, please don't leave this page!"
+msgstr "Erstelle Backup, bitte verlassen Sie nicht diese Webseite!"
+
+#: pages/create_backup.php:33
+msgid "You are going to create a new backup! This may take some time!"
+msgstr "Sie erstellen nun ein neues Backup! Dies kann einige Zeit dauern!"
+
+#: pages/create_backup.php:69
+#: pages/manage_backups.php:78
+#: pages/manage_backups.php:108
+#: pages/settings.php:113
+#: pages/settings.php:143
+msgid "The server response was invalid!"
+msgstr "Die Server-Antwort ist ungültig"
+
+#: pages/create_backup.php:71
+#: pages/manage_backups.php:80
+#: pages/manage_backups.php:110
+#: pages/settings.php:115
+#: pages/settings.php:145
+msgid "Server Response"
+msgstr "Server-Antwort"
+
+#: pages/create_backup.php:91
+#: pages/manage_backups.php:127
+msgid "Please review your settings before first use."
+msgstr "Bitte überprüfen Sie die Einstellungen, bevor Sie die Backupfunktion zum ersten Mal nutzen!"
+
+#: pages/create_backup.php:91
+#: pages/manage_backups.php:102
+#: pages/manage_backups.php:127
+#: pages/manage_backups.php:201
+msgid "You can do so"
+msgstr "Sie finden diese Funktion"
+
+#: pages/create_backup.php:91
+#: pages/manage_backups.php:102
+#: pages/manage_backups.php:127
+#: pages/manage_backups.php:203
+msgid "here"
+msgstr "hier"
+
+#: pages/create_backup.php:100
+#: pages/manage_backups.php:142
+#: pages/manage_backups.php:151
+msgid "Backup Name"
+msgstr "Backup-Name"
+
+#: pages/create_backup.php:106
+msgid "Backup Type"
+msgstr "Backup-Typ"
+
+#: pages/create_backup.php:109
+msgid "Complete"
+msgstr "Komplett"
+
+#: pages/create_backup.php:110
+msgid "Files Only"
+msgstr "Nur Dateien"
+
+#: pages/create_backup.php:111
+msgid "Database Only"
+msgstr "Nur Datenbank"
+
+#: pages/create_backup.php:117
+msgid "Compress files with GZIP"
+msgstr "Komprimierung mit GZIP"
+
+#: pages/create_backup.php:119
+#: pages/manage_backups.php:182
+#: pages/settings.php:184
+#: pages/settings.php:211
+msgid "No"
+msgstr "Nein"
+
+#: pages/create_backup.php:120
+#: pages/manage_backups.php:178
+#: pages/settings.php:186
+#: pages/settings.php:213
+msgid "Yes"
+msgstr "Ja"
+
+#: pages/create_backup.php:125
+msgid "Timeout (seconds)"
+msgstr "Timeout (in Sekunden)"
+
+#: pages/manage_backups.php:32
+msgid "Deleting backup"
+msgstr "Lösche Backup"
+
+#: pages/manage_backups.php:34
+msgid "You are going to delete this backup! You won't be able to restore it later!"
+msgstr "Sie sind dabei ein Backup zu löschen! Sie werden es danach nicht wiederherstellen können!"
+
+#: pages/manage_backups.php:34
+#: pages/manage_backups.php:49
+msgid "Are you sure?"
+msgstr "Sind Sie sicher?"
+
+#: pages/manage_backups.php:47
+msgid "Restoring backup"
+msgstr "Backup wird wiederhergestellt"
+
+#: pages/manage_backups.php:49
+msgid "You are going to restore this backup! Please backup all files, if your are not sure!"
+msgstr "Sie sind dabei ein Backup wiederherzustellen! Bitte sichern Sie vorher alle Daten, falls Sie nicht sicher sind!"
+
+#: pages/manage_backups.php:102
+#: pages/manage_backups.php:199
+msgid "No backups created so far!"
+msgstr "Es wurden noch keine Backups erstellt!"
+
+#: pages/manage_backups.php:143
+#: pages/manage_backups.php:152
+msgid "Create Date"
+msgstr "Erstellungsdatum"
+
+#: pages/manage_backups.php:144
+#: pages/manage_backups.php:153
+msgid "Type"
+msgstr "Typ"
+
+#: pages/manage_backups.php:145
+#: pages/manage_backups.php:154
+msgid "Is Zipped?"
+msgstr "Komprimiert?"
+
+#: pages/manage_backups.php:146
+#: pages/manage_backups.php:155
+msgid "Actions"
+msgstr "Aufgaben"
+
+#: pages/manage_backups.php:186
+msgid "Delete"
+msgstr "Löschen"
+
+#: pages/manage_backups.php:187
+msgid "Restore"
+msgstr "Wiederherstellen"
+
+#: pages/settings.php:31
+msgid "Saving settings, please don't leave this page!"
+msgstr "Einstellungen werden gespeichert, bitte diese Webseite nicht verlassen!"
+
+#: pages/settings.php:76
+msgid "Close"
+msgstr "Schliessen"
+
+#: pages/settings.php:98
+msgid "Directory is empty!"
+msgstr "Ordner ist leer!"
+
+#: pages/settings.php:166
+msgid "Backup directory"
+msgstr "Backup-Ordner"
+
+#: pages/settings.php:172
+msgid "Directory List"
+msgstr "Verzeichnisliste"
+
+#: pages/settings.php:181
+msgid "Include backup directory, when creating new backups"
+msgstr "Das Backupverzeichnis in neue Backups mit einfügen"
+
+#: pages/settings.php:190
+msgid "Default timeout (seconds)"
+msgstr "Standard-Timeout (in Sekunden)"
+
+#: pages/settings.php:208
+msgid "Enable debugging"
+msgstr "Aktiviere Debugging"
+
+#: pages/settings.php:220
+msgid "Save Changes"
+msgstr "Einstellungen speichern"
+
+#. Plugin Name of an extension
+msgid "Bei Fen"
+msgstr "Bei Fen"
+
+#. Plugin URI of an extension
+msgid "http://www.david-schneider.name/projects/beifen/"
+msgstr "http://www.david-schneider.name/projects/beifen/"
+
+#. Description of an extension
+msgid "A backup plugin for Wordpress. You can create full, files-only, and database-only backups!"
+msgstr "Ein Backup-Plugin für Wordpress. Erstellt Backups von Dateien, der Datenbank oder beides zusammen!"
+
+#. Author of an extension
+msgid "David Schneider"
+msgstr "David Schneider"
+
+#. Author URI of an extension
+msgid "http://www.david-schneider.name/"
+msgstr "http://www.david-schneider.name/"
+
+#~ msgid "Full"
+#~ msgstr "Komplett"
+#~ msgid "Xin-IT Backup for Wordpress"
+#~ msgstr "Xin-IT Backup für Wordpress"
+#~ msgid "http://www.xin-it.com/"
+#~ msgstr "http://www.xin-it.com/"
+
