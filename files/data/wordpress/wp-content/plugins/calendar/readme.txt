@@ -1,10 +1,10 @@
 === Calendar ===
 Contributors: KieranOShea
-Donate link: http://www.kjowebservices.co.uk
+Donate link: http://www.kieranoshea.com
 Tags: calendar, dates, times, events
 Requires at least: 2.0
-Tested up to: 2.6.2
-Stable tag: 1.2.1
+Tested up to: 2.8
+Stable tag: 1.2.2
 
 A simple but effective Calendar plugin for WordPress that allows you to 
 manage your events and appointments and display them to the world.
@@ -28,14 +28,19 @@ Features:
 *   Easy to use events manager in admin dashboard
 *   Sidebar function/Widget to show todays events
 *   Sidebar function/Widget to show upcoming events
+*   Lists of todays events can be displayed in posts or pages
+*   Lists of upcoming events can be displayed in posts or pages
 *   Comprehensive options panel for admin
 *   Modifiable CSS using the options panel
 *   Optional drop down boxes to quickly change month and year
 *   User groups other than admin can be permitted to manage events
 *   Events can be placed into categories
+*   A calendar of events for just one of more categories can be displayed
 *   Categories system can be switched on or off
 *   Pop up javascript calendars help the choosing of dates
 *   Events can be links pointing to a location of your choice
+*   Full internationalisation is possible
+*   Comaptible with WordPress MU
 
 == Installation ==
 
@@ -47,7 +52,7 @@ Installing:
 
 2. Activate the plugin on your WordPress plugins page
 
-3. Configure Calendar using:
+3. Configure Calendar using the following pages in the admin panel:
 
    Calendar -> Manage Events
 
@@ -56,6 +61,27 @@ Installing:
    Calendar -> Calendar Options
 
 4. Edit or create a page on your blog which includes the text {CALENDAR} and visit 
+   the page you have edited or created. You should see your calendar in action.
+
+Upgrading from 1.2 or later:
+
+1. Deactivate the plugin (you will not lose any events)
+
+2. Remove your current calendar directory from the WordPress plugins directory
+
+2. Upload the whole calendar directory into your WordPress plugins directory.
+
+3. Activate the plugin on your WordPress plugins page
+
+4. Configure Calendar using the following pages in the admin panel:
+
+   Calendar -> Manage Events
+
+   Calendar -> Manage Categories
+
+   Calendar -> Calendar Options
+
+5. Edit or create a page on your blog which includes the text {CALENDAR} and visit
    the page you have edited or created page. You should see your calendar in action.
 
 Upgrading from 1.1:
@@ -71,7 +97,7 @@ Upgrading from 1.1:
 
 5. Activate the plugin on your WordPress plugins page
 
-6. Configure Calendar using:
+6. Configure Calendar using the following pages in the admin panel:
 
    Calendar -> Manage Events
 
@@ -94,21 +120,22 @@ Uninstalling:
 
 = Where are the frequently asked questions for Calendar? =
 
-   They are located on the [KJO Web Services forum](http://forum.kjowebservices.co.uk/viewtopic.php?f=13&t=10 "KJO Web Services forum")
+   They are located on [Kieran O'Shea's forum](http://www.kieranoshea.com/forum/viewtopic.php?f=13&t=10 "Kieran O'Shea's forum"). 
+   Please note that you should check these before asking any support questions or thinking your calendar install isn't working 
+   properly.
 
 = Where can I get support for the plugin? =
 
-   Support via e-mail became too much of a burden and the lack of e-mail 
-   notifications made monitoring the WordPress forums impossible. There 
-   is now a support area for Calendar on the [KJO Web Services forum](http://forum.kjowebservices.co.uk/viewtopic.php?f=13 "KJO Web Services forum") 
-   which will be monitored and is the only official place to get support for Calendar.
+   Support is only available on [Kieran O'Shea's forum](http://www.kieranoshea.com/forum/viewtopic.php?f=13&t=10 "Kieran O'Shea's forum"). 
+   Regrettably e-mail support became too cumberome to manage and so now all support and bug report e-mails for calendar will be ignored. All 
+   such queries will be answered promptly on the forums, although please make sure you search first before asking your question.
 
-= Can I remove the link to your company? =
+= Can I remove the link to your site? =
    
-   Yes, you may do this, but please only do so if you absolutely have to (for 
-   instance if you are using Calendar for a business site). Calendar is 
-   popular and the business we get from users of Calendar deciding to comission 
-   web work is what allows us to continue to provide Calendar free and open source.
+   Yes, you may do this, but please be aware that support will not be provided 
+   to those who choose to remove the link. When you ask your support question 
+   you will be asked for the URL to your blog and the presence of the link will 
+   be checked before support will be provided.
 
 == Screenshots ==
 

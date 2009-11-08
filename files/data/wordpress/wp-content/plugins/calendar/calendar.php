@@ -1,14 +1,14 @@
 <?php
 /*
 Plugin Name: Calendar
-Plugin URI: http://www.kjowebservices.co.uk
+Plugin URI: http://www.kieranoshea.com
 Description: This plugin allows you to display a calendar of all your events and appointments as a page on your site.
 Author: Kieran O'Shea
-Author URI: http://www.kjowebservices.co.uk
-Version: 1.2.1
+Author URI: http://www.kieranoshea.com
+Version: 1.2.2
 */
 
-/*  Copyright 2008  KJO Web Services  (email : sales@kjowebservices.co.uk)
+/*  Copyright 2008  Kieran O'Shea  (email : kieran@kieranoshea.com)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -24,6 +24,10 @@ Version: 1.2.1
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
+
+// Enable internationalisation
+$plugin_dir = basename(dirname(__FILE__));
+load_plugin_textdomain( 'calendar','wp-content/plugins/'.$plugin_dir, $plugin_dir);
 
 // Define the tables used in Calendar
 define('WP_CALENDAR_TABLE', $table_prefix . 'calendar');
@@ -42,7 +46,7 @@ add_action('wp_head', 'calendar_wp_head');
 // Add the function that deals with deleted users
 add_action('delete_user', 'deal_with_deleted_user');
 
-// Add the widgets if we are using version 2.5
+// Add the widgets if we are using version 2.8
 add_action('widgets_init', 'widget_init_calendar_today');
 add_action('widgets_init', 'widget_init_calendar_upcoming');
 
@@ -109,15 +113,15 @@ function calendar_menu()
   // Add the admin panel pages for Calendar. Use permissions pulled from above
    if (function_exists('add_menu_page')) 
      {
-       add_menu_page(__('Calendar'), __('Calendar'), $allowed_group, __FILE__, 'edit_calendar');
+       add_menu_page(__('Calendar','calendar'), __('Calendar','calendar'), $allowed_group, 'calendar', 'edit_calendar');
      }
    if (function_exists('add_submenu_page')) 
      {
-       add_submenu_page(__FILE__, __('Manage Calendar'), __('Manage Calendar'), $allowed_group, __FILE__, 'edit_calendar');
+       add_submenu_page('calendar', __('Manage Calendar','calendar'), __('Manage Calendar','calendar'), $allowed_group, 'calendar', 'edit_calendar');
        add_action( "admin_head", 'calendar_add_javascript' );
        // Note only admin can change calendar options
-       add_submenu_page(__FILE__, __('Manage Categories'), __('Manage Categories'), 'manage_options', 'manage-categories', 'manage_categories');
-       add_submenu_page(__FILE__, __('Calendar Config'), __('Calendar Options'), 'manage_options', 'calendar-config', 'edit_calendar_config');
+       add_submenu_page('calendar', __('Manage Categories','calendar'), __('Manage Categories','calendar'), 'manage_options', 'calendar-categories', 'manage_categories');
+       add_submenu_page('calendar', __('Calendar Config','calendar'), __('Calendar Options','calendar'), 'manage_options', 'calendar-config', 'edit_calendar_config');
      }
 }
 
@@ -125,7 +129,7 @@ function calendar_menu()
 function calendar_add_javascript()
 { 
   echo '<script type="text/javascript" src="';
-  bloginfo('url');
+  bloginfo('wpurl');
   echo '/wp-content/plugins/calendar/javascript.js"></script>
 <script type="text/javascript">document.write(getCalendarStyles());</script>
 ';
@@ -136,7 +140,8 @@ function calendar_insert($content)
 {
   if (preg_match('{CALENDAR}',$content))
     {
-      $content = str_replace('{CALENDAR}',calendar(),$content);
+      $cal_output = calendar();
+      $content = str_replace('{CALENDAR}',$cal_output,$content);
     }
   return $content;
 }
@@ -410,7 +415,7 @@ function check_calendar()
                                 PRIMARY KEY (category_id) 
                              )";
       $wpdb->get_results($sql);
-      $sql = "INSERT INTO " . WP_CALENDAR_CATEGORIES_TABLE . " SET category_id=0, category_name='General', category_colour='#F6F79B'";
+      $sql = "INSERT INTO " . WP_CALENDAR_CATEGORIES_TABLE . " SET category_id=1, category_name='General', category_colour='#F6F79B'";
       $wpdb->get_results($sql);
     }
   else if ($vone_point_one_upgrade == true)
@@ -461,7 +466,7 @@ function check_calendar()
                                 PRIMARY KEY (category_id) 
                               )";
       $wpdb->get_results($sql);
-      $sql = "INSERT INTO " . WP_CALENDAR_CATEGORIES_TABLE . " SET category_id=0, category_name='General', category_colour='#F6F79B'";
+      $sql = "INSERT INTO " . WP_CALENDAR_CATEGORIES_TABLE . " SET category_id=1, category_name='General', category_colour='#F6F79B'";
       $wpdb->get_results($sql);
     }
   else if ($vone_point_two_beta_upgrade == true)
@@ -502,20 +507,22 @@ function wp_events_display_list()
 	if ( !empty($events) )
 	{
 		?>
-		<table width="100%" cellpadding="3" cellspacing="3">
-			<tr>
-				<th scope="col"><?php _e('ID') ?></th>
-				<th scope="col"><?php _e('Title') ?></th>
-				<th scope="col"><?php _e('Description') ?></th>
-				<th scope="col"><?php _e('Start Date') ?></th>
-				<th scope="col"><?php _e('End Date') ?></th>
-				<th scope="col"><?php _e('Recurs') ?></th>
-				<th scope="col"><?php _e('Repeats') ?></th>
-		                <th scope="col"><?php _e('Author') ?></th>
-		                <th scope="col"><?php _e('Category') ?></th>
-				<th scope="col"><?php _e('Edit') ?></th>
-				<th scope="col"><?php _e('Delete') ?></th>
-			</tr>
+		<table class="widefat page fixed" width="100%" cellpadding="3" cellspacing="3">
+		        <thead>
+			    <tr>
+				<th class="manage-column" scope="col"><?php _e('ID','calendar') ?></th>
+				<th class="manage-column" scope="col"><?php _e('Title','calendar') ?></th>
+				<th class="manage-column" scope="col"><?php _e('Description','calendar') ?></th>
+				<th class="manage-column" scope="col"><?php _e('Start Date','calendar') ?></th>
+				<th class="manage-column" scope="col"><?php _e('End Date','calendar') ?></th>
+				<th class="manage-column" scope="col"><?php _e('Recurs','calendar') ?></th>
+				<th class="manage-column" scope="col"><?php _e('Repeats','calendar') ?></th>
+		                <th class="manage-column" scope="col"><?php _e('Author','calendar') ?></th>
+		                <th class="manage-column" scope="col"><?php _e('Category','calendar') ?></th>
+				<th class="manage-column" scope="col"><?php _e('Edit','calendar') ?></th>
+				<th class="manage-column" scope="col"><?php _e('Delete','calendar') ?></th>
+			    </tr>
+		        </thead>
 		<?php
 		$class = '';
 		foreach ( $events as $event )
@@ -531,18 +538,18 @@ function wp_events_display_list()
 				<td>
 				<?php 
 					// Interpret the DB values into something human readable
-					if ($event->event_recur == 'S') { echo 'Never'; } 
-					else if ($event->event_recur == 'W') { echo 'Weekly'; }
-					else if ($event->event_recur == 'M') { echo 'Monthly'; }
-					else if ($event->event_recur == 'Y') { echo 'Yearly'; }
+					if ($event->event_recur == 'S') { echo __('Never','calendar'); } 
+					else if ($event->event_recur == 'W') { echo __('Weekly','calendar'); }
+					else if ($event->event_recur == 'M') { echo __('Monthly','calendar'); }
+					else if ($event->event_recur == 'Y') { echo __('Yearly','calendar'); }
 				?>
 				</td>
 				<td>
 				<?php
 				        // Interpret the DB values into something human readable
-					if ($event->event_recur == 'S') { echo 'N/A'; }
-					else if ($event->event_repeats == 0) { echo 'Forever'; }
-					else if ($event->event_repeats > 0) { echo $event->event_repeats.' Times'; }					
+					if ($event->event_recur == 'S') { echo __('N/A','calendar'); }
+					else if ($event->event_repeats == 0) { echo __('Forever','calendar'); }
+					else if ($event->event_repeats > 0) { echo $event->event_repeats.' '.__('Times','calendar'); }					
 				?>
 				</td>
 				<td><?php $e = get_userdata($event->event_author); echo $e->display_name; ?></td>
@@ -552,8 +559,8 @@ function wp_events_display_list()
                                 ?>
 				<td style="background-color:<?php echo $this_cat->category_colour;?>;"><?php echo $this_cat->category_name; ?></td>
 				<?php unset($this_cat); ?>
-				<td><a href="<?php echo $_SERVER['REQUEST_URI']  ?>&amp;action=edit&amp;event_id=<?php echo $event->event_id;?>" class='edit'><?php echo __('Edit'); ?></a></td>
-				<td><a href="<?php echo $_SERVER['REQUEST_URI'] ?>&amp;action=delete&amp;event_id=<?php echo $event->event_id;?>" class="delete" onclick="return confirm('Are you sure you want to delete this event?')"><?php echo __('Delete'); ?></a></td>
+				<td><a href="<?php echo $_SERVER['PHP_SELF'] ?>?page=calendar&amp;action=edit&amp;event_id=<?php echo $event->event_id;?>" class='edit'><?php echo __('Edit','calendar'); ?></a></td>
+				<td><a href="<?php echo $_SERVER['PHP_SELF'] ?>?page=calendar&amp;action=delete&amp;event_id=<?php echo $event->event_id;?>" class="delete" onclick="return confirm('<?php _e('Are you sure you want to delete this event?','calendar'); ?>')"><?php echo __('Delete','calendar'); ?></a></td>
 			</tr>
 			<?php
 		}
@@ -564,7 +571,7 @@ function wp_events_display_list()
 	else
 	{
 		?>
-		<p><?php _e("There are no events in the database!")	?></p>
+		<p><?php _e("There are no events in the database!",'calendar')	?></p>
 		<?php	
 	}
 }
@@ -573,14 +580,14 @@ function wp_events_display_list()
 // The event edit form for the manage events admin page
 function wp_events_edit_form($mode='add', $event_id=false)
 {
-	global $wpdb;
+	global $wpdb,$users_entries;
 	$data = false;
 	
 	if ( $event_id !== false )
 	{
 		if ( intval($event_id) != $event_id )
 		{
-			echo "<div class=\"error\"><p>Bad Monkey! No banana!</p></div>";
+			echo "<div class=\"error\"><p>".__('Bad Monkey! No banana!','calendar')."</p></div>";
 			return;
 		}
 		else
@@ -588,33 +595,44 @@ function wp_events_edit_form($mode='add', $event_id=false)
 			$data = $wpdb->get_results("SELECT * FROM " . WP_CALENDAR_TABLE . " WHERE event_id='" . mysql_escape_string($event_id) . "' LIMIT 1");
 			if ( empty($data) )
 			{
-				echo "<div class=\"error\"><p>An event with that ID couldn't be found</p></div>";
+				echo "<div class=\"error\"><p>".__("An event with that ID couldn't be found",'calendar')."</p></div>";
 				return;
 			}
 			$data = $data[0];
-		}	
+		}
+		// Recover users entries if they exist; in other words if editing an event went wrong
+		if (!empty($users_entries))
+		  {
+		    $data = $users_entries;
+		  }
 	}
+	// Deal with possibility that form was submitted but not saved due to error - recover user's entries here
+	else
+	  {
+	    $data = $users_entries;
+	  }
 	
 	?>
-        <div id="pop_up_cal" style="position:absolute;margin-left:150px;visibility:hidden;background-color:white;layer-background-color:white;"></div>
-	<form name="quoteform" id="quoteform" class="wrap" method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>">
+        <div id="pop_up_cal" style="position:absolute;margin-left:150px;visibility:hidden;background-color:white;layer-background-color:white;z-index:1;"></div>
+	<form name="quoteform" id="quoteform" class="wrap" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?page=calendar">
 		<input type="hidden" name="action" value="<?php echo $mode; ?>">
 		<input type="hidden" name="event_id" value="<?php echo $event_id; ?>">
 	
-		<div id="item_manager">
-			<div style="float: left; width: 98%; clear: both;" class="top">
-				<!-- List URL -->				
-				<fieldset class="small"><legend><?php _e('Event Title'); ?></legend>
-					<input type="text" name="event_title" class="input" size="40" maxlength="30"
-					value="<?php if ( !empty($data) ) echo htmlspecialchars($data->event_title); ?>" />
-				</fieldset>
-
-				<fieldset class="small"><legend><?php _e('Event Description'); ?></legend>
-					<textarea name="event_desc" class="input" rows="5" cols="50"><?php if ( !empty($data) ) echo htmlspecialchars($data->event_desc); ?></textarea>
-				</fieldset>
-
-				<fieldset class="small"><legend><?php _e('Event Category'); ?></legend>
-					 <select name="event_category">
+		<div id="linkadvanceddiv" class="postbox">
+			<div style="float: left; width: 98%; clear: both;" class="inside">
+                                <table cellpadding="5" cellspacing="5">
+                                <tr>				
+				<td><legend><?php _e('Event Title','calendar'); ?></legend></td>
+				<td><input type="text" name="event_title" class="input" size="40" maxlength="30"
+					value="<?php if ( !empty($data) ) echo htmlspecialchars($data->event_title); ?>" /></td>
+                                </tr>
+                                <tr>
+				<td style="vertical-align:top;"><legend><?php _e('Event Description','calendar'); ?></legend></td>
+				<td><textarea name="event_desc" class="input" rows="5" cols="50"><?php if ( !empty($data) ) echo htmlspecialchars($data->event_desc); ?></textarea></td>
+                                </tr>
+                                <tr>
+				<td><legend><?php _e('Event Category','calendar'); ?></legend></td>
+				<td>	 <select name="event_category">
 					     <?php
 					         // Grab all the categories and list them
 						 $sql = "SELECT * FROM " . WP_CALENDAR_CATEGORIES_TABLE;
@@ -634,17 +652,21 @@ function wp_events_edit_form($mode='add', $event_id=false)
 						   }
                                              ?>
                                          </select>
-                                </fieldset>
-
-				<fieldset class="small"><legend><?php _e('Event Link (Optional)'); ?></legend>
-                                        <input type="text" name="event_link" class="input" size="40" value="<?php if ( !empty($data) ) echo htmlspecialchars($data->event_link); ?>" />
-                                </fieldset>
-
-				<fieldset class="small"><legend><?php _e('Start Date'); ?></legend>
-                                        <script type="text/javascript">
+                                </td>
+                                </tr>
+                                <tr>
+				<td><legend><?php _e('Event Link (Optional)','calendar'); ?></legend></td>
+                                <td><input type="text" name="event_link" class="input" size="40" value="<?php if ( !empty($data) ) echo htmlspecialchars($data->event_link); ?>" /></td>
+                                </tr>
+                                <tr>
+				<td><legend><?php _e('Start Date','calendar'); ?></legend></td>
+                                <td>        <script type="text/javascript">
 					var cal_begin = new CalendarPopup('pop_up_cal');
+					function unifydates() {
+					  document.forms['quoteform'].event_end.value = document.forms['quoteform'].event_begin.value;
+					}
 					</script>
-					<input type="text" name="event_begin" class="input" size=12
+					<input type="text" name="event_begin" class="input" size="12"
 					value="<?php 
 					if ( !empty($data) ) 
 					{
@@ -654,12 +676,14 @@ function wp_events_edit_form($mode='add', $event_id=false)
 					{
 						echo date("Y-m-d");
 					} 
-					?>" /> <a href="#" onClick="cal_begin.select(document.forms['quoteform'].event_begin,'event_begin_anchor','yyyy-MM-dd'); return false;" name="event_begin_anchor" id="event_begin_anchor">Select Date</a>
-				</fieldset>
-
-				<fieldset class="small"><legend><?php _e('End Date'); ?></legend>
-                                        <script type="text/javascript">
+					?>" /> <a href="#" onClick="cal_begin.select(document.forms['quoteform'].event_begin,'event_begin_anchor','yyyy-MM-dd'); return false;" name="event_begin_anchor" id="event_begin_anchor"><?php _e('Select Date','calendar'); ?></a>
+				</td>
+                                </tr>
+                                <tr>
+				<td><legend><?php _e('End Date','calendar'); ?></legend></td>
+                                <td>    <script type="text/javascript">
 					function check_and_print() {
+					unifydates();
 					var cal_end = new CalendarPopup('pop_up_cal');
 					var newDate = new Date();
 					newDate.setFullYear(document.forms['quoteform'].event_begin.value.split('-')[0],document.forms['quoteform'].event_begin.value.split('-')[1]-1,document.forms['quoteform'].event_begin.value.split('-')[2]);
@@ -668,7 +692,7 @@ function wp_events_edit_form($mode='add', $event_id=false)
                                         cal_end.select(document.forms['quoteform'].event_end,'event_end_anchor','yyyy-MM-dd');
 					}
                                         </script>
-					<input type="text" name="event_end" class="input" size=12
+					<input type="text" name="event_end" class="input" size="12"
 					value="<?php 
 					if ( !empty($data) ) 
 					{
@@ -678,11 +702,12 @@ function wp_events_edit_form($mode='add', $event_id=false)
 					{
 						echo date("Y-m-d");
 					}
-					?>" />  <a href="#" onClick="check_and_print(); return false;" name="event_end_anchor" id="event_end_anchor">Select Date</a>
-				</fieldset>
-
-				<fieldset class="small"><legend><?php _e('Time (hh:mm)(optional, set blank if not required)'); ?></legend>
-					<input type="text" name="event_time" class="input" size=12
+					?>" />  <a href="#" onClick="check_and_print(); return false;" name="event_end_anchor" id="event_end_anchor"><?php _e('Select Date','calendar'); ?></a>
+				</td>
+                                </tr>
+                                <tr>
+				<td><legend><?php _e('Time (hh:mm)','calendar'); ?></legend></td>
+				<td>	<input type="text" name="event_time" class="input" size=12
 					value="<?php 
 					if ( !empty($data) ) 
 					{
@@ -699,11 +724,12 @@ function wp_events_edit_form($mode='add', $event_id=false)
 					{
 						echo date("H:i");
 					}
-					?>" /> <?php _e('Current time difference from GMT is '); echo get_option('gmt_offset'); _e(' hour(s)'); ?>
-				</fieldset>
-
-				<fieldset class="small"><legend><?php _e('Recurring Events'); ?></legend>
-					<?php
+					?>" /> <?php _e('Optional, set blank if not required.','calendar'); ?> <?php _e('Current time difference from GMT is ','calendar'); echo get_option('gmt_offset'); _e(' hour(s)'); ?>
+				</td>
+                                </tr>
+                                <tr>
+				<td><legend><?php _e('Recurring Events','calendar'); ?></legend></td>
+				<td>	<?php
 					if ($data->event_repeats != NULL)
 					{
 						$repeats = $data->event_repeats;
@@ -730,7 +756,7 @@ function wp_events_edit_form($mode='add', $event_id=false)
 						$selected_y = 'selected="selected"';
 					}
 					?>
-					Repeats for 
+					  <?php _e('Repeats for','calendar'); ?> 
 					<input type="text" name="event_repeats" class="input" size="1" value="<?php echo $repeats; ?>" /> 
 					<select name="event_recur" class="input">
 						<option class="input" <?php echo $selected_s; ?> value="S">None</option>
@@ -738,14 +764,14 @@ function wp_events_edit_form($mode='add', $event_id=false)
 						<option class="input" <?php echo $selected_m; ?> value="M">Months</option>
 						<option class="input" <?php echo $selected_y; ?> value="Y">Years</option>
 					</select><br />
-					Entering 0 means forever. Where the recurrance interval <br />
-					is left at none, the event will not reoccur.
-				</fieldset>
-				<br />
-				<input type="submit" name="save" class="button bold" value="Save &raquo;" />
+					<?php _e('Entering 0 means forever. Where the recurrance interval is left at none, the event will not reoccur.','calendar'); ?>
+				</td>
+                                </tr>
+                                </table>
 			</div>
 			<div style="clear:both; height:1px;">&nbsp;</div>
 		</div>
+                <input type="submit" name="save" class="button bold" value="<?php _e('Save','calendar'); ?> &raquo;" />
 	</form>
 	<?php
 }
@@ -754,7 +780,7 @@ function wp_events_edit_form($mode='add', $event_id=false)
 // to deal with posts
 function edit_calendar()
 {
-    global $current_user, $wpdb;
+    global $current_user, $wpdb, $users_entries;
   ?>
   <style type="text/css">
 <!--
@@ -825,28 +851,132 @@ if ( $action == 'add' )
                 $linky = stripslashes($linky);	
 	}	
 
-	$sql = "INSERT INTO " . WP_CALENDAR_TABLE . " SET event_title='" . mysql_escape_string($title)
+	// Perform some validation on the submitted dates - this checks for valid years and months
+	$date_format_one = '/^([0-9]{4})-([0][1-9])-([0-3][0-9])$/';
+        $date_format_two = '/^([0-9]{4})-([1][0-2])-([0-3][0-9])$/';
+	if ((preg_match($date_format_one,$begin) || preg_match($date_format_two,$begin)) && (preg_match($date_format_one,$end) || preg_match($date_format_two,$end)))
+	  {
+            // We know we have a valid year and month and valid integers for days so now we do a final check on the date
+            $begin_split = split('-',$begin);
+	    $begin_y = $begin_split[0]; 
+	    $begin_m = $begin_split[1];
+	    $begin_d = $begin_split[2];
+            $end_split = split('-',$end);
+	    $end_y = $end_split[0];
+	    $end_m = $end_split[1];
+	    $end_d = $end_split[2];
+            if (checkdate($begin_m,$begin_d,$begin_y) && checkdate($end_m,$end_d,$end_y))
+	     {
+	       // Ok, now we know we have valid dates, we want to make sure that they are either equal or that the end date is later than the start date
+	       if (strtotime($end) >= strtotime($begin))
+		 {
+		   $start_date_ok = 1;
+		   $end_date_ok = 1;
+		 }
+	       else
+		 {
+		   ?>
+		   <div class="error"><p><strong><?php _e('Error','calendar'); ?>:</strong> <?php _e('Your event end date must be either after or the same as your event begin date','calendar'); ?></p></div>
+		   <?php
+		 }
+	     } 
+	    else
+	      {
+		?>
+                <div class="error"><p><strong><?php _e('Error','calendar'); ?>:</strong> <?php _e('Your date formatting is correct but one or more of your dates is invalid. Check for number of days in month and leap year related errors.','calendar'); ?></p></div>
+                <?php
+	      }
+	  }
+	else
+	  {
+	    ?>
+            <div class="error"><p><strong><?php _e('Error','calendar'); ?>:</strong> <?php _e('Both start and end dates must be entered and be in the format YYYY-MM-DD','calendar'); ?></p></div>
+            <?php
+	  }
+        // We check for a valid time, or an empty one
+        $time_format_one = '/^([0-1][0-9]):([0-5][0-9])$/';
+	$time_format_two = '/^([2][0-3]):([0-5][0-9])$/';
+        if (preg_match($time_format_one,$time) || preg_match($time_format_two,$time) || $time == '')
+          {
+            $time_ok = 1;
+          }
+        else
+          {
+            ?>
+            <div class="error"><p><strong><?php _e('Error','calendar'); ?>:</strong> <?php _e('The time field must either be blank or be entered in the format hh:mm','calendar'); ?></p></div>
+            <?php
+	  }
+	// We check to make sure the URL is alright                                                        
+	if (preg_match('/^(http)(s?)(:)\/\//',$linky) || $linky == '')
+	  {
+	    $url_ok = 1;
+	  }
+	else
+	  {
+              ?>
+              <div class="error"><p><strong><?php _e('Error','calendar'); ?>:</strong> <?php _e('The URL entered must either be prefixed with http:// or be completely blank','calendar'); ?></p></div>
+              <?php
+	  }
+	// The title must be at least one character in length and no more than 30 - no non-standard characters allowed
+	if (preg_match('/^[a-zA-Z0-9]{1}[a-zA-Z0-9[:space:]]{0,29}$/',$title))
+	  {
+	    $title_ok =1;
+	  }
+	else
+	  {
+              ?>
+              <div class="error"><p><strong><?php _e('Error','calendar'); ?>:</strong> <?php _e('The event title must be between 1 and 30 characters in length and contain no punctuation. Spaces are allowed but the title must not start with one.','calendar'); ?></p></div>
+              <?php
+	  }
+	// We run some checks on recurrance                                                                        
+	if (($repeats == 0 && $recur == 'S') || (($repeats >= 0) && ($recur == 'W' || $recur == 'M' || $recur == 'Y')))
+	  {
+	    $recurring_ok = 1;
+	  }
+	else
+	  {
+              ?>
+              <div class="error"><p><strong><?php _e('Error','calendar'); ?>:</strong> <?php _e('The repetition value must be 0 unless a type of recurrance is selected in which case the repetition value must be 0 or higher','calendar'); ?></p></div>
+              <?php
+	  }
+	if ($start_date_ok == 1 && $end_date_ok == 1 && $time_ok == 1 && $url_ok == 1 && $title_ok == 1 && $recurring_ok == 1)
+	  {
+	    $sql = "INSERT INTO " . WP_CALENDAR_TABLE . " SET event_title='" . mysql_escape_string($title)
 	     . "', event_desc='" . mysql_escape_string($desc) . "', event_begin='" . mysql_escape_string($begin) 
              . "', event_end='" . mysql_escape_string($end) . "', event_time='" . mysql_escape_string($time) . "', event_recur='" . mysql_escape_string($recur) . "', event_repeats='" . mysql_escape_string($repeats) . "', event_author=".$current_user->ID.", event_category=".mysql_escape_string($category).", event_link='".mysql_escape_string($linky)."'";
 	     
-	$wpdb->get_results($sql);
+	    $wpdb->get_results($sql);
 	
-	$sql = "SELECT event_id FROM " . WP_CALENDAR_TABLE . " WHERE event_title='" . mysql_escape_string($title) . "'"
+	    $sql = "SELECT event_id FROM " . WP_CALENDAR_TABLE . " WHERE event_title='" . mysql_escape_string($title) . "'"
 		. " AND event_desc='" . mysql_escape_string($desc) . "' AND event_begin='" . mysql_escape_string($begin) . "' AND event_end='" . mysql_escape_string($end) . "' AND event_recur='" . mysql_escape_string($recur) . "' AND event_repeats='" . mysql_escape_string($repeats) . "' LIMIT 1";
-	$result = $wpdb->get_results($sql);
+	    $result = $wpdb->get_results($sql);
 	
-	if ( empty($result) || empty($result[0]->event_id) )
-	{
-		?>
-		<div class="error"><p><strong>Error:</strong> For some bizare reason your event was not added. Why not try again?</p></div>
+	    if ( empty($result) || empty($result[0]->event_id) )
+	      {
+                ?>
+		<div class="error"><p><strong><?php _e('Error','calendar'); ?>:</strong> <?php _e('An event with the details you submitted could not be found in the database. This may indicate a problem with your database or the way in which it is configured.','calendar'); ?></p></div>
 		<?php
-	}
+	      }
+	    else
+	      {
+		?>
+		<div class="updated"><p><?php _e('Event added. It will now show in your calendar.','calendar'); ?></p></div>
+		<?php
+	      }
+	  }
 	else
-	{
-		?>
-		<div class="updated"><p>Event added. It will now show in your calendar.</p></div>
-		<?php
-	}
+	  {
+	    // The form is going to be rejected due to field validation issues, so we preserve the users entries here
+	    $users_entries->event_title = $title;
+	    $users_entries->event_desc = $desc;
+	    $users_entries->event_begin = $begin;
+	    $users_entries->event_end = $end;
+	    $users_entries->event_time = $time;
+	    $users_entries->event_recur = $recur;
+	    $users_entries->event_repeats = $repeats;
+	    $users_entries->event_category = $category;
+	    $users_entries->event_link = $linky;
+	  }
 }
 // Permit saving of events that have been edited
 elseif ( $action == 'edit_save' )
@@ -878,11 +1008,101 @@ elseif ( $action == 'edit_save' )
 	if ( empty($event_id) )
 	{
 		?>
-		<div class="error"><p><strong>Failure:</strong> You can't update an event if you haven't submitted an event id</p></div>
+		<div class="error"><p><strong><?php _e('Failure','calendar'); ?>:</strong> <?php _e("You can't update an event if you haven't submitted an event id",'calendar'); ?></p></div>
 		<?php		
 	}
 	else
 	{
+	  // Perform some validation on the submitted dates - this checks for valid years and months
+          $date_format_one = '/^([0-9]{4})-([0][1-9])-([0-3][0-9])$/';
+	  $date_format_two = '/^([0-9]{4})-([1][0-2])-([0-3][0-9])$/';
+	  if ((preg_match($date_format_one,$begin) || preg_match($date_format_two,$begin)) && (preg_match($date_format_one,$end) || preg_match($date_format_two,$end)))
+	    {
+	      // We know we have a valid year and month and valid integers for days so now we do a final check on the date
+              $begin_split = split('-',$begin);
+	      $begin_y = $begin_split[0];
+	      $begin_m = $begin_split[1];
+	      $begin_d = $begin_split[2];
+	      $end_split = split('-',$end);
+	      $end_y = $end_split[0];
+	      $end_m = $end_split[1];
+	      $end_d = $end_split[2];
+	      if (checkdate($begin_m,$begin_d,$begin_y) && checkdate($end_m,$end_d,$end_y))
+		{
+		  // Ok, now we know we have valid dates, we want to make sure that they are either equal or that the end date is later than the start date
+                  if (strtotime($end) >= strtotime($begin))
+		    {
+		      $start_date_ok = 1;
+		      $end_date_ok = 1;
+		    }
+		  else
+		    {
+                      ?>
+                      <div class="error"><p><strong><?php _e('Error','calendar'); ?>:</strong> <?php _e('Your event end date must be either after or the same as your event begin date','calendar'); ?></p></div>
+                      <?php
+                    }
+		}
+	      else
+		{
+                ?>
+                <div class="error"><p><strong><?php _e('Error','calendar'); ?>:</strong> <?php _e('Your date formatting is correct but one or more of your dates is invalid. Check for number of days in month and leap year related errors.','calendar'); ?></p></div>
+                <?php
+                }
+	    }
+	  else
+	    {
+            ?>
+            <div class="error"><p><strong><?php _e('Error','calendar'); ?>:</strong> <?php _e('Both start and end dates must be entered and be in the format YYYY-MM-DD','calendar'); ?></p></div>
+            <?php
+	    }
+	  // We check for a valid time, or an empty one
+	  $time_format_one = '/^([0-1][0-9]):([0-5][0-9])$/';
+	  $time_format_two = '/^([2][0-3]):([0-5][0-9])$/';
+	  if (preg_match($time_format_one,$time) || preg_match($time_format_two,$time) || $time == '')
+	    {
+	      $time_ok = 1;
+	    }
+	  else
+	    {
+            ?>
+            <div class="error"><p><strong><?php _e('Error','calendar'); ?>:</strong> <?php _e('The time field must either be blank or be entered in the format hh:mm','calendar'); ?></p></div>
+            <?php
+	    }
+          // We check to make sure the URL is alright
+	  if (preg_match('/^(http)(s?)(:)\/\//',$linky) || $linky == '')
+	    {
+	      $url_ok = 1;
+	    }
+	  else
+	    {
+	      ?>
+	      <div class="error"><p><strong><?php _e('Error','calendar'); ?>:</strong> <?php _e('The URL entered must either be prefixed with http:// or be completely blank','calendar'); ?></p></div>
+	      <?php
+	    }
+	  // The title must be at least one character in length and no more than 30 - no non-standard characters allowed
+	  if (preg_match('/^[a-zA-Z0-9]{1}[a-zA-Z0-9[:space:]]{0,29}$/',$title))
+            {
+	      $title_ok =1;
+	    }
+          else
+            {
+	      ?>
+              <div class="error"><p><strong><?php _e('Error','calendar'); ?>:</strong> <?php _e('The event title must be between 1 and 30 characters in length and contain no punctuation. Spaces are allowed but the title must not start with one.','calendar'); ?></p></div>
+              <?php
+	    }
+	  // We run some checks on recurrance              
+          if (($repeats == 0 && $recur == 'S') || (($repeats >= 0) && ($recur == 'W' || $recur == 'M' || $recur == 'Y')))
+            {
+              $recurring_ok = 1;
+            }
+          else
+            {
+              ?>
+              <div class="error"><p><strong><?php _e('Error','calendar'); ?>:</strong> <?php _e('The repetition value must be 0 unless a type of recurrance is selected in which case the repetition value must be 0 or higher','calendar'); ?></p></div>
+              <?php
+	    }
+	  if ($start_date_ok == 1 && $end_date_ok == 1 && $time_ok == 1 && $url_ok == 1 && $title_ok && $recurring_ok == 1)
+	    {
 		$sql = "UPDATE " . WP_CALENDAR_TABLE . " SET event_title='" . mysql_escape_string($title)
 		     . "', event_desc='" . mysql_escape_string($desc) . "', event_begin='" . mysql_escape_string($begin) 
                      . "', event_end='" . mysql_escape_string($end) . "', event_time='" . mysql_escape_string($time) . "', event_recur='" . mysql_escape_string($recur) . "', event_repeats='" . mysql_escape_string($repeats) . "', event_author=".$current_user->ID . ", event_category=".mysql_escape_string($category).", event_link='".mysql_escape_string($linky)."' WHERE event_id='" . mysql_escape_string($event_id) . "'";
@@ -896,15 +1116,30 @@ elseif ( $action == 'edit_save' )
 		if ( empty($result) || empty($result[0]->event_id) )
 		{
 			?>
-			<div class="error"><p><strong>Failure:</strong> For some reason the event didnt update. Why not try again? </p></div>
+			<div class="error"><p><strong><?php _e('Failure','calendar'); ?>:</strong> <?php _e('The database failed to return data to indicate the event has been updated sucessfully. This may indicate a problem with your database or the way in which it is configured.','calendar'); ?></p></div>
 			<?php
 		}
 		else
 		{
 			?>
-			<div class="updated"><p>Event updated successfully</p></div>
+			<div class="updated"><p><?php _e('Event updated successfully','calendar'); ?></p></div>
 			<?php
-		}		
+		}
+	    }
+          else
+	    {
+	      // The form is going to be rejected due to field validation issues, so we preserve the users entries here
+              $users_entries->event_title = $title;
+	      $users_entries->event_desc = $desc;
+	      $users_entries->event_begin = $begin;
+	      $users_entries->event_end = $end;
+	      $users_entries->event_time = $time;
+	      $users_entries->event_recur = $recur;
+	      $users_entries->event_repeats = $repeats;
+	      $users_entries->event_category = $category;
+	      $users_entries->event_link = $linky;
+	      $error_with_saving = 1;
+	    }		
 	}
 }
 // Deal with deleting an event from the database
@@ -913,7 +1148,7 @@ elseif ( $action == 'delete' )
 	if ( empty($event_id) )
 	{
 		?>
-		<div class="error"><p><strong>Error:</strong> Good Lord you gave me nothing to delete, nothing I tell you!</p></div>
+		<div class="error"><p><strong><?php _e('Error','calendar'); ?>:</strong> <?php _e("You can't delete an event if you haven't submitted an event id",'calendar'); ?></p></div>
 		<?php			
 	}
 	else
@@ -927,13 +1162,13 @@ elseif ( $action == 'delete' )
 		if ( empty($result) || empty($result[0]->event_id) )
 		{
 			?>
-			<div class="updated"><p>Event deleted successfully</p></div>
+			<div class="updated"><p><?php _e('Event deleted successfully','calendar'); ?></p></div>
 			<?php
 		}
 		else
 		{
 			?>
-			<div class="error"><p><strong>Error:</strong> For some bizare reason the event could not be deleted. Why not try again?</p></div>
+			<div class="error"><p><strong><?php _e('Error','calendar'); ?>:</strong> <?php _e('Despite issuing a request to delete, the event still remains in the database. Please investigate.','calendar'); ?></p></div>
 			<?php
 
 		}		
@@ -946,14 +1181,14 @@ elseif ( $action == 'delete' )
 
 <div class="wrap">
 	<?php
-	if ( $action == 'edit' )
+	if ( $action == 'edit' || ($action == 'edit_save' && $error_with_saving == 1))
 	{
 		?>
-		<h2><?php _e('Edit Event'); ?></h2>
+		<h2><?php _e('Edit Event','calendar'); ?></h2>
 		<?php
 		if ( empty($event_id) )
 		{
-			echo "<div class=\"error\"><p>Good lord you didn't provide an event id to edit, what were you thinking?</p></div>";
+			echo "<div class=\"error\"><p>".__("You must provide an event id in order to edit it",'calendar')."</p></div>";
 		}
 		else
 		{
@@ -963,10 +1198,10 @@ elseif ( $action == 'delete' )
 	else
 	{
 		?>
-		<h2><?php _e('Add Event'); ?></h2>
+		<h2><?php _e('Add Event','calendar'); ?></h2>
 		<?php wp_events_edit_form(); ?>
 	
-		<h2><?php _e('Manage Events'); ?></h2>
+		<h2><?php _e('Manage Events','calendar'); ?></h2>
 		<?php
 			wp_events_display_list();
 	}
@@ -1057,7 +1292,7 @@ function edit_calendar_config()
           $wpdb->get_results("UPDATE " . WP_CALENDAR_CONFIG_TABLE . " SET config_value = '".$initial_style."' WHERE config_item='calendar_style'");
         }
 
-      echo "<div class=\"updated\"><p><strong>Settings saved.</strong></p></div>";
+      echo "<div class=\"updated\"><p><strong>".__('Settings saved','calendar').".</strong></p></div>";
     }
 
   // Pull the values out of the database that we need for the form
@@ -1200,63 +1435,73 @@ function edit_calendar_config()
   </style>
 
   <div class="wrap">
-  <h2><?php _e('Calendar Options'); ?></h2>
-  <form name="quoteform" id="quoteform" class="wrap" method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>">
-                <div id="item_manager">
-                        <div style="float: left; width: 98%; clear: both;" class="top">
-                                <fieldset class="small"><legend><?php _e('Choose the lowest user group that may manage events'); ?></legend>
-				        <select name="permissions">
-				            <option value="subscriber"<?php echo $subscriber_seletced ?>><?php _e('Subscriber')?></option>
-				            <option value="contributor" <?php echo $contributor_selected ?>><?php _e('Contributor')?></option>
-				            <option value="author" <?php echo $author_selected ?>><?php _e('Author')?></option>
-				            <option value="editor" <?php echo $editor_selected ?>><?php _e('Editor')?></option>
-				            <option value="admin" <?php echo $admin_selected ?>><?php _e('Administrator')?></option>
+  <h2><?php _e('Calendar Options','calendar'); ?></h2>
+  <form name="quoteform" id="quoteform" class="wrap" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?page=calendar-config">
+                <div id="linkadvanceddiv" class="postbox">
+                        <div style="float: left; width: 98%; clear: both;" class="inside">
+                                <table cellpadding="5" cellspacing="5">
+				<tr>
+                                <td><legend><?php _e('Choose the lowest user group that may manage events','calendar'); ?></legend></td>
+				<td>        <select name="permissions">
+				            <option value="subscriber"<?php echo $subscriber_selected ?>><?php _e('Subscriber','calendar')?></option>
+				            <option value="contributor" <?php echo $contributor_selected ?>><?php _e('Contributor','calendar')?></option>
+				            <option value="author" <?php echo $author_selected ?>><?php _e('Author','calendar')?></option>
+				            <option value="editor" <?php echo $editor_selected ?>><?php _e('Editor','calendar')?></option>
+				            <option value="admin" <?php echo $admin_selected ?>><?php _e('Administrator','calendar')?></option>
 				        </select>
-                                </fieldset>
-				<fieldset class="small"><legend><?php _e('Do you want to display the author name on events?'); ?></legend>
-                                    <select name="display_author">
-                                        <option value="on" <?php echo $yes_disp_author ?>><?php _e('Yes') ?></option>
-                                        <option value="off" <?php echo $no_disp_author ?>><?php _e('No') ?></option>
+                                </td>
+                                </tr>
+                                <tr>
+				<td><legend><?php _e('Do you want to display the author name on events?','calendar'); ?></legend></td>
+                                <td>    <select name="display_author">
+                                        <option value="on" <?php echo $yes_disp_author ?>><?php _e('Yes','calendar') ?></option>
+                                        <option value="off" <?php echo $no_disp_author ?>><?php _e('No','calendar') ?></option>
                                     </select>
-                                </fieldset>
-				<fieldset class="small"><legend><?php _e('Display a jumpbox for changing month and year quickly?'); ?></legend>
-                                    <select name="display_jump">
-                                         <option value="on" <?php echo $yes_disp_jump ?>><?php _e('Yes') ?></option>
-                                         <option value="off" <?php echo $no_disp_jump ?>><?php _e('No') ?></option>
+                                </td>
+                                </tr>
+                                <tr>
+				<td><legend><?php _e('Display a jumpbox for changing month and year quickly?','calendar'); ?></legend></td>
+                                <td>    <select name="display_jump">
+                                         <option value="on" <?php echo $yes_disp_jump ?>><?php _e('Yes','calendar') ?></option>
+                                         <option value="off" <?php echo $no_disp_jump ?>><?php _e('No','calendar') ?></option>
                                     </select>
-                                </fieldset>
-				<fieldset class="small"><legend><?php _e('Display todays events?'); ?></legend>
-                                    <select name="display_todays">
-						<option value="on" <?php echo $yes_disp_todays ?>><?php _e('Yes') ?></option>
-						<option value="off" <?php echo $no_disp_todays ?>><?php _e('No') ?></option>
+                                </td>
+                                </tr>
+                                <tr>
+				<td><legend><?php _e('Display todays events?','calendar'); ?></legend></td>
+                                <td>    <select name="display_todays">
+						<option value="on" <?php echo $yes_disp_todays ?>><?php _e('Yes','calendar') ?></option>
+						<option value="off" <?php echo $no_disp_todays ?>><?php _e('No','calendar') ?></option>
                                     </select>
-                                </fieldset>
-				<fieldset class="small"><legend><?php _e('Display upcoming events? If yes, state for how many days into the future'); ?></legend>
-                                    <select name="display_upcoming">
-						<option value="on" <?php echo $yes_disp_upcoming ?>><?php _e('Yes') ?></option>
-						<option value="off" <?php echo $no_disp_upcoming ?>><?php _e('No') ?></option>
+                                </td>
+                                </tr>
+                                <tr>
+				<td><legend><?php _e('Display upcoming events?','calendar'); ?></legend></td>
+                                <td>    <select name="display_upcoming">
+						<option value="on" <?php echo $yes_disp_upcoming ?>><?php _e('Yes','calendar') ?></option>
+						<option value="off" <?php echo $no_disp_upcoming ?>><?php _e('No','calendar') ?></option>
                                     </select>
-				    for <input type="text" name="display_upcoming_days" value="<?php echo $upcoming_days ?>" size="1" maxlength="2" /> days into the future
-                                </fieldset>
-
-				<fieldset class="small"><legend><?php _e('Enable event categories?'); ?></legend>
-                                    <select name="enable_categories">
-				                <option value="on" <?php echo $yes_enable_categories ?>><?php _e('Yes') ?></option>
-						<option value="off" <?php echo $no_enable_categories ?>><?php _e('No') ?></option>
+				    <?php _e('for','calendar'); ?> <input type="text" name="display_upcoming_days" value="<?php echo $upcoming_days ?>" size="1" maxlength="2" /> <?php _e('days into the future','calendar'); ?>
+                                </td>
+                                </tr>
+                                <tr>
+				<td><legend><?php _e('Enable event categories?','calendar'); ?></legend></td>
+                                <td>    <select name="enable_categories">
+				                <option value="on" <?php echo $yes_enable_categories ?>><?php _e('Yes','calendar') ?></option>
+						<option value="off" <?php echo $no_enable_categories ?>><?php _e('No','calendar') ?></option>
                                     </select>
-                                </fieldset>
-
-				<fieldset class="small"><legend><?php _e('Configure the stylesheet for Calendar'); ?></legend>
-				    <textarea name="style" rows="10" cols="60" tabindex="2"><?php echo $calendar_style; ?></textarea>
-				</fieldset>
-				<fieldset class="small"><legend><?php _e('Reset Styles'); ?></legend>
-				    <input type="checkbox" name="reset_styles" /> <?php _e('Tick this box if you wish to reset the Calendar style to default'); ?>
-                                </fieldset>
-				<br />
-                                <input type="submit" name="save" class="button bold" value="Save &raquo;" />
+                                </td>
+                                </tr>
+                                <tr>
+				<td style="vertical-align:top;"><legend><?php _e('Configure the stylesheet for Calendar','calendar'); ?></legend></td>
+				<td><textarea name="style" rows="10" cols="60" tabindex="2"><?php echo $calendar_style; ?></textarea><br />
+                                <input type="checkbox" name="reset_styles" /> <?php _e('Tick this box if you wish to reset the Calendar style to default','calendar'); ?></td>
+                                </tr>
+                                </table>
 			</div>
                         <div style="clear:both; height:1px;">&nbsp;</div>
 	        </div>
+                <input type="submit" name="save" class="button bold" value="<?php _e('Save','calendar'); ?> &raquo;" />
   </form>
   </div>
   <?php
@@ -1308,7 +1553,7 @@ function manage_categories()
     {
       $sql = "INSERT INTO " . WP_CALENDAR_CATEGORIES_TABLE . " SET category_name='".mysql_escape_string($_POST['category_name'])."', category_colour='".mysql_escape_string($_POST['category_colour'])."'";
       $wpdb->get_results($sql);
-      echo "<div class=\"updated\"><p><strong>Category added successfully</strong></p></div>";
+      echo "<div class=\"updated\"><p><strong>".__('Category added successfully','calendar')."</strong></p></div>";
     }
   else if (isset($_GET['mode']) && isset($_GET['category_id']) && $_GET['mode'] == 'delete')
     {
@@ -1316,7 +1561,7 @@ function manage_categories()
       $wpdb->get_results($sql);
       $sql = "UPDATE " . WP_CALENDAR_TABLE . " SET event_category=1 WHERE event_category=".mysql_escape_string($_GET['category_id']);
       $wpdb->get_results($sql);
-      echo "<div class=\"updated\"><p><strong>Category deleted successfully</strong></p></div>";
+      echo "<div class=\"updated\"><p><strong>".__('Category deleted successfully','calendar')."</strong></p></div>";
     }
   else if (isset($_GET['mode']) && isset($_GET['category_id']) && $_GET['mode'] == 'edit' && !isset($_POST['mode']))
     {
@@ -1324,23 +1569,26 @@ function manage_categories()
       $cur_cat = $wpdb->get_row($sql);
       ?>
 <div class="wrap">
-   <h2><?php _e('Edit Category'); ?></h2>
-    <form name="catform" id="catform" class="wrap" method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>">
+   <h2><?php _e('Edit Category','calendar'); ?></h2>
+    <form name="catform" id="catform" class="wrap" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?page=calendar-categories">
                 <input type="hidden" name="mode" value="edit" />
                 <input type="hidden" name="category_id" value="<?php echo $cur_cat->category_id ?>" />
-                <div id="item_manager">
-                        <div style="float: left; width: 98%; clear: both;" class="top">
-				<fieldset class="small"><legend><?php _e('Category Name:'); ?></legend>
-                                        <input type="text" name="category_name" class="input" size="30" maxlength="30" value="<?php echo $cur_cat->category_name ?>" />
-                                </fieldset>
-				<fieldset class="small"><legend><?php _e('Category Colour (Hex format):'); ?></legend>
-                                        <input type="text" name="category_colour" class="input" size="10" maxlength="7" value="<?php echo $cur_cat->category_colour ?>" />
-                                </fieldset>
-                                <br />
-                                <input type="submit" name="save" class="button bold" value="Save &raquo;" />
+                <div id="linkadvanceddiv" class="postbox">
+                        <div style="float: left; width: 98%; clear: both;" class="inside">
+				<table cellpadding="5" cellspacing="5">
+                                <tr>
+				<td><legend><?php _e('Category Name','calendar'); ?>:</legend></td>
+                                <td><input type="text" name="category_name" class="input" size="30" maxlength="30" value="<?php echo $cur_cat->category_name ?>" /></td>
+				</tr>
+                                <tr>
+				<td><legend><?php _e('Category Colour (Hex format)','calendar'); ?>:</legend></td>
+                                <td><input type="text" name="category_colour" class="input" size="10" maxlength="7" value="<?php echo $cur_cat->category_colour ?>" /></td>
+                                </tr>
+                                </table>
                         </div>
                         <div style="clear:both; height:1px;">&nbsp;</div>
                 </div>
+                <input type="submit" name="save" class="button bold" value="<?php _e('Save','calendar'); ?> &raquo;" />
     </form>
 </div>
       <?php
@@ -1349,7 +1597,7 @@ function manage_categories()
     {
       $sql = "UPDATE " . WP_CALENDAR_CATEGORIES_TABLE . " SET category_name='".mysql_escape_string($_POST['category_name'])."', category_colour='".mysql_escape_string($_POST['category_colour'])."' WHERE category_id=".mysql_escape_string($_POST['category_id']);
       $wpdb->get_results($sql);
-      echo "<div class=\"updated\"><p><strong>Category edited successfully</strong></p></div>";
+      echo "<div class=\"updated\"><p><strong>".__('Category edited successfully','calendar')."</strong></p></div>";
     }
 
   if ($_GET['mode'] != 'edit' || $_POST['mode'] == 'edit')
@@ -1357,25 +1605,28 @@ function manage_categories()
 ?>
 
   <div class="wrap">
-    <h2><?php _e('Add Category'); ?></h2>
-    <form name="catform" id="catform" class="wrap" method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>">
+    <h2><?php _e('Add Category','calendar'); ?></h2>
+    <form name="catform" id="catform" class="wrap" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?page=calendar-categories">
                 <input type="hidden" name="mode" value="add" />
                 <input type="hidden" name="category_id" value="">
-                <div id="item_manager">
-                        <div style="float: left; width: 98%; clear: both;" class="top">
-       				<fieldset class="small"><legend><?php _e('Category Name:'); ?></legend>
-                                        <input type="text" name="category_name" class="input" size="30" maxlength="30" value="" />
-                                </fieldset>
-				<fieldset class="small"><legend><?php _e('Category Colour (Hex format):'); ?></legend>
-                                        <input type="text" name="category_colour" class="input" size="10" maxlength="7" value="" />
-                                </fieldset>
-                                <br />
-                                <input type="submit" name="save" class="button bold" value="Save &raquo;" />
+                <div id="linkadvanceddiv" class="postbox">
+                        <div style="float: left; width: 98%; clear: both;" class="inside">
+       				<table cellspacing="5" cellpadding="5">
+                                <tr>
+                                <td><legend><?php _e('Category Name','calendar'); ?>:</legend></td>
+                                <td><input type="text" name="category_name" class="input" size="30" maxlength="30" value="" /></td>
+                                </tr>
+                                <tr>
+                                <td><legend><?php _e('Category Colour (Hex format)','calendar'); ?>:</legend></td>
+                                <td><input type="text" name="category_colour" class="input" size="10" maxlength="7" value="" /></td>
+                                </tr>
+                                </table>
                         </div>
 		        <div style="clear:both; height:1px;">&nbsp;</div>
                 </div>
+                <input type="submit" name="save" class="button bold" value="<?php _e('Save','calendar'); ?> &raquo;" />
     </form>
-    <h2><?php _e('Manage Categories'); ?></h2>
+    <h2><?php _e('Manage Categories','calendar'); ?></h2>
 <?php
     
     // We pull the categories from the database	
@@ -1384,14 +1635,16 @@ function manage_categories()
  if ( !empty($categories) )
    {
      ?>
-     <table width="50%" cellpadding="3" cellspacing="3">
+     <table class="widefat page fixed" width="50%" cellpadding="3" cellspacing="3">
+       <thead> 
        <tr>
-         <th scope="col"><?php _e('ID') ?></th>
-	 <th scope="col"><?php _e('Category Name') ?></th>
-	 <th scope="col"><?php _e('Category Colour') ?></th>
-	 <th scope="col"><?php _e('Edit') ?></th>
-	 <th scope="col"><?php _e('Delete') ?></th>
+         <th class="manage-column" scope="col"><?php _e('ID','calendar') ?></th>
+	 <th class="manage-column" scope="col"><?php _e('Category Name','calendar') ?></th>
+	 <th class="manage-column" scope="col"><?php _e('Category Colour','calendar') ?></th>
+	 <th class="manage-column" scope="col"><?php _e('Edit','calendar') ?></th>
+	 <th class="manage-column" scope="col"><?php _e('Delete','calendar') ?></th>
        </tr>
+       </thead>
        <?php
        $class = '';
        foreach ( $categories as $category )
@@ -1402,18 +1655,16 @@ function manage_categories()
 	     <th scope="row"><?php echo $category->category_id; ?></th>
 	     <td><?php echo $category->category_name; ?></td>
 	     <td style="background-color:<?php echo $category->category_colour; ?>;">&nbsp;</td>
-	     <td><a href="<?php echo $_SERVER['REQUEST_URI']  ?>&amp;mode=edit&amp;category_id=<?php echo $category->category_id;?>" class='edit'><?php echo __('Edit'); ?></a></td>
+	     <td><a href="<?php echo $_SERVER['PHP_SELF']  ?>?page=calendar-categories&amp;mode=edit&amp;category_id=<?php echo $category->category_id;?>" class='edit'><?php echo __('Edit','calendar'); ?></a></td>
 	     <?php
 	     if ($category->category_id == 1)
 	       {
-             ?>
-             <td>N/A</td>
-              <?php
+		 echo '<td>'.__('N/A','calendar').'</td>';
 	       }
              else
 	       {
                ?>
-               <td><a href="<?php echo $_SERVER['REQUEST_URI'] ?>&amp;mode=delete&amp;category_id=<?php echo $category->category_id;?>" class="delete" onclick="return confirm('Are you sure you want to delete this category?')"><?php echo __('Delete'); ?></a></td>
+               <td><a href="<?php echo $_SERVER['PHP_SELF'] ?>?page=calendar-categories&amp;mode=delete&amp;category_id=<?php echo $category->category_id;?>" class="delete" onclick="return confirm('<?php echo __('Are you sure you want to delete this category?','calendar'); ?>')"><?php echo __('Delete','calendar'); ?></a></td>
                <?php
 	       }
                 ?>
@@ -1426,9 +1677,7 @@ function manage_categories()
    }
  else
    {
-     ?>
-     <p><?php _e("There are no categories in the database - something has gone wrong!")     ?></p>
-     <?php
+     echo '<p>'.__('There are no categories in the database - something has gone wrong!','calendar').'</p>';
    }
 
 ?>
@@ -1499,13 +1748,13 @@ function next_link($cur_year,$cur_month)
 
   if ($cur_month == 12)
     {
-      return '<a href="' . permalink_prefix() . 'month=jan&yr=' . $next_year . '">Next &raquo;</a>';
+      return '<a href="' . permalink_prefix() . 'month=jan&yr=' . $next_year . '">'.__('Next','calendar').' &raquo;</a>';
     }
   else
     {
       $next_month = $cur_month + 1;
       $month = $mod_rewrite_months[$next_month];
-      return '<a href="' . permalink_prefix() . 'month='.$month.'&yr=' . $cur_year . '">Next &raquo;</a>';
+      return '<a href="' . permalink_prefix() . 'month='.$month.'&yr=' . $cur_year . '">'.__('Next','calendar').' &raquo;</a>';
     }
 }
 
@@ -1517,13 +1766,13 @@ function prev_link($cur_year,$cur_month)
 
   if ($cur_month == 1)
     {
-      return '<a href="' . permalink_prefix() . 'month=dec&yr='. $last_year .'">&laquo; Prev</a>';
+      return '<a href="' . permalink_prefix() . 'month=dec&yr='. $last_year .'">&laquo; '.__('Prev','calendar').'</a>';
     }
   else
     {
       $next_month = $cur_month - 1;
       $month = $mod_rewrite_months[$next_month];
-      return '<a href="' . permalink_prefix() . 'month='.$month.'&yr=' . $cur_year . '">&laquo; Prev</a>';
+      return '<a href="' . permalink_prefix() . 'month='.$month.'&yr=' . $cur_year . '">&laquo; '.__('Prev','calendar').'</a>';
     }
 }
 
@@ -1555,10 +1804,10 @@ function upcoming_events()
 	  foreach($events as $event)
 	    {
 	      if ($event->event_time == '00:00:00') {
-		$time_string = ' all day';
+		$time_string = ' '.__('all day','calendar');
 	      }
 	      else {
-		$time_string = ' at '.date(get_option('time_format'), strtotime($event->event_time));
+		$time_string = ' '.__('at','calendar').' '.date(get_option('time_format'), strtotime($event->event_time));
 	      }
               $output .= '<li>'.draw_widget_event($event).$time_string.'</li>';
 	    }
@@ -1570,7 +1819,7 @@ function upcoming_events()
 
       if ($output != '')
 	{
-	  $visual = '<li class="upcoming-events"><h2>Upcoming Events</h2><ul>';
+	  $visual = '<li class="upcoming-events"><h2>'.__('Upcoming Events','calendar').'</h2><ul>';
 	  $visual .= $output;
 	  $visual .= '</ul></li>';
 	  return $visual;
@@ -1591,16 +1840,16 @@ function todays_events()
 
   if ($display == 'true')
     {
-      $output = '<li class="todays-events"><h2>Todays Events</h2><ul>';
+      $output = '<li class="todays-events"><h2>'.__('Today\'s Events','calendar').'</h2><ul>';
       $events = grab_events(date("Y"),date("m"),date("d"));
       usort($events, "time_cmp");
       foreach($events as $event)
 	{
 	  if ($event->event_time == '00:00:00') {
-	    $time_string = ' all day';
+	    $time_string = ' '.__('all day','calendar');
 	  }
 	  else {
-	    $time_string = ' at '.date(get_option('time_format'), strtotime($event->event_time));
+	    $time_string = ' '.__('at','calendar').' '.date(get_option('time_format'), strtotime($event->event_time));
 	  }
 	  $output .= '<li>'.draw_widget_event($event).$time_string.'</li>';
 	}
@@ -1635,6 +1884,88 @@ function draw_events($events)
   return $output;
 }
 
+// Widget todays events
+function todays_events_widget() {
+  global $wpdb;
+
+  // This function cannot be called unless calendar is up to date
+  check_calendar();
+
+  // Find out if we should be displaying todays events
+  $display = $wpdb->get_var("SELECT config_value FROM ".WP_CALENDAR_CONFIG_TABLE." WHERE config_item='display_todays'",0,0);
+
+  if ($display == 'true')
+    {
+      $output = '<ul>';
+      $events = grab_events(date("Y"),date("m"),date("d"));
+      usort($events, "time_cmp");
+      foreach($events as $event)
+        {
+          if ($event->event_time == '00:00:00') {
+            $time_string = ' '.__('all day','calendar');
+          }
+          else {
+            $time_string = ' '.__('at','calendar').' '.date(get_option('time_format'), strtotime($event->event_time));
+          }
+          $output .= '<li>'.draw_widget_event($event).$time_string.'</li>';
+        }
+      $output .= '</ul>';
+      if (count($events) != 0)
+        {
+          return $output;
+        }
+    }
+}
+
+// Widget upcoming events
+function upcoming_events_widget() {
+  global $wpdb;
+
+  // This function cannot be called unless calendar is up to date
+  check_calendar();
+
+  // Find out if we should be displaying upcoming events
+  $display = $wpdb->get_var("SELECT config_value FROM ".WP_CALENDAR_CONFIG_TABLE." WHERE config_item='display_upcoming'",0,0);
+
+  if ($display == 'true')
+    {
+      // Get number of days we should go into the future
+      $future_days = $wpdb->get_var("SELECT config_value FROM ".WP_CALENDAR_CONFIG_TABLE." WHERE config_item='display_upcoming_days'",0,0);
+      $day_count = 1;
+
+      while ($day_count < $future_days+1)
+        {
+          list($y,$m,$d) = split("-",date("Y-m-d",mktime($day_count*24,0,0,date("m"),date("d"),date("Y"))));
+          $events = grab_events($y,$m,$d);
+          usort($events, "time_cmp");
+          if (count($events) != 0) {
+            $output .= '<li>'.date(get_option('date_format'),mktime($day_count*24,0,0,date("m"),date("d"),date("Y"))).'<ul>';
+          }
+          foreach($events as $event)
+            {
+              if ($event->event_time == '00:00:00') {
+                $time_string = ' '.__('all day','calendar');
+              }
+              else {
+                $time_string = ' '.__('at','calendar').' '.date(get_option('time_format'), strtotime($event->event_time));
+              }
+              $output .= '<li>'.draw_widget_event($event).$time_string.'</li>';
+            }
+          if (count($events) != 0) {
+            $output .= '</ul></li>';
+          }
+          $day_count = $day_count+1;
+        }
+
+      if ($output != '')
+        {
+          $visual = '<ul>';
+          $visual .= $output;
+          $visual .= '</ul>';
+          return $visual;
+        }
+    }
+}
 
 // The widget to show todays events in the sidebar
 function widget_init_calendar_today() {
@@ -1644,12 +1975,32 @@ function widget_init_calendar_today() {
 
   function widget_calendar_today($args) {
     extract($args);
-    ?>
-      <?php echo todays_events(); ?>
-			<?php
-			    }
+    $the_title = get_option('calendar_today_widget_title');
+    $widget_title = empty($the_title) ? __('Today\'s Events','calendar') : $the_title;
+    $the_events = todays_events_widget();
+    if ($the_events != '') {
+      echo $before_widget;
+      echo $before_title . $widget_title . $after_title;
+      echo $the_events;
+      echo $after_widget;
+    }
+  }
 
-  register_sidebar_widget('Todays Events','widget_calendar_today');
+  function widget_calendar_today_control() {
+    $widget_title = get_option('calendar_today_widget_title');
+    if (isset($_POST['calendar_today_widget_title'])) {
+      update_option('calendar_today_widget_title',strip_tags($_POST['calendar_today_widget_title']));
+    }
+    ?>
+    <p>
+       <label for="calendar_today_widget_title"><?php _e('Title','calendar'); ?>:<br />
+       <input class="widefat" type="text" id="calendar_today_widget_title" name="calendar_today_widget_title" value="<?php echo $widget_title; ?>"/></label>
+    </p>
+    <?php
+  }
+
+  register_sidebar_widget(__('Today\'s Events','calendar'),'widget_calendar_today');
+  register_widget_control(__('Today\'s Events','calendar'),'widget_calendar_today_control');
   }
 
 // The widget to show todays events in the sidebar                                              
@@ -1660,12 +2011,32 @@ function widget_init_calendar_upcoming() {
 
   function widget_calendar_upcoming($args) {
     extract($args);
-    ?>
-      <?php echo upcoming_events(); ?>
-                        <?php
-                            }
+    $the_title = get_option('calendar_upcoming_widget_title');
+    $widget_title = empty($the_title) ? __('Upcoming Events','calendar') : $the_title;
+    $the_events = upcoming_events_widget();
+    if ($the_events != '') {
+      echo $before_widget;
+      echo $before_title . $widget_title . $after_title;
+      echo $the_events;
+      echo $after_widget;
+    }
+  }
 
-  register_sidebar_widget('Upcoming Events','widget_calendar_upcoming');
+  function widget_calendar_upcoming_control() {
+    $widget_title = get_option('calendar_upcoming_widget_title');
+    if (isset($_POST['calendar_upcoming_widget_title'])) {
+      update_option('calendar_upcoming_widget_title',strip_tags($_POST['calendar_upcoming_widget_title']));
+    }
+    ?>
+    <p>
+       <label for="calendar_upcoming_widget_title"><?php _e('Title','calendar'); ?>:<br />
+       <input class="widefat" type="text" id="calendar_upcoming_widget_title" name="calendar_upcoming_widget_title" value="<?php echo $widget_title; ?>"/></label>
+    </p>
+    <?php
+  }
+
+  register_sidebar_widget(__('Upcoming Events','calendar'),'widget_calendar_upcoming');
+  register_widget_control(__('Upcoming Events','calendar'),'widget_calendar_upcoming_control');
 }
 
 
@@ -1693,12 +2064,12 @@ function draw_event($event)
   $header_details .=  '<div class="event-title">'.$event->event_title.'</div><div class="event-title-break"></div>';
   if ($event->event_time != "00:00:00")
     {
-      $header_details .= '<strong>Time:</strong> ' . date(get_option('time_format'), strtotime($event->event_time)) . '<br />';
+      $header_details .= '<strong>'.__('Time','calendar').':</strong> ' . date(get_option('time_format'), strtotime($event->event_time)) . '<br />';
     }
   if ($display_author == 'true')
     {
       $e = get_userdata($event->event_author);
-      $header_details .= '<strong>Posted by:</strong> '.$e->display_name.'<br />';
+      $header_details .= '<strong>'.__('Posted by', 'calendar').':</strong> '.$e->display_name.'<br />';
     }
   if ($display_author == 'true' || $event->event_time != "00:00:00")
     {
@@ -1737,12 +2108,12 @@ function draw_widget_event($event)
   $header_details .=  '<div class="event-title">'.$event->event_title.'</div><div class="event-title-break"></div>';
   if ($event->event_time != "00:00:00")
     {
-      $header_details .= '<strong>Time:</strong> ' . date(get_option('time_format'), strtotime($event->event_time)) . '<br />';
+      $header_details .= '<strong>'.__('Time','calendar').':</strong> ' . date(get_option('time_format'), strtotime($event->event_time)) . '<br />';
     }
   if ($display_author == 'true')
     {
       $e = get_userdata($event->event_author);
-      $header_details .= '<strong>Posted by:</strong> '.$e->display_name.'<br />';
+      $header_details .= '<strong>'.__('Posted by','calendar').':</strong> '.$e->display_name.'<br />';
     }
   if ($display_author == 'true' || $event->event_time != "00:00:00")
     {
@@ -2037,16 +2408,16 @@ function calendar()
     // Deal with the week not starting on a monday
     if (get_option('start_of_week') == 0)
       {
-	$name_days = array(1=>'Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday');
+	$name_days = array(1=>__('Sunday','calendar'),__('Monday','calendar'),__('Tuesday','calendar'),__('Wednesday','calendar'),__('Thursday','calendar'),__('Friday','calendar'),__('Saturday','calendar'));
       }
     // Choose Monday if anything other than Sunday is set
     else
       {
-	$name_days = array(1=>'Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday');
+	$name_days = array(1=>__('Monday','calendar'),__('Tuesday','calendar'),__('Wednesday','calendar'),__('Thursday','calendar'),__('Friday','calendar'),__('Saturday','calendar'),__('Sunday','calendar'));
       }
 
     // Carry on with the script
-    $name_months = array(1=>'January','February','March','April','May','June','July','August','September','October','November','December');
+    $name_months = array(1=>__('January','calendar'),__('February','calendar'),__('March','calendar'),__('April','calendar'),__('May','calendar'),__('June','calendar'),__('July','calendar'),__('August','calendar'),__('September','calendar'),__('October','calendar'),__('November','calendar'),__('December','calendar'));
 
     // If we don't pass arguments we want a calendar that is relevant to today
     if (empty($_GET['month']) || empty($_GET['yr']))
@@ -2155,21 +2526,21 @@ function calendar()
 	  }
 	// We build the months in the switcher
 	$calendar_body .= '
-            Month: <select name="month" style="width:100px;">
-            <option value="jan"'.month_comparison('jan').'>January</option>
-            <option value="feb"'.month_comparison('feb').'>February</option>
-            <option value="mar"'.month_comparison('mar').'>March</option>
-            <option value="apr"'.month_comparison('apr').'>April</option>
-            <option value="may"'.month_comparison('may').'>May</option>
-            <option value="jun"'.month_comparison('jun').'>June</option>
-            <option value="jul"'.month_comparison('jul').'>July</option> 
-            <option value="aug"'.month_comparison('aug').'>August</option> 
-            <option value="sept"'.month_comparison('sept').'>September</option> 
-            <option value="oct"'.month_comparison('oct').'>October</option> 
-            <option value="nov"'.month_comparison('nov').'>November</option> 
-            <option value="dec"'.month_comparison('dec').'>December</option> 
+            '.__('Month','calendar').': <select name="month" style="width:100px;">
+            <option value="jan"'.month_comparison('jan').'>'.__('January','calendar').'</option>
+            <option value="feb"'.month_comparison('feb').'>'.__('February','calendar').'</option>
+            <option value="mar"'.month_comparison('mar').'>'.__('March','calendar').'</option>
+            <option value="apr"'.month_comparison('apr').'>'.__('April','calendar').'</option>
+            <option value="may"'.month_comparison('may').'>'.__('May','calendar').'</option>
+            <option value="jun"'.month_comparison('jun').'>'.__('June','calendar').'</option>
+            <option value="jul"'.month_comparison('jul').'>'.__('July','calendar').'</option> 
+            <option value="aug"'.month_comparison('aug').'>'.__('August','calendar').'</option> 
+            <option value="sept"'.month_comparison('sept').'>'.__('September','calendar').'</option> 
+            <option value="oct"'.month_comparison('oct').'>'.__('October','calendar').'</option> 
+            <option value="nov"'.month_comparison('nov').'>'.__('November','calendar').'</option> 
+            <option value="dec"'.month_comparison('dec').'>'.__('December','calendar').'</option> 
             </select>
-            Year: <select name="yr" style="width:60px;">
+            '.__('Year','calendar').': <select name="yr" style="width:60px;">
 ';
 
 	// The year builder is string mania. If you can make sense of this, 
@@ -2316,7 +2687,7 @@ function calendar()
 	$cat_details = $wpdb->get_results($sql);
         $calendar_body .= '<tr><td colspan="7">
 <table class="cat-key">
-<tr><td colspan="2"><strong>Category Key</strong></td></tr>
+<tr><td colspan="2"><strong>'.__('Category Key','calendar').'</strong></td></tr>
 ';
         foreach($cat_details as $cat_detail)
 	  {
@@ -2330,7 +2701,7 @@ function calendar()
 ';
 
     // A little link to yours truely. See the README if you wish to remove this
-    $calendar_body .= '<div class="kjo-link"><p>Web development and hosting from <a href="http://www.kjowebservices.co.uk">KJO Web Services</a></p></div>
+    $calendar_body .= '<div class="kjo-link" style="visibility:visible;display:block;"><p>'.__('Calendar developed and supported by ', 'calendar').'<a href="http://www.kieranoshea.com">Kieran O\'Shea</a></p></div>
 ';
 
     // Phew! After that bit of string building, spit it all out.
