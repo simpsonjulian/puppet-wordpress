@@ -3,15 +3,16 @@ class wordpress::installation {
   $www_group = 'www-data'
   $wordpress_dir = '/data/wordpress'
   
-  package { 
+  package {   
     'php5-mysql': ensure => present; 
-    'php5-cli':  ensure => present; 
-    'libapache2-mod-php5': ensure => present; 
-    'php5': ensure => present; 
-    'php5-cgi': ensure => present; 
-    'libphp-phpmailer':   
-      ensure => latest;
-    'php5-gd':  ensure => present;  
+    'php5-cli':   ensure => present; 
+    'libapache2-mod-php5': 
+                  ensure => present; 
+    'php5':       ensure => present; 
+    'php5-cgi':   ensure => present; 
+    'libphp-phpmailer': 
+                  ensure => latest;
+    'php5-gd':    ensure => present;  
              
     
     }
@@ -58,4 +59,11 @@ define wordpress::sitemap {
 		unless => "test -f /etc/apache2/mods-enabled/deflate.load",
 		require => Package["apache2"];
 	}
+}
+
+define wordpress::supercache {
+ file{"$wordpress_dir/wp-content/advanced-cache.php":
+    owner => $www_user,
+    group => $www_group;
+  }
 }
