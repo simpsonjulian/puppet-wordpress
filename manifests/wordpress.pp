@@ -58,7 +58,7 @@ define wordpress::sitemap {
  		
 	exec {
 		"/usr/sbin/a2enmod deflate": 
-		unless => "test -f /etc/apache2/mods-enabled/deflate.load",
+		unless => "/usr/bin/test -f /etc/apache2/mods-enabled/deflate.load",
 		require => Package["apache2"];
 	}
 }
