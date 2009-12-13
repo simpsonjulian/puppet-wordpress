@@ -43,7 +43,7 @@ class wordpress::installation {
 }
 
 define wordpress::sitemap {
-  include wordpress::base
+  include wordpress::installation
   file {"$wordpress_dir/sitemap.xml":
 		owner => '${www_user}',
 		group => '${www_group}'
@@ -62,6 +62,7 @@ define wordpress::sitemap {
 }
 
 define wordpress::supercache {
+ include wordpress::installation
  file{"$wordpress_dir/wp-content/advanced-cache.php":
     owner => $www_user,
     group => $www_group;
