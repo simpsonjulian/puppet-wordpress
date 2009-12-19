@@ -71,4 +71,4 @@ class wordpress  {
    		
         # deflate now comes from a module type
 
-}
+}}
