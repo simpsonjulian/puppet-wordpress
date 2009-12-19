@@ -62,11 +62,6 @@ class wordpress  {
   		group => $www_group
   	}
    		
-  	exec {
-  		"/usr/sbin/a2enmod deflate": 
-  		unless => "/usr/bin/test -f /etc/apache2/mods-enabled/deflate.load",
-  		require => Package["apache2"];
-  	}
-  }
+        # deflate now comes from a module type
 
 }
