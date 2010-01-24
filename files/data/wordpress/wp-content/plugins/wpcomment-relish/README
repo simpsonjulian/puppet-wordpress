@@ -1,0 +1,44 @@
+=== Comment Relish ===
+Contributors: Justin Shattuck, c.bavota
+Tags: comments, thank you message, autoresponder, email, send email
+Requires at least: 2.7
+Tested up to: 2.7.1
+Stable tag: 2.0
+
+Increases your readership and RSS subscription rate by simply sending a short 'Thank You' message to users when they first comment on your site.
+
+== Description ==
+
+This plugin automatically sends an email with a personalized message to users when they first comment on your site. 
+
+== Installation ==
+
+1. Unzip the wpcomment-relish.zip file.
+2. Deactive and Remove your Existing Comment-Relish plugin from your webserver.
+3. Upload the `wpcomment-relish` folder to the `/wp-content/plugins/` directory.
+4. Activate the plugin through the 'Plugins' menu in WordPress.
+5. Go to Settings => Comment Relish and add your information and message.
+6. Click on 'Send a Test Email' to make sure everything is functioning correctly.
+
+== Frequently Asked Questions == 
+
+1) How do I personalize the email that is sent?
+
+Just go to Settings => Comment Relish and use the quicktags to enter the personalized items you want to include in your message. Send a test email to see what it will look like.
+
+
+== Screenshots ==
+
+1. Comment Relish options page
+
+== Change Log ==
+
+Version 2.0 (2009-03-10)
+* Removed need for database table
+* Updated option page for WordPress 2.7
+* Moved options page to Settings menu
+* Added 'Settings' link on Plugins page
+* Created JavaScript function for message tagging on options page
+* Added 'Send a Test Email' option
+* Removed extraneous code
+
