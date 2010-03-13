@@ -5,9 +5,9 @@ Author URI: http://mitcho.com/
 Plugin URI: http://mitcho.com/code/yarpp/
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=66G4DATK4999L&item_name=mitcho%2ecom%2fcode%3a%20donate%20to%20Michael%20Yoshitaka%20Erlewine&no_shipping=0&no_note=1&tax=0&currency_code=USD&lc=US&charset=UTF%2d8
 Tags: related, posts, post, pages, page, RSS, feed, feeds
-Requires at least: 2.3
-Tested up to: 2.8.4
-Stable tag: 3.0.13
+Requires at least: 2.8
+Tested up to: 2.9.3
+Stable tag: 3.1.6
 
 Returns a list of related entries based on a unique algorithm for display on your blog and RSS feeds. A templating feature allows customization of the display.
 
@@ -16,15 +16,21 @@ Returns a list of related entries based on a unique algorithm for display on you
 Yet Another Related Posts Plugin (YARPP) gives you a list of posts and/or pages related to the current entry, introducing the reader to other relevant content on your site. Key features include:
 
 1. **An advanced and versatile algorithm**: Using a customizable algorithm considering post titles, content, tags, and categories, YARPP calculates a "match score" for each pair of posts on your blog. You choose the threshold limit for relevance and you get more related posts if there are more related posts and less if there are less.
-2. **Templating**: **New in 3.0!** A new [templating system](http://mitcho.com/blog/projects/yarpp-3-templates/) puts you in charge of how your posts are displayed.
-3. **Caching**: **New in 3.0!** YARPP now caches the related posts for all the posts and thus has significantly improved performance over versions 2.x.
+2. **Templating**: **New in 3.0!** The [YARPP templating system](http://mitcho.com/blog/projects/yarpp-3-templates/) puts you in charge of how your posts are displayed.
+3. **Caching**: **Improved in 3.1!** YARPP organically caches the related posts data as your site is visited, greatly improving performance.
 4. **Related posts in RSS feeds**: Display related posts in your RSS and Atom feeds with custom display options.
 5. **Disallowing certain tags or categories**: You can choose certain tags or categories as disallowed, meaning any page or post with such tags or categories will not be served up by the plugin.
 6. **Related posts and pages**: Puts you in control of pulling up related posts, pages, or both.
 
 This plugin requires that your database run on MySQL 4.1 or greater.
 
-**Other plugins by mitcho**: [HookPress](http://wordpress.org/extend/plugins/hookpress/), [Markdown for WordPress and bbPress](http://wordpress.org/extend/plugins/markdown-for-wordpress-and-bbpress/), [WP-Smartdate](http://wordpress.org/extend/plugins/wp-smartdate/).
+**Other plugins by mitcho**: [HookPress](http://wordpress.org/extend/plugins/hookpress/), [Plugin Beta Tester](http://wordpress.org/extend/plugins/plugin-beta-tester/), [Distinct Preview](http://wordpress.org/extend/plugins/distinct-preview/), [Markdown for WordPress and bbPress](http://wordpress.org/extend/plugins/markdown-for-wordpress-and-bbpress/), [WP-Smartdate](http://wordpress.org/extend/plugins/wp-smartdate/).
+
+= Testimonials =
+
+"One of my favorite [plugin]s I just activated on my blog is called Yet Another Related Posts Plugin... I've been blogging seven or eight years now so I have a lot of archives, and it actually surprises me sometimes when I blog about something and I visit the permalink to see I've written about it before... and it also increases the traffic on your blog because when they come in just to one entry, they'll see this other stuff going on." - Matt Mullenweg, WordPress creator
+
+"As most [sports betting](http://www.betus.com/) fans use our portal, [BetUS.com Sportsbook](http://www.betus.com/sportsbook/) works hard to maintain a high level of quality on their site.  Mitcho and his amazing plugins help keep us moving our technology forward.  Thank you Mitcho, and the [Wordpress](http://wordpress.org) team for your service and creativity!" - [BetUS.com](http://BetUS.com/)
 
 == Installation ==
 
@@ -33,10 +39,6 @@ This plugin requires that your database run on MySQL 4.1 or greater.
 1. Copy the folder `yet-another-related-posts-plugin` into the directory `wp-content/plugins/` and (optionally) the sample templates inside `yarpp-templates` folder into your active theme.
 
 2. Activate the plugin.
-
-3. Find the Related Posts (YARPP) settings page in your `wp-admin`. If you see a message telling you to build your cache, please build your cache. Otherwise, you will see no related posts anywhere.
-
-NOTE: If you run a large and complex site and/or worry about your SQL query volume, it may be better to simply make sure the "compute related posts on the fly" option is turned on and *not* try to build the cache all at once.
 
 = Auto display in your feeds =
 
@@ -56,13 +58,11 @@ For advanced users with knowledge of PHP, there is also an [advanced manual inst
 
 == Frequently Asked Questions ==
 
-If your question isn't here, ask your own question at [the Wordpress.org forums](http://wordpress.org/tags/yet-another-related-posts-plugin?forum_id=10#postform).
+If your question isn't here, ask your own question at [the Wordpress.org forums](http://wordpress.org/tags/yet-another-related-posts-plugin?forum_id=10#postform). *Please do not email or tweet with questions.*
 
 = Every page just says "no related posts"! What's up with that? =
 
-1. Most likely you have "no related posts" right now as the default "match threshold" is too high. Here's what I recommend to find an appropriate match threshold: first, lower your match threshold in the YARPP prefs to something ridiculously low, like 1 or 0.5. Most likely the really low threshold will pull up many posts that aren't actually related (false positives), so look at some of your posts' related posts and their match scores. This will help you find an appropriate threshold. You want it lower than what you have now, but high enough so it doesn't have many false positives.
-
-2. It is also possible that your related posts cache has not been built and the "compute related posts on the fly" option is also turned off. Please go to the Related Posts (YARPP) options page and either build the cache or turn on the "compute related posts on the fly" option.
+Most likely you have "no related posts" right now as the default "match threshold" is too high. Here's what I recommend to find an appropriate match threshold: first, lower your match threshold in the YARPP prefs to something very low, like 1. Most likely the really low threshold will pull up many posts that aren't actually related (false positives), so look at some of your posts' related posts and their match scores. This will help you find an appropriate threshold. You want it lower than what you have now, but high enough so it doesn't have many false positives.
 
 = How do I turn off the match score next to the related posts? =
 
@@ -78,9 +78,9 @@ However, YARPP does have difficulty with languages that don't place spaces betwe
 
 = Does YARPP slow down my blog/server? =
 
-A little bit, yes. YARPP 3.0 introduced a new caching mechanism which greatly reduces the hit of the computationally intensive relatedness computation. In addition, *I highly recommend all YARPP users use a page-caching plugin, such as [WP-SuperCache](http://ocaoimh.ie/wp-super-cache/).*
+A little bit, yes. However, YARPP 3.0 introduced a new caching mechanism which greatly reduces the hit of the computationally intensive relatedness computation. In addition, *I highly recommend all YARPP users use a page-caching plugin, such as [WP-SuperCache](http://ocaoimh.ie/wp-super-cache/).*
 
-If you are worried about your database load, do not manually build the cache—simply leave the "on the fly" caching option on, and it will build itself over time.
+If you find that the YARPP database calls are still too database-intensive, try turning off "cross relate posts and pages," not considering tags and/or categories in the Relatedness formula, and not excluding any tags and/or categories in The Pool. All of these will improve database performance.
 
 = I use DISQUS for comments. I can't access the YARPP options page! =
 
@@ -102,13 +102,13 @@ It is recommended that you tweak your match threshold whenever you make changes 
 
 = Are there any plugins that are incompatible with YARPP? =
 
-Aside from the DISQUS plugin (see above), currently the only known incompatibility is [with the SEO_Pager plugin](http://wordpress.org/support/topic/267966). Users of SEO Pager are urged to turn off the automatic display option in SEO Pager and instead add the code manually.
+Aside from the DISQUS plugin (see above), currently the only known incompatibility is [with the SEO_Pager plugin](http://wordpress.org/support/topic/267966) and the [Pagebar 2](http://www.elektroelch.de/hacks/wp/pagebar/) plugin. Users of SEO Pager are urged to turn off the automatic display option in SEO Pager and instead add the code manually. Other related posts plugins, obviously, may also be incompatible.
 
 Please submit similar bugs by starting a new thread on [the Wordpress.org forums](http://wordpress.org/tags/yet-another-related-posts-plugin?forum_id=10#postform). I check the forums regularly and will try to release a quick bugfix.
 
 = Things are weird after I upgraded. =
 
-I highly recommend you disactivate YARPP, replace it with the new one, and then reactivate it. If you continue to have trouble, please find 
+I highly recommend you disactivate YARPP, replace it with the new one, and then reactivate it.
 
 == Localizations ==
 
@@ -122,9 +122,11 @@ YARPP is currently localized in the following languages:
   * German (`de_DE`) by Michael Kalina (yarpp-de at mitcho dot com) of [3th.be](http://3th.be)
   * Greek (`el_EL`) by Aristidis Tonikidis (yarpp-el at mitcho dot com) of [akouseto.gr](http://www.akouseto.gr)
   * Hebrew (`he_IL`) by Mickey Zelansky (yarpp-he at mitcho dot com) of [simpleidea.us](http://simpleidea.us)
+  * Hindi (`hi_IN`) by [Outshine Solutions](http://outshinesolutions.com/) (yarpp-hi at mitcho dot com)
   * Italian (`it_IT`) by Gianni Diurno (yarpp-it at mitcho dot com) of [gidibao.net](http://gidibao.net)
   * Japanese (`ja`) by myself (yarpp at mitcho dot com)
   * Korean (`ko_KR`) by [Jong-In Kim](http://incommunity.codex.kr) (yarpp-ko at mitcho dot com)
+  * Latvian (`lv_LV`) by [Mike](http://antsar.info) (yarpp-lv at mitcho dot com)
   * Lithuanian (`lt_LT`) by [Karolis Vyčius](http://vycius.co.cc) (yarpp-lt at mitcho dot com)
   * Polish (`pl_PL`) by [Perfecta](http://perfecta.pro/wp-pl/)
   * Brazilian Portuguese (`pt_BR`) by Rafael Fischmann (yarpp-ptBR at mitcho.com) of [macmagazine.br](http://macmagazine.com.br/)
@@ -142,12 +144,53 @@ We already have localizers lined up for the following languages:
   * Indonesian
   * Hungarian
   * Romanian
-  * Latvian
+  * Swedish
+  * Thai
 
 If you are a bilingual speaker of English and another language and an avid user of YARPP, I would love to talk to you about localizing YARPP! Localizing YARPP can be pretty easy using [the Codestyling Localization plugin](http://www.code-styling.de/english/development/wordpress-plugin-codestyling-localization-en). Please [contact me](mailto:yarpp@mitcho.com) *first* before translating to make sure noone else is working on your language. Thanks!
 
 == Changelog ==
 
+= 3.1.6 =
+* Added Latvian localization (`lv_LV`)
+* Added a template which displays post thumbnails; requires WordPress 2.9 and a theme which has post thumbnail support
+= 3.1.5 =
+* Quick bugfix to new widget template (removed extra quote).
+= 3.1.4 =
+* Improved widget code
+* Localization improvements - descriptions can now be localized
+* [Compatibility with PageBar](http://wordpress.org/support/topic/346714) - thanks to Latz for the patch!
+* Bugfix: [`related_posts_exist` was giving incorrect values](http://wordpress.org/support/topic/362347)
+* Bugfix: [SQL error for setups with blank DB_CHARSET](http://wordpress.org/support/topic/358757)
+= 3.1.3 =
+* Performance improvements:
+  * Turning off cache expiration, made possible by smarter caching system of 3.1 - should improve caching database performance over time.
+  * [updated primary key for cache](http://wordpress.org/support/topic/345070) by Pinoy.ca - improves client-side pageload times.
+* Code cleanup
+  * Rewrote `include` and `require` paths
+* Bugfix: localizations were not working with WordPress 2.9 ([a CodeStyling Localizations bug](http://wordpress.org/support/topic/343389))
+* Bugfix: [redundant entries for "unrelatedness" were being inserted](http://wordpress.org/support/topic/344859)
+* Bugfix: [`yearpp_clear_cache` bug on empty input](http://wordpress.org/support/topic/343001)
+* Version checking code no longer uses Snoopy.
+* New localization: Hindi by [Outshine Solutions](http://outshinesolutions.com/)
+= 3.1.2 =
+* Bugfix: [saving posts would sometimes timeout](http://wordpress.org/support/topic/343001)
+= 3.1.1 =
+* [Possible fix for the "no related posts" issue](http://wordpress.org/support/topic/284209/page/2) by [vkovalcik](http://wordpress.org/support/profile/5032111)
+* Bugfix: [slight optimization to keyword function](http://wordpress.org/support/topic/284209/page/2) by [vkovalcik](http://wordpress.org/support/profile/5032111)
+* Bugfix: [regex issue with br-stripping](http://wordpress.org/support/topic/323823)
+= 3.1 =
+* New snazzy options screen
+* Smarter, less confusing caching
+  * No more manual caching option—"on the fly" caching is always on now.
+* Bugfix: [fixed related pages functionality](http://wordpress.org/support/topic/273008)
+* Bugfix: [an issue with options saving](http://wordpress.org/support/topic/312637)
+* Bugfix: [a slash escaping bug](http://wordpress.org/support/topic/315560)
+* Minor fixes:
+  * Fixed `yarpp_settings_link` dependency when disabled.
+  * Breaks (&lt;br /&gt;) are now stripped out of titles.
+  * Added plugin incompatibility info for Pagebar.
+  * Faster post saving.
 = 3.0.13 =
 * Quick immediate bugfix to 3.0.12
 = 3.0.12 =
@@ -301,6 +344,5 @@ If you are a bilingual speaker of English and another language and an avid user 
 * Also, uses `apply_filters` to apply whatever content text transformation you use (Wikipedia link, Markdown, etc.) before computing similarity.
 = 1.0.1 =
 * Bugfix: 1.0 assumed you had Markdown installed
-
 = 1.0 =
 * Initial upload
