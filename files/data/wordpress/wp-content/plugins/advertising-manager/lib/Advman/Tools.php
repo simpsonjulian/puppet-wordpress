@@ -3,6 +3,54 @@ require_once(OX_LIB . '/Tools.php');
 
 class Advman_Tools
 {
+	function format_author_value(&$value)
+	{
+		if (is_array($value)) {
+			$users = get_users_of_blog();
+			$all = true;
+			foreach ($users as $user) {
+				if (!in_array($user->user_id, $value)) {
+					$all = false;
+					break;
+				}
+			}
+			if ($all) {
+				$value = '';
+			}
+		}
+	}
+	function format_category_value(&$value)
+	{
+		if (is_array($value)) {
+			$categories = get_categories("hierarchical=0&hide_empty=0");
+			$all = true;
+			foreach ($categories as $category) {
+				if (!in_array($category->cat_ID, $value)) {
+					$all = false;
+					break;
+				}
+			}
+			if ($all) {
+				$value = '';
+			}
+		}
+	}
+	function format_tag_value(&$value)
+	{
+		if (is_array($value)) {
+			$tags = get_tags("hierarchical=0&hide_empty=0");
+			$all = true;
+			foreach ($tags as $tag) {
+				if (!in_array($tag->term_id, $value)) {
+					$all = false;
+					break;
+				}
+			}
+			if ($all) {
+				$value = '';
+			}
+		}
+	}
 	/**
 	 * Get the last edit of this ad
 	 */

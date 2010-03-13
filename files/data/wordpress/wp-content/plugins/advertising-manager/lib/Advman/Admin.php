@@ -27,10 +27,10 @@ class Advman_Admin
 		add_action('admin_notices', array('Advman_Admin','display_notices'), 1 );
 		add_action('admin_footer', array('Advman_Admin','display_editor'));
 		
-		$mode = OX_Tools::sanitize($_POST['advman-mode'], 'key');
+		$mode = OX_Tools::sanitize_post_var('advman-mode');
 		if ($mode == 'notice') {
-			$action = OX_Tools::sanitize($_POST['advman-action'], 'key');
-			$yes = OX_Tools::sanitize($_POST['advman-notice-confirm-yes'], 'key');
+			$action = OX_Tools::sanitize_post_var('advman-action');
+			$yes = OX_Tools::sanitize_post_var('advman-notice-confirm-yes');
 			switch ($action) {
 				case 'optimise':
 					Advman_Admin::set_auto_optimise(!empty($yes));
@@ -94,11 +94,31 @@ class Advman_Admin
 				if (isset($_POST["advman-{$property}"])) {
 					$value = OX_Tools::sanitize($_POST["advman-{$property}"]);
 					if ($default) {
+						// Deal with multi select 'show-author'
+						if ($property == 'show-author') {
+							Advman_Tools::format_author_value($value);
+						}
+						if ($property == 'show-category') {
+							Advman_Tools::format_category_value($value);
+						}
+						if ($property == 'show-tag') {
+							Advman_Tools::format_tag_value($value);
+						}
 						if ($ad->get_network_property($property) != $value) {
 							$ad->set_network_property($property, $value);
 							$changed = true;
 						}
 					} else {
+						// Deal with multi select 'show-author'
+						if ($property == 'show-author') {
+							Advman_Tools::format_author_value($value);
+						}
+						if ($property == 'show-category') {
+							Advman_Tools::format_category_value($value);
+						}
+						if ($property == 'show-tag') {
+							Advman_Tools::format_tag_value($value);
+						}
 						if ($ad->get_property($property) != $value) {
 							$ad->set_property($property, $value);
 							$changed = true;
@@ -156,10 +176,10 @@ class Advman_Admin
 		global $advman_engine;
 		
 		$filter = null;
-		$mode = OX_Tools::sanitize($_POST['advman-mode'], 'key');
-		$action = OX_Tools::sanitize($_POST['advman-action'], 'key');
-		$target = OX_Tools::sanitize($_POST['advman-target'], 'key');
-		$targets = OX_Tools::sanitize($_POST['advman-targets'], 'key');
+		$mode = OX_Tools::sanitize_post_var('advman-mode');
+		$action = OX_Tools::sanitize_post_var('advman-action');
+		$target = OX_Tools::sanitize_post_var('advman-target');
+		$targets = OX_Tools::sanitize_post_var('advman-targets');
 		
 		// For operations on a single ad
 		if (is_numeric($target)) {
@@ -231,8 +251,8 @@ class Advman_Admin
 				break;
 			
 			case 'filter' :
-				$filter_active = OX_Tools::sanitize($_POST['advman-filter-active'], 'key');
-				$filter_network = OX_Tools::sanitize($_POST['advman-filter-network'], 'key');
+				$filter_active = OX_Tools::sanitize_post_var('advman-filter-active');
+				$filter_network = OX_Tools::sanitize_post_var('advman-filter-network');
 				if (!empty($filter_active)) {
 					$filter['active'] = $filter_active;
 				}
@@ -372,10 +392,10 @@ class Advman_Admin
 	{
 		
 		// Get our options and see if we're handling a form submission.
-		$action = OX_Tools::sanitize($_POST['advman-action'], 'key');
+		$action = OX_Tools::sanitize_post_var('advman-action');
 		if ($action == 'save') {
 			global $advman_engine;
-			$settings = array('openx-market', 'openx-market-cpm', 'openx-sync');
+			$settings = array('openx-market', 'openx-market-cpm', 'openx-sync', 'enable-php', 'stats', 'purge-stats-days');
 			foreach ($settings as $setting) {
 				$value = isset($_POST["advman-{$setting}"]) ? OX_Tools::sanitize($_POST["advman-{$setting}"]) : false;
 				$advman_engine->setSetting($setting, $value);

@@ -10,7 +10,7 @@ class Advman_Template_Edit_Ad extends Advman_Template_Edit
 		$properties = $ad->get_network_property_defaults();
 		
 		// Account information
-		$fields = array('account-id','slot');
+		$fields = array('account-id','slot','counter');
 		foreach ($fields as $field) {
 			if (isset($properties[$field])) {
 				add_meta_box('advman_account', __('Account Details', 'advman'), array('Advman_Template_Metabox', 'display_account_ad'), 'advman', 'main');

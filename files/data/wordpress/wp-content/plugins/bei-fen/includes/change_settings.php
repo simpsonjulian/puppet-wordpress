@@ -69,6 +69,16 @@ function wp_beifen_process_ajax_request($request_options)
 	{
 		$options['include_backup_directory'] = false;
 	}
+	if($request_options['backup_schedule']=='yes')
+	{
+		$options['backup_schedule'] = true;
+		wp_schedule_event(time(), 'hourly', 'beifen_hourly_backup_check');
+	}
+	else
+	{
+		$options['backup_schedule'] = false;
+		wp_clear_scheduled_hook('beifen_hourly_backup_check');
+	}
 	
 	// update options	
 	update_option(WP_BEIFEN_OPTIONS ,$options);

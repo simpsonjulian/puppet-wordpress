@@ -98,6 +98,9 @@ class Advman_Template_Metabox
 	{
 		// Authors
 		$users = get_users_of_blog();
+		// Categories
+		$categories = get_categories("hierarchical=0&hide_empty=0");
+		$tags = get_tags("hierarchical=0&hide_empty=0");
 
 		// Page Types
 		$pageTypes = array(
@@ -110,6 +113,8 @@ class Advman_Template_Metabox
 		
 		$pageTypeValues = $ad->get_property('show-pagetype');
 		$authorValues = $ad->get_property('show-author');
+		$categoryValues = $ad->get_property('show-category');
+		$tagValues = $ad->get_property('show-tag');
 
 		
 ?>	<table class="form-table">
@@ -127,9 +132,32 @@ class Advman_Template_Metabox
 	<tr style="white-space:nowrap">
 		<td class="advman_label"><label for="advman-author"><?php _e('By Author:'); ?></label></td>
 		<td>
+			<input type="hidden" name="advman-show-author[]" value="">
 			<select id="advman-author" name="advman-show-author[]" multiple="multiple" size="5">
 <?php foreach ($users as $user) : ?>
 				<option<?php echo ($authorValues == '' || in_array($user->user_id, $authorValues) ? " selected='selected'" : ''); ?> value="<?php echo $user->user_id; ?>"> <?php echo $user->display_name ?></option>
+<?php endforeach; ?>
+			</select>
+		</td>
+	</tr>
+	<tr style="white-space:nowrap">
+		<td class="advman_label"><label for="advman-category"><?php _e('By Category:'); ?></label></td>
+		<td>
+			<input type="hidden" name="advman-show-category[]" value="">
+			<select id="advman-category" name="advman-show-category[]" multiple="multiple" size="5">
+<?php foreach ($categories as $category) : ?>
+				<option<?php echo ($categoryValues == '' || in_array($category->cat_ID, $categoryValues) ? " selected='selected'" : ''); ?> value="<?php echo $category->cat_ID; ?>"> <?php echo $category->cat_name ?></option>
+<?php endforeach; ?>
+			</select>
+		</td>
+	</tr>
+	<tr style="white-space:nowrap">
+		<td class="advman_label"><label for="advman-tag"><?php _e('By Tag:'); ?></label></td>
+		<td>
+			<input type="hidden" name="advman-show-tag[]" value="">
+			<select id="advman-tag" name="advman-show-tag[]" multiple="multiple" size="5">
+<?php foreach ($tags as $tag) : ?>
+				<option<?php echo ($tagValues == '' || in_array($tag->term_id, $tagValues) ? " selected='selected'" : ''); ?> value="<?php echo $tag->term_id; ?>"> <?php echo $tag->name ?></option>
 <?php endforeach; ?>
 			</select>
 		</td>
@@ -257,12 +285,15 @@ class Advman_Template_Metabox
 			'alt-url' => __('Alternate URL:', 'advman'),
 			'identifier' => __('Identifier:', 'advman'),
 		);
-		$msg = __('Enter the information specific to your %s account.');
+		$msg = __('Enter the information specific to the %s ad type.');
 		if (isset($properties['partner'])) {
 			$msg .= ' ' . __('The Partner ID is the ID for a partner revenue sharing account, usually your blog hosting provider.  Note that a Partner ID does not necessarily mean that your partner is sharing revenues.  %s will notify you if this is the case.', 'advman');
 		}
 		if (isset($properties['channel'])) {
 			$msg .= ' ' . __('The Channel is the name for the specific inventory segment set up in your %s account.');
+		}
+		if (isset($properties['counter'])) {
+			$msg .= ' ' . __('Leave the Max Ads Per Page field blank if you do not want to restrict the number of ads per page.');
 		}
 ?><div style="font-size:small;">
 <table class="form-table">

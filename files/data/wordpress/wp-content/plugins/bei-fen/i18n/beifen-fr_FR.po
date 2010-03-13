@@ -1,0 +1,740 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Bei Fen v1.3.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2009-12-15 14:15+0000\n"
+"Last-Translator: admin <fabien.urbaniak@viasante.fr>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Poedit-Language: French\n"
+"X-Poedit-Country: FRANCE\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;\n"
+"X-Poedit-Basepath: ../\n"
+"X-Poedit-Bookmarks: \n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Textdomain-Support: yes"
+
+#: beifen.php:128
+#: beifen.php:136
+#: pages/settings.php:167
+#@ beifen
+msgid "Settings"
+msgstr "Paramètres"
+
+#: beifen.php:137
+#: pages/manage_backups.php:279
+#@ beifen
+msgid "Manage Backups"
+msgstr "Gérer les sauvegardes"
+
+#: beifen.php:138
+#: pages/create_backup.php:83
+#: pages/create_backup.php:143
+#@ beifen
+msgid "Create New Backup"
+msgstr "Créer une nouvelle sauvegarde"
+
+#: beifen.php:141
+#@ beifen
+msgid "Backup"
+msgstr "Backup"
+
+#: beifen.php:191
+#: beifen.php:236
+#: beifen.php:336
+#: includes/change_settings.php:13
+#: includes/change_settings.php:22
+#: includes/change_settings.php:30
+#: includes/change_settings.php:38
+#: includes/create_backup.php:31
+#: includes/create_backup.php:42
+#: includes/create_backup.php:51
+#: includes/create_backup.php:59
+#: includes/create_backup.php:69
+#: includes/create_backup.php:128
+#: includes/create_scheduled_backup.php:31
+#: includes/create_scheduled_backup.php:39
+#: includes/create_scheduled_backup.php:47
+#: includes/create_scheduled_backup.php:57
+#: includes/create_scheduled_backup.php:116
+#: includes/do_schedule.php:60
+#: includes/do_schedule.php:68
+#: includes/do_schedule.php:76
+#: includes/do_schedule.php:86
+#: includes/do_schedule.php:145
+#: includes/get_directories.php:34
+#: includes/restore_backup.php:51
+#: includes/restore_backup.php:64
+#: includes/restore_backup.php:72
+#: includes/restore_backup.php:87
+#: includes/restore_backup.php:98
+#: includes/schedule_backup.php:18
+#: includes/schedule_backup.php:28
+#: includes/schedule_backup.php:39
+#: pages/create_backup.php:61
+#: pages/create_scheduled_backup.php:149
+#: pages/manage_backups.php:140
+#: pages/manage_backups.php:170
+#: pages/manage_backups.php:200
+#: pages/manage_backups.php:236
+#: pages/manage_backups.php:260
+#: pages/settings.php:114
+#: pages/settings.php:144
+#@ beifen
+msgid "Error"
+msgstr "Erreur"
+
+#: beifen.php:192
+#@ beifen
+msgid "The requested task is invalid!"
+msgstr "La tâche demandée n&#39;est pas valide!"
+
+#: beifen.php:220
+#@ beifen
+msgid "Warning"
+msgstr "Avertissement"
+
+#: beifen.php:221
+#@ beifen
+msgid "A warning! Request aborted!"
+msgstr "Une mise en garde! Demande annulée!"
+
+#: beifen.php:237
+#@ beifen
+msgid "A critical error occured! Request aborted!"
+msgstr "Une erreur critique s&#39;est produite! Demande annulée!"
+
+#: includes/change_settings.php:14
+#@ beifen
+msgid "The backup directory does not exist and cannot be created!"
+msgstr "Le répertoire de sauvegarde n&#39;existe pas et ne peut pas être créé!"
+
+#: includes/change_settings.php:23
+#@ beifen
+msgid "The path is not a valid directory!"
+msgstr "Le chemin n&#39;est pas un répertoire valide!"
+
+#: includes/change_settings.php:31
+#@ beifen
+msgid "The backup directory is not writable!"
+msgstr "Le répertoire de sauvegarde n&#39;est pas accessible en écriture!"
+
+#: includes/change_settings.php:39
+#@ beifen
+msgid "The execution time limit is invalid!"
+msgstr "Le délai d&#39;exécution n&#39;est pas valide!"
+
+#: includes/change_settings.php:97
+#: includes/create_backup.php:155
+#: includes/create_scheduled_backup.php:143
+#: includes/delete_backup.php:19
+#: includes/delete_schedule.php:17
+#: includes/do_schedule.php:172
+#: includes/get_backup_count.php:11
+#: includes/get_directories.php:28
+#: includes/get_schedule_count.php:7
+#: includes/restore_backup.php:76
+#: includes/schedule_backup.php:49
+#: pages/settings.php:73
+#@ beifen
+msgid "Success"
+msgstr "Réussi"
+
+#: includes/change_settings.php:98
+#@ beifen
+msgid "All changes were saved successfully!"
+msgstr "Toutes les modifications ont été sauvegardées avec succès!"
+
+#: includes/create_backup.php:32
+#: includes/create_scheduled_backup.php:32
+#: includes/do_schedule.php:61
+#: includes/schedule_backup.php:19
+#@ beifen
+msgid "There is already a backup with this name. Please change the name!"
+msgstr "Il existe déjà une sauvegarde avec ce nom. S&#39;il vous plaît changer le nom!"
+
+#: includes/create_backup.php:52
+#: includes/create_scheduled_backup.php:40
+#: includes/do_schedule.php:69
+#@ beifen
+msgid "The backup folder is not writable. Please check write-permissions!"
+msgstr "Le dossier de sauvegarde n&#39;est pas inscriptible. S&#39;il vous plaît vérifier les permissions en écriture!"
+
+#: includes/create_backup.php:60
+#: includes/create_scheduled_backup.php:48
+#: includes/do_schedule.php:77
+#@ beifen
+msgid "Could not create backup folder. Please check write-permissions!"
+msgstr "Impossible de créer le dossier de sauvegarde. S&#39;il vous plaît vérifier les permissions en écriture!"
+
+#: includes/create_backup.php:70
+#: includes/create_scheduled_backup.php:58
+#: includes/do_schedule.php:87
+#@ beifen
+msgid "The database backup folder is not writable. Please check write-permissions!"
+msgstr "Le dossier de sauvegarde de base de données n&#39;est pas inscriptible. S&#39;il vous plaît vérifier les permissions en écriture!"
+
+#: includes/create_backup.php:129
+#: includes/create_scheduled_backup.php:117
+#: includes/do_schedule.php:146
+#: includes/restore_backup.php:73
+#@ beifen
+msgid "This is not a valid backup type!"
+msgstr "Ce n&#39;est pas un type de sauvegarde valide!"
+
+#: includes/create_backup.php:156
+#: includes/create_scheduled_backup.php:144
+#: includes/do_schedule.php:173
+#@ beifen
+msgid "Backup has been successfully created!"
+msgstr "Backup a été créé avec succès!"
+
+#: includes/delete_backup.php:20
+#: includes/delete_schedule.php:18
+#@ beifen
+msgid "Backup deleted"
+msgstr "Backup supprimé"
+
+#: includes/restore_backup.php:52
+#: includes/restore_backup.php:65
+#@ beifen
+msgid "Could not restore database!"
+msgstr "Impossible de restaurer la base de données!"
+
+#: includes/restore_backup.php:77
+#@ beifen
+msgid "Backup was successfully restored!"
+msgstr "Sauvegarde a été restauré avec succès!"
+
+#: includes/restore_backup.php:99
+#@ beifen
+msgid "Invalid backup ID!"
+msgstr "Sauvegarde ID invalide!"
+
+#: pages/create_backup.php:22
+#: pages/create_scheduled_backup.php:85
+#@ beifen
+msgid "Creating backup, please don't leave this page!"
+msgstr "Création de sauvegarde, s&#39;il vous plaît ne quittez pas cette page!"
+
+#: pages/create_backup.php:62
+#: pages/create_scheduled_backup.php:150
+#: pages/manage_backups.php:141
+#: pages/manage_backups.php:171
+#: pages/manage_backups.php:201
+#: pages/manage_backups.php:237
+#: pages/manage_backups.php:261
+#: pages/settings.php:115
+#: pages/settings.php:145
+#@ beifen
+msgid "The server response was invalid!"
+msgstr "La réponse du serveur est invalide!"
+
+#: pages/create_backup.php:64
+#: pages/create_scheduled_backup.php:152
+#: pages/manage_backups.php:143
+#: pages/manage_backups.php:173
+#: pages/manage_backups.php:203
+#: pages/manage_backups.php:239
+#: pages/manage_backups.php:263
+#: pages/settings.php:117
+#: pages/settings.php:147
+#@ beifen
+msgid "Server Response"
+msgstr "Réponse du serveur"
+
+#: pages/create_backup.php:89
+#: pages/create_scheduled_backup.php:177
+#: pages/manage_backups.php:285
+#@ beifen
+msgid "Please review your settings before first use."
+msgstr "S&#39;il vous plaît de réviser vos paramètres avant la première utilisation."
+
+#: pages/create_backup.php:89
+#: pages/create_scheduled_backup.php:177
+#: pages/manage_backups.php:231
+#: pages/manage_backups.php:255
+#: pages/manage_backups.php:285
+#: pages/manage_backups.php:359
+#: pages/manage_backups.php:376
+#@ beifen
+msgid "You can do so"
+msgstr "Vous pouvez le faire"
+
+#: pages/create_backup.php:89
+#: pages/create_scheduled_backup.php:177
+#: pages/manage_backups.php:231
+#: pages/manage_backups.php:255
+#: pages/manage_backups.php:285
+#: pages/manage_backups.php:361
+#: pages/manage_backups.php:378
+#@ beifen
+msgid "here"
+msgstr "ici"
+
+#: pages/create_backup.php:98
+#: pages/create_scheduled_backup.php:186
+#: pages/manage_backups.php:300
+#: pages/manage_backups.php:309
+#: pages/manage_backups.php:384
+#: pages/manage_backups.php:392
+#@ beifen
+msgid "Backup Name"
+msgstr "Nom de sauvegarde"
+
+#: pages/create_backup.php:104
+#: pages/create_scheduled_backup.php:192
+#@ beifen
+msgid "Backup Type"
+msgstr "Type de sauvegarde"
+
+#: pages/create_backup.php:107
+#: pages/create_scheduled_backup.php:195
+#@ beifen
+msgid "Complete"
+msgstr "Complet"
+
+#: pages/create_backup.php:108
+#: pages/create_scheduled_backup.php:196
+#@ beifen
+msgid "Files Only"
+msgstr "Les fichiers Seuls "
+
+#: pages/create_backup.php:109
+#: pages/create_scheduled_backup.php:197
+#@ beifen
+msgid "Database Only"
+msgstr "Base de données seulement"
+
+#: pages/create_backup.php:115
+#: pages/create_scheduled_backup.php:203
+#@ beifen
+msgid "Compress files with GZIP"
+msgstr "Compresser des fichiers avec GZip"
+
+#: pages/create_backup.php:117
+#: pages/create_scheduled_backup.php:205
+#: pages/create_scheduled_backup.php:330
+#: pages/create_scheduled_backup.php:339
+#: pages/manage_backups.php:340
+#: pages/settings.php:191
+#: pages/settings.php:200
+#: pages/settings.php:227
+#@ beifen
+msgid "No"
+msgstr "Non"
+
+#: pages/create_backup.php:118
+#: pages/create_scheduled_backup.php:206
+#: pages/create_scheduled_backup.php:331
+#: pages/create_scheduled_backup.php:338
+#: pages/manage_backups.php:336
+#: pages/settings.php:193
+#: pages/settings.php:202
+#: pages/settings.php:229
+#@ beifen
+msgid "Yes"
+msgstr "Oui"
+
+#: pages/create_backup.php:123
+#: pages/create_scheduled_backup.php:211
+#@ beifen
+msgid "Timeout (seconds)"
+msgstr "Timeout (en secondes)"
+
+#: pages/manage_backups.php:106
+#@ beifen
+msgid "Deleting backup"
+msgstr "Suppression de sauvegarde"
+
+#: pages/manage_backups.php:114
+#@ beifen
+msgid "Restoring backup"
+msgstr "Restauration d&#39;une sauvegarde"
+
+#: pages/manage_backups.php:231
+#: pages/manage_backups.php:357
+#@ beifen
+msgid "No backups created so far!"
+msgstr "Aucune sauvegarde créés jusqu&#39;à présent!"
+
+#: pages/create_scheduled_backup.php:261
+#: pages/manage_backups.php:301
+#: pages/manage_backups.php:310
+#@ beifen
+msgid "Create Date"
+msgstr "Date de création"
+
+#: pages/manage_backups.php:302
+#: pages/manage_backups.php:311
+#@ beifen
+msgid "Type"
+msgstr "Type"
+
+#: pages/manage_backups.php:303
+#: pages/manage_backups.php:312
+#@ beifen
+msgid "Is Zipped?"
+msgstr "Est-compressées?"
+
+#: pages/manage_backups.php:304
+#: pages/manage_backups.php:313
+#: pages/manage_backups.php:387
+#: pages/manage_backups.php:395
+#@ beifen
+msgid "Actions"
+msgstr "Actions"
+
+#: pages/manage_backups.php:344
+#: pages/manage_backups.php:416
+#@ beifen
+msgid "Delete"
+msgstr "Supprimer"
+
+#: pages/manage_backups.php:345
+#@ beifen
+msgid "Restore"
+msgstr "Restaurer"
+
+#: pages/settings.php:33
+#@ beifen
+msgid "Saving settings, please don't leave this page!"
+msgstr "Enregistrement de paramètres, s&#39;il vous plaît ne quittez pas cette page!"
+
+#: pages/settings.php:78
+#@ beifen
+msgid "Close"
+msgstr "Fermer"
+
+#: pages/settings.php:100
+#@ beifen
+msgid "Directory is empty!"
+msgstr "Répertoire est vide!"
+
+#: pages/settings.php:173
+#@ beifen
+msgid "Backup directory"
+msgstr " Répertoire de Sauvegarde"
+
+#: pages/settings.php:179
+#@ beifen
+msgid "Directory List"
+msgstr "Liste des Répertoires"
+
+#: pages/settings.php:188
+#@ beifen
+msgid "Include backup directory, when creating new backups"
+msgstr "Inclure le répertoire de sauvegarde, lors de la création de nouvelles sauvegardes"
+
+#: pages/settings.php:206
+#@ beifen
+msgid "Default timeout (seconds)"
+msgstr "Durée d&#39;expiration (en secondes)"
+
+#: pages/settings.php:224
+#@ beifen
+msgid "Enable debugging"
+msgstr "Activer le débogage"
+
+#: pages/settings.php:236
+#@ beifen
+msgid "Save Changes"
+msgstr "Enregistrer les modifications"
+
+#: pages/bf-info.php:14
+#@ beifen
+msgid "No items"
+msgstr "Pas d&#39;articles"
+
+#: pages/create_scheduled_backup.php:279
+#@ beifen
+msgid "January"
+msgstr "Janvier"
+
+#: pages/create_scheduled_backup.php:280
+#@ beifen
+msgid "February"
+msgstr "Février"
+
+#: pages/create_scheduled_backup.php:281
+#@ beifen
+msgid "March"
+msgstr "Mars"
+
+#: pages/create_scheduled_backup.php:242
+#: pages/manage_backups.php:15
+#@ beifen
+msgid "Weekly"
+msgstr "Hebdomadaire"
+
+#: pages/create_scheduled_backup.php:243
+#: pages/manage_backups.php:50
+#@ beifen
+msgid "Monthly"
+msgstr "Mensuel"
+
+#: pages/manage_backups.php:409
+#@ beifen
+msgid "Single"
+msgstr "Simple"
+
+#: pages/bf-info.php:36
+#@ beifen
+msgid "Donate"
+msgstr "Faire un don"
+
+#: pages/create_scheduled_backup.php:282
+#@ beifen
+msgid "April"
+msgstr "Avril"
+
+#: pages/create_scheduled_backup.php:283
+#@ beifen
+msgid "May"
+msgstr "Mai"
+
+#: pages/create_scheduled_backup.php:284
+#@ beifen
+msgid "June"
+msgstr "Juin"
+
+#: pages/create_scheduled_backup.php:285
+#@ beifen
+msgid "July"
+msgstr "Juillet"
+
+#: pages/create_scheduled_backup.php:286
+#@ beifen
+msgid "August"
+msgstr "Août"
+
+#: pages/create_scheduled_backup.php:287
+#@ beifen
+msgid "September"
+msgstr "Septembre"
+
+#: pages/create_scheduled_backup.php:288
+#@ beifen
+msgid "October"
+msgstr "Octobre"
+
+#: pages/create_scheduled_backup.php:289
+#@ beifen
+msgid "November"
+msgstr "Novembre"
+
+#: pages/create_scheduled_backup.php:290
+#@ beifen
+msgid "December"
+msgstr "Décembre"
+
+#: pages/create_scheduled_backup.php:252
+#: pages/manage_backups.php:40
+#@ beifen
+msgid "Sunday"
+msgstr "Dimanche"
+
+#: pages/create_scheduled_backup.php:246
+#: pages/manage_backups.php:22
+#@ beifen
+msgid "Monday"
+msgstr "Lundi"
+
+#: pages/create_scheduled_backup.php:247
+#: pages/manage_backups.php:25
+#@ beifen
+msgid "Tuesday"
+msgstr "Mardi"
+
+#: pages/create_scheduled_backup.php:248
+#: pages/manage_backups.php:28
+#@ beifen
+msgid "Wednesday"
+msgstr "Mercredi"
+
+#: pages/create_scheduled_backup.php:249
+#: pages/manage_backups.php:31
+#@ beifen
+msgid "Thursday"
+msgstr "Jeudi"
+
+#: pages/create_scheduled_backup.php:250
+#: pages/manage_backups.php:34
+#@ beifen
+msgid "Friday"
+msgstr "Vendredi"
+
+#: pages/create_scheduled_backup.php:251
+#: pages/manage_backups.php:37
+#@ beifen
+msgid "Saturday"
+msgstr "Samedi"
+
+#: beifen.php:139
+#: pages/create_scheduled_backup.php:171
+#: pages/create_scheduled_backup.php:351
+#@ beifen
+msgid "Schedule New Backup"
+msgstr "Nouveau calendrier de sauvegarde"
+
+#: includes/create_backup.php:43
+#: includes/schedule_backup.php:40
+#@ beifen
+msgid "There is already a schedule with this name!"
+msgstr "Il existe déjà une Sauvegarde planifiée avec ce nom!"
+
+#: includes/create_scheduled_backup.php:170
+#@ beifen
+msgid "Backup result"
+msgstr "Résultat de la sauvegarde"
+
+#: includes/schedule_backup.php:29
+#@ beifen
+msgid "The schedule is past due!"
+msgstr "Cette planification est périmée!"
+
+#: includes/schedule_backup.php:50
+#@ beifen
+msgid "Backup schedule was successfully saved!"
+msgstr "La planification de sauvegarde  a été enregistrée avec succès!"
+
+#: pages/bf-info.php:2
+#@ beifen
+msgid "News about Bei Fen"
+msgstr "Nouvelles à propos de Bei Fen"
+
+#: pages/bf-info.php:27
+#@ beifen
+msgid "Documentation and Support"
+msgstr "Documentation et support"
+
+#: pages/bf-info.php:30
+#@ beifen
+msgid "Read the manual"
+msgstr "Lisez le manuel"
+
+#: pages/bf-info.php:31
+#@ beifen
+msgid "Get support"
+msgstr "Obtenir de l&#39;aide"
+
+#: pages/bf-info.php:38
+#@ beifen
+msgid "Please consider donating to improve the development of Bei Fen and benefit from this in return. You can even donate without paying any money!"
+msgstr "S&#39;il vous plaît envisager un don à améliorer le développement des Bei Fen et bénéficier de cette contrepartie. Vous pouvez même faire un don sans payer de l&#39;argent!"
+
+#: pages/bf-info.php:38
+#@ beifen
+msgid "Read about how you can donate!"
+msgstr "Lisez à propos de la façon dont vous pouvez faire un don!"
+
+#: pages/create_scheduled_backup.php:229
+#: pages/manage_backups.php:385
+#: pages/manage_backups.php:393
+#@ beifen
+msgid "Schedule Type"
+msgstr "Planification Type"
+
+#: pages/create_scheduled_backup.php:232
+#@ beifen
+msgid "Single Backup"
+msgstr "Simple Backup"
+
+#: pages/create_scheduled_backup.php:233
+#@ beifen
+msgid "Frequent Backup"
+msgstr "Sauvegarde périodique"
+
+#: pages/create_scheduled_backup.php:238
+#@ beifen
+msgid "Schedule Frequence"
+msgstr "Planification de la Frequence"
+
+#: pages/create_scheduled_backup.php:241
+#: pages/manage_backups.php:7
+#@ beifen
+msgid "Daily"
+msgstr "Quotidien"
+
+#: pages/create_scheduled_backup.php:255
+#@ beifen
+msgid "First day of month"
+msgstr "Premier jour du mois"
+
+#: pages/create_scheduled_backup.php:256
+#@ beifen
+msgid "Last day of month"
+msgstr "Dernier jour du mois"
+
+#: pages/create_scheduled_backup.php:301
+#@ beifen
+msgid "Schedule Time"
+msgstr "Horaire de planificaction"
+
+#: pages/create_scheduled_backup.php:328
+#@ beifen
+msgid "Delete old backup"
+msgstr "Supprimer ancienne sauvegarde"
+
+#: pages/create_scheduled_backup.php:335
+#@ beifen
+msgid "Send confirmation/failure message of backup via email"
+msgstr "Envoyer une confirmation / message échec de la sauvegarde via e-mail"
+
+#: pages/create_scheduled_backup.php:343
+#@ beifen
+msgid "Send message to the following email address"
+msgstr "Envoyer un message à l&#39;adresse électronique suivante"
+
+#: pages/manage_backups.php:17
+#@ beifen
+msgid "every"
+msgstr "chaque"
+
+#: pages/manage_backups.php:55
+#@ beifen
+msgid "first day of month"
+msgstr "premier jour du mois"
+
+#: pages/manage_backups.php:59
+#@ beifen
+msgid "last day of month"
+msgstr "Dernier jour du mois"
+
+#: pages/manage_backups.php:122
+#@ beifen
+msgid "Deleting schedule"
+msgstr "Suppression de la planification"
+
+#: pages/manage_backups.php:255
+#: pages/manage_backups.php:374
+#@ beifen
+msgid "No backups scheduled so far!"
+msgstr "Aucune sauvegarde prévue à ce jour!"
+
+#: pages/manage_backups.php:366
+#@ beifen
+msgid "Scheduled Backups"
+msgstr "Les sauvegardes planifiées"
+
+#: pages/manage_backups.php:386
+#: pages/manage_backups.php:394
+#@ beifen
+msgid "Next Backup"
+msgstr "Sauvegarde Suivante "
+
+#: pages/manage_backups.php:411
+#@ beifen
+msgid "Frequent"
+msgstr "Frequence"
+
+#: pages/settings.php:197
+#@ beifen
+msgid "Activate backup schedule"
+msgstr "Activer la planification des sauvegardes"
+

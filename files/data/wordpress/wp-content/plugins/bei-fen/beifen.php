@@ -1,12 +1,12 @@
 <?php
 /*
 Plugin Name: Bei Fen
-Plugin URI: http://www.david-schneider.name/beifen/
-Description: A backup plugin for Wordpress. You can create full, files-only, and database-only backups!
-Version: 1.3.1
+Plugin URI: http://www.beifen.info/
+Description: A backup plugin for Wordpress. You can create full, files-only, and database-only backups! Scheduled backups are also possible!
+Version: 1.4.2
 Author: David Schneider
 Author URI: http://www.david-schneider.name/
-Text Domain: backup
+Text Domain: beifen
 Domain Path: i18n
 */
 
@@ -29,7 +29,7 @@ if(!defined(WP_BEIFEN_OPTIONS))
 // Plugin version
 if(!defined(WP_BEIFEN_VERSION))
 {
-	define('WP_BEIFEN_VERSION', '131');
+	define('WP_BEIFEN_VERSION', '142');
 }
 
 // Debug option for developers, to enable it set to 1
@@ -48,6 +48,12 @@ if(!defined(WP_BEIFEN_NONCE))
 if(!defined(WP_BEIFEN_DOMAIN))
 {
 	define('WP_BEIFEN_DOMAIN', 'beifen');
+}
+
+// Scheduled backup
+if(!defined(WP_BEIFEN_SCHEDULED_BACKUPS))
+{
+	define('WP_BEIFEN_SCHEDULED_BACKUPS', 'WP_BEIFEN_SCHEDULED_BACKUPS');
 }
 
 /*************/
@@ -71,9 +77,10 @@ function wp_beifen_activate()
 	// Create base options, will be deleted, if plugin is deactivated
 	$backup_options = array();
 	$backup_options['plugin_location'] = dirname(__FILE__) . DS;
-	$backup_options['plugin_backup_directory'] = $backup_options['plugin_location'] . 'backups' . DS;
+	$backup_options['backup_schedule'] = false;
+	$backup_options['plugin_backup_directory'] = WP_CONTENT_DIR . DS . 'backups' . DS;
 	$backup_options['include_backup_directory'] = false;
-	$backup_options['enable_debugging'] = false;
+	$backup_options['enable_debugging'] = true;
 	$backup_options['default_timeout'] = ini_get('max_execution_time');
 	if(@mkdir($backup_options['plugin_backup_directory']))
 	{
@@ -118,7 +125,7 @@ function wp_beifen_deactivate()
 function wp_beifen_settings_link($links)
 {
 	$plugin_dir = basename(dirname(__FILE__));
-	$settings_link = '<a href="admin.php?page=' . $plugin_dir . '/beifen.php">' . __("Settings", WP_BEIFEN_DOMAIN) . '</a>';  
+	$settings_link = '<a href="admin.php?page=' . $plugin_dir . '/beifen.php">' . __("Settings", WP_BEIFEN_DOMAIN) . '</a>';
 	array_unshift($links, $settings_link);
 	return $links;
 }
@@ -129,6 +136,7 @@ function wp_beifen_menu()
 	$menu_settings = __("Settings", WP_BEIFEN_DOMAIN);
 	$menu_manage = __("Manage Backups", WP_BEIFEN_DOMAIN);
 	$menu_create = __("Create New Backup", WP_BEIFEN_DOMAIN);
+	$menu_schedule = __("Schedule New Backup", WP_BEIFEN_DOMAIN);
 	// Add new main menu
 	add_menu_page(__("Backup", WP_BEIFEN_DOMAIN), __("Backup", WP_BEIFEN_DOMAIN), 'administrator', __FILE__, 'wp_beifen_display_settings_page');
 	// Double entry to avoid double link in the main menu
@@ -137,6 +145,8 @@ function wp_beifen_menu()
 	add_submenu_page(__FILE__, $menu_manage, $menu_manage, 'administrator',  dirname(__FILE__) . DS . 'pages' . DS . 'manage_backups.php');
 	// Add submenu for creating backups
 	add_submenu_page(__FILE__, $menu_create, $menu_create, 'administrator',  dirname(__FILE__) . DS . 'pages' . DS . 'create_backup.php');
+	// Add submenu for scheduling backups
+	add_submenu_page(__FILE__, $menu_schedule, $menu_schedule, 'administrator',  dirname(__FILE__) . DS . 'pages' . DS . 'create_scheduled_backup.php');
 }
 
 // Display settings page
@@ -192,11 +202,11 @@ function wp_beifen_deserialize_ajax_request($parameters)
 	foreach(explode('&', $parameters) as $parameter)
 	{
 		$temp = explode('=', $parameter);
-		$deserialized[$temp[0]] = $temp[1];		
+		$deserialized[$temp[0]] = $temp[1];
 	}
 	return $deserialized;
 }
-	
+
 function ajax_error_handler($error_code, $error_message, $error_file, $error_line)
 {
 	switch($error_code)
@@ -281,9 +291,129 @@ function php2js($val){
 	return $val;
 }
 
+/**********************/
+/* Schedule functions */
+/**********************/
+
+function beifen_scheduled_backup_check()
+{
+	date_default_timezone_set(get_option('timezone_string'));
+	set_error_handler('schedule_error_handler');
+	$options = get_option('WP_BEIFEN_OPTIONS');
+	if($options['backup_schedule'])
+	{
+		require_once($options['plugin_location'] . 'classes' . DS . 'class.schedule.php');
+		require_once($options['plugin_location'] . 'classes' . DS . 'class.backup.php');
+		require_once($options['plugin_location'] . 'classes' . DS . 'zip.php');
+		require_once($options['plugin_location'] . 'classes' . DS . 'file.php');
+		require_once($options['plugin_location'] . 'classes' . DS . 'database.php');
+		require_once($options['plugin_location'] . 'includes' . DS . 'create_scheduled_backup.php');
+
+		$scheduled_backups = get_option('WP_BEIFEN_SCHEDULED_BACKUPS');
+
+		if(is_array($scheduled_backups) && count($scheduled_backups)>0)
+		{
+			for($x=0; $x<count($scheduled_backups); $x++)
+			{
+				$bkp = new BeiFenBackup($scheduled_backups[$x]);
+
+				if($scheduled_backups[$x]['schedule_type']=='Single') // Single backups first
+				{
+					if($bkp->Schedule->isPastDue())
+					{
+						$backup_details['backup_name'] = $scheduled_backups[$x]['backup_name'];
+						$backup_details['backup_type'] = $scheduled_backups[$x]['backup_type'];
+						$backup_details['backup_timeout'] = $scheduled_backups[$x]['backup_timeout'];
+						$backup_details['compress_backup'] = $scheduled_backups[$x]['compress_backup'];
+
+						$bkp_result = create_scheduled_backup($backup_details);
+						if($scheduled_backups[$x]['send_email_confirmation']=='Yes')
+						{
+							$result .= 'ID: "' . $backup_details['backup_name'] . '". ';
+							$result .= 'Status: "' . $bkp_result['status'] . '". ';
+							$result .= $bkp_result['message'];
+							send_backup_result_mail($scheduled_backups[$x]['email_confirmation_address'], $result);
+						}
+
+						if($bkp_result['status'] != __("Error", WP_BEIFEN_DOMAIN))
+						{
+							// bkp ok, remove it, save list and stop
+							if(count($scheduled_backups)==1)
+							{
+								update_option('WP_BEIFEN_SCHEDULED_BACKUPS', false);
+							}
+							else
+							{
+								$scheduled_backups_temp = array();
+								for($y=0; $y<count($scheduled_backups); $y++)
+								{
+									if($y!=$x)
+									{
+										$scheduled_backups_temp[] = $scheduled_backups_temp[$x];
+									}
+								}
+								update_option('WP_BEIFEN_SCHEDULED_BACKUPS', $scheduled_backups_temp);
+							}
+						}
+						return $bkp_result;
+					}
+				}
+				else // Frequent backups last
+				{
+					if($scheduled_backups[$x]['next_backup']<time())
+					{
+						$backup_details['backup_name'] = $scheduled_backups[$x]['backup_name'];
+						$backup_details['backup_type'] = $scheduled_backups[$x]['backup_type'];
+						$backup_details['backup_timeout'] = $scheduled_backups[$x]['backup_timeout'];
+						$backup_details['compress_backup'] = $scheduled_backups[$x]['compress_backup'];
+						if($scheduled_backups[$x]['replace_old_backup']=='Yes')
+						{
+							delete_old_backup($backup_details['backup_name']);
+						}
+						else
+						{
+							$backup_details['backup_name'] = $backup_details['backup_name'] . '-' . date('YmdHi');
+						}
+						$bkp_result = create_scheduled_backup($backup_details);
+						if($scheduled_backups[$x]['send_email_confirmation']=='Yes')
+						{
+							$result .= 'ID: "' . $backup_details['backup_name'] . '". ';
+							$result .= 'Status: "' . $bkp_result['status'] . '". ';
+							$result .= $bkp_result['message'];
+							send_backup_result_mail($scheduled_backups[$x]['email_confirmation_address'], $result);
+						}
+
+						$scheduled_backups[$x]['prev_backup'] = time();
+						$scheduled_backups[$x]['next_backup'] = $bkp->Schedule->nextBackup;
+
+						// save and stop
+						update_option('WP_BEIFEN_SCHEDULED_BACKUPS', $scheduled_backups);
+						return $bkp_result;
+					}
+				}
+			}
+		}
+		update_option('WP_BEIFEN_SCHEDULED_BACKUPS', $scheduled_backups);
+		return "No scheduled backups";
+	}
+	restore_error_handler();
+}
+
+function schedule_error_handler($error_code, $error_message, $error_file, $error_line)
+{
+	if($error_code!=2 && $error_code!=8 && $error_code!=2048)
+	{
+		$message = "Bei Fen has encountered an error: " . $error_code .', '. $error_message .', '. $error_file .', '. $error_line;
+		wp_mail(get_option('admin_email'),'Backup Error', $message);
+	}
+}
+
 /*********/
 /* Hooks */
 /*********/
+
+// Add scheduled backup hook
+add_action('beifen_hourly_backup_check', 'beifen_scheduled_backup_check');
 
 // Load textdomain
 $plugin_dir = basename(dirname(__FILE__));
@@ -306,4 +436,5 @@ add_filter('plugin_action_links_'.plugin_basename(__FILE__), 'wp_beifen_settings
 
 // AJAX Handler
 add_action('wp_ajax_wp_beifen_ajax_handler', 'wp_beifen_ajax_handler');
+
 ?>

@@ -5,6 +5,8 @@ class Advman_Template_List
 	{
 		global $advman_engine;
 		$ads = $advman_engine->getAds();
+		$stats = $advman_engine->getStats();
+		$date = date('Y-m-d');
 		
 		$adCount = 0;
 		$activeAdCount = 0;
@@ -91,11 +93,13 @@ function ADS_setAction(action, id, name, network)
 	<tr>
 	<th scope="col"  class="manage-column column-cb check-column" style=""><input type="checkbox" /></th>
 	<th scope="col"  class="manage-column column-title" style=""><?php _e('Name', 'advman'); ?></th>
-	<th scope="col"  class="manage-column column-author" style=""><?php _e('Type', 'advman'); ?></th>
-	<th scope="col"  class="manage-column column-categories" style=""><?php _e('Format', 'advman'); ?></th>
-	<th scope="col"  class="manage-column column-tags" style=""><?php _e('Active', 'advman'); ?></th>
-	<th scope="col"  class="manage-column column-tags" style=""><?php _e('Default', 'advman'); ?></th>
+	<th scope="col"  class="manage-column column-advman-type" style=""><?php _e('Type', 'advman'); ?></th>
+	<th scope="col"  class="manage-column column-advman-format" style=""><?php _e('Format', 'advman'); ?></th>
+	<th scope="col"  class="manage-column column-advman-active" style=""><?php _e('Active', 'advman'); ?></th>
+	<th scope="col"  class="manage-column column-advman-default" style=""><?php _e('Default', 'advman'); ?></th>
+	<th scope="col"  class="manage-column column-advman-stats" style=""><?php _e('Views Today', 'advman'); ?></th>
 	<th scope="col"  class="manage-column column-date" style=""><?php _e('Last Edit', 'advman'); ?></th>
+	<th scope="col"  class="manage-column column-advman-notes" style=""><?php _e('Notes', 'advman'); ?></th>
 	</tr>
 	</thead>
 
@@ -103,11 +107,13 @@ function ADS_setAction(action, id, name, network)
 	<tr>
 	<th scope="col"  class="manage-column column-cb check-column" style=""><input type="checkbox" /></th>
 	<th scope="col"  class="manage-column column-title" style=""><?php _e('Name', 'advman'); ?></th>
-	<th scope="col"  class="manage-column column-author" style=""><?php _e('Type', 'advman'); ?></th>
-	<th scope="col"  class="manage-column column-categories" style=""><?php _e('Format', 'advman'); ?></th>
-	<th scope="col"  class="manage-column column-tags" style=""><?php _e('Active', 'advman'); ?></th>
-	<th scope="col"  class="manage-column column-tags" style=""><?php _e('Default', 'advman'); ?></th>
+	<th scope="col"  class="manage-column column-advman-type" style=""><?php _e('Type', 'advman'); ?></th>
+	<th scope="col"  class="manage-column column-advman-format" style=""><?php _e('Format', 'advman'); ?></th>
+	<th scope="col"  class="manage-column column-advman-active" style=""><?php _e('Active', 'advman'); ?></th>
+	<th scope="col"  class="manage-column column-advman-default" style=""><?php _e('Default', 'advman'); ?></th>
+	<th scope="col"  class="manage-column column-advman-stats" style=""><?php _e('Views Today', 'advman'); ?></th>
 	<th scope="col"  class="manage-column column-date" style=""><?php _e('Last Edit', 'advman'); ?></th>
+	<th scope="col"  class="manage-column column-advman-notes" style=""><?php _e('Notes', 'advman'); ?></th>
 	</tr>
 	</tfoot>
 
@@ -126,13 +132,15 @@ function ADS_setAction(action, id, name, network)
 				<span class='edit'><a href="<?php echo $ad->get_preview_url(); ?>" target="wp-preview" id="post-preview" tabindex="4"><?php _e('Preview', 'advman'); ?></a></span>
 			</div>
 		</td>
-		<td class="author column-author"><a href="javascript:ADS_setAction('edit','<?php echo strtolower(get_class($ad)); ?>');" title="<?php printf(__('Edit the ad network &quot;%s&quot;', 'advman'), $ad->network_name); ?>"><?php echo $ad->network_name; ?></a></td>
-		<td class="categories column-categories"> <?php echo $this->displayFormat($ad); ?></td>
-		<td class="categories column-tags"><a href="javascript:ADS_setAction('<?php echo ($ad->active) ? 'deactivate' : 'activate'; ?>','<?php echo $ad->id; ?>');"> <?php echo ($ad->active) ? __('Yes', 'advman') : __('No', 'advman'); ?></a></td>
-		<td class="categories column-tags"><a href="javascript:ADS_setAction('default','<?php echo $ad->id; ?>');"> <?php echo ($ad->name == $defaultAdName) ? __('Yes', 'advman') : __('No', 'advman'); ?></a></td>
+		<td class="advman-type column-advman-type"><a href="javascript:ADS_setAction('edit','<?php echo strtolower(get_class($ad)); ?>');" title="<?php printf(__('Edit the ad network &quot;%s&quot;', 'advman'), $ad->network_name); ?>"><?php echo $ad->network_name; ?></a></td>
+		<td class="advman-format column-advman-format"> <?php echo $this->displayFormat($ad); ?></td>
+		<td class="advman-active column-advman-active"><a href="javascript:ADS_setAction('<?php echo ($ad->active) ? 'deactivate' : 'activate'; ?>','<?php echo $ad->id; ?>');"> <?php echo ($ad->active) ? __('Yes', 'advman') : __('No', 'advman'); ?></a></td>
+		<td class="advman-default column-advman-default"><a href="javascript:ADS_setAction('default','<?php echo $ad->id; ?>');"> <?php echo ($ad->name == $defaultAdName) ? __('Yes', 'advman') : __('No', 'advman'); ?></a></td>
 <?php
 		list($last_user, $last_timestamp, $last_timestamp2) = Advman_Tools::get_last_edit($ad->get_property('revisions'));
-?>		<td class="date column-date"><abbr title="<?php echo $last_timestamp2 ?>"><?php echo $last_timestamp . __(' ago', 'advman'); ?></abbr><br /> <?php echo __('by', 'advman') . ' ' . $last_user; ?></td>
+?>		<td class="advman-stats column-advman-stats"><?php echo empty($stats[$date][$ad->id]) ? 0 : $stats[$date][$ad->id]; ?></td>
+		<td class="date column-date"><abbr title="<?php echo $last_timestamp2 ?>"><?php echo $last_timestamp . __(' ago', 'advman'); ?></abbr><br /> <?php echo __('by', 'advman') . ' ' . $last_user; ?></td>
+		<td class="advman-notes column-advman-notes"><abbr title="<?php echo $ad->get_property('notes'); ?>"><?php echo $ad->get_property('notes'); ?></abbr></td>
 	</tr>
 <?php endif; ?>
 <?php endif; ?>

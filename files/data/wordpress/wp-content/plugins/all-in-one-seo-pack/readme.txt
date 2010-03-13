@@ -3,7 +3,7 @@ Contributors: hallsofmontezuma
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=mrtorbert%40gmail%2ecom&item_name=All%20In%20One%20SEO%20Pack&item_number=Support%20Open%20Source&no_shipping=0&no_note=1&tax=0&currency_code=USD&lc=US&bn=PP%2dDonationsBF&charset=UTF%2d8
 Tags: post,google,seo,meta,meta keywords,meta description,title,posts,plugin, search engine optimization
 Requires at least: 1.5
-Tested up to: 2.8.4
+Tested up to: 3.0
 Stable tag: trunk
 
 Automatically optimizes your Wordpress blog for Search Engines (Search Engine Optimization).
@@ -12,9 +12,7 @@ Automatically optimizes your Wordpress blog for Search Engines (Search Engine Op
 
 **Optimizes** your Wordpress blog for Search Engines (**Search Engine Optimization**).
 
-**[Download now!](http://downloads.wordpress.org/plugin/all-in-one-seo-pack.zip)**
-
-**If upgrading, please back up your database first!**
+**[Upgrade to Pro Version](http://wpplugins.com/plugin/50/all-in-one-seo-pack-pro-version)**
 
 [Support](http://semperfiwebdesign.com/forum/) |
 [Change Log](http://semperfiwebdesign.com/documentation/all-in-one-seo-pack/all-in-one-seo-pack-release-history/) |
@@ -23,10 +21,10 @@ Automatically optimizes your Wordpress blog for Search Engines (Search Engine Op
 
 Some features:
 
-* Canonical URLs
+* Advanced Canonical URLs
 * Fine tune Page Navigational Links 
 * Built-in API so other plugins/themes can access and extend functionality
-* Provides SEO Integration for WP e-Commerce sites
+* ONLY plugin to provide SEO Integration for WP e-Commerce sites
 * Nonce Security
 * Support for CMS-style WordPress installations
 * Automatically optimizes your **titles** for search engines
@@ -36,6 +34,8 @@ Some features:
 * For advanced users, you can fine-tune everything
 * You can override any title and set any META description and any META keywords you want.
 * Backward-Compatibility with many other plugins, like Auto Meta, Ultimate Tag Warrior and others.
+
+**If upgrading, please back up your database first!**
 
 Be sure to check out:
 [WP Security Scan](http://wordpress.org/extend/plugins/wp-security-scan/)

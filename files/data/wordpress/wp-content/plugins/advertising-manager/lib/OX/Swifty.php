@@ -55,6 +55,30 @@ class OX_Swifty
 		return $this->dal->update_setting($key, $value);
 	}
 	
+	function setStats($stats)
+	{
+		return $this->dal->update_stats($stats);
+	}
+	
+	function getStats()
+	{
+		return $this->dal->select_stats();
+	}
+	
+	function incrementStats($ad)
+	{
+		$date = date("Y-m-d");
+		$adId = $ad->id;
+		if ($this->getSetting('stats')) {
+			$stats = $this->getStats();
+			if (empty($stats[$date][$adId])) {
+				$stats[$date][$adId] = 0;
+			}
+			$stats[$date][$adId]++;
+			$this->setStats($stats);
+		}
+	}
+	
 	function insertAd(&$ad)
 	{
 		$ad->add_revision();
@@ -219,6 +243,7 @@ class OX_Swifty
 					'w' => $this->dal->select_setting('host-version'),
 					'e' => $this->dal->select_setting('admin-email'),
 					's' => $this->dal->select_setting('website-url'),
+					'd' => $this->dal->select_setting('yesterday-views'),
 				);
 				
 				$id = base64_encode(serialize($params));

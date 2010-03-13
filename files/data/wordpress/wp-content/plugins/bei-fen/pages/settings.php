@@ -20,6 +20,8 @@ jQuery(document).ready(function(){
 		// prepare form data
 		var options = 'backup_directory=' + jQuery("#backup_directory").attr("value")
 					+ '&'
+					+ 'backup_schedule=' + jQuery('.backup_schedule:checked').attr("value")
+					+ '&'
 					+ 'include_backup_directory=' + jQuery('.include_backup_directory:checked').attr("value")
 					+ '&'
 					+ 'default_timeout=' + jQuery('#default_timeout option:selected').val()
@@ -157,67 +159,84 @@ jQuery(document).ready(function(){
 
 </script>
 <div class="wrap">
-	<h2><?php _e("Settings", WP_BEIFEN_DOMAIN); ?></h2>
-	<div id="update_message" class="updated"></div>
-	<form id="wp_beifen_form">
-		<table class="form-table">
-			<tbody>
-				<tr valign="top" id="backup_directory_row" style="position:relative;">
-					<th scope="row"><label for="backup_directory"><?php _e("Backup directory", WP_BEIFEN_DOMAIN); ?></label></th>
-					<td>
-						<input name="backup_directory" id="backup_directory" value="<?php echo wp_beifen_clean_path($options['plugin_backup_directory']); ?>" class="regular-text" type="text">
-					</td>
-				</tr>
-				<tr valign="top" id="directory_list_row">
-					<th scope="row"><?php _e("Directory List", WP_BEIFEN_DOMAIN); ?></th>
-					<td id="directory_list_cell">
-						<div>
-							<ul id="directory_list">
-							</ul>
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<th scope="row"><label for="include_backup_directory"><?php _e("Include backup directory, when creating new backups", WP_BEIFEN_DOMAIN); ?></label></th>
-					<td>
-						<input type="radio" class="include_backup_directory" name="include_backup_directory" value="no" 
-						<?php if(!$options['include_backup_directory']) echo 'checked="checked"'; ?> /><?php _e("No", WP_BEIFEN_DOMAIN); ?><br/>
-						<input type="radio" class="include_backup_directory" name="include_backup_directory" value="yes" 
-						<?php if($options['include_backup_directory']) echo 'checked="checked"'; ?> /><?php _e("Yes", WP_BEIFEN_DOMAIN); ?>
-					</td>
-				</tr>
-				<tr valign="top">
-					<th scope="row"><label for="default_timeout"><?php _e("Default timeout (seconds)", WP_BEIFEN_DOMAIN); ?></label></th>
-					<td>
-						<select name="default_timeout" id="default_timeout">
-							<option value="10"<?php if($options['default_timeout']==10) echo ' selected="selected"'; ?>>10 </option>
-							<option value="20"<?php if($options['default_timeout']==20) echo ' selected="selected"'; ?>>20 </option>
-							<option value="30"<?php if($options['default_timeout']==30) echo ' selected="selected"'; ?>>30 </option>
-							<option value="40"<?php if($options['default_timeout']==40) echo ' selected="selected"'; ?>>40 </option>
-							<option value="50"<?php if($options['default_timeout']==50) echo ' selected="selected"'; ?>>50 </option>
-							<option value="60"<?php if($options['default_timeout']==60) echo ' selected="selected"'; ?>>60 </option>
-							<option value="90"<?php if($options['default_timeout']==90) echo ' selected="selected"'; ?>>90 </option>
-							<option value="120"<?php if($options['default_timeout']==120) echo ' selected="selected"'; ?>>120 </option>
-							<option value="180"<?php if($options['default_timeout']==180) echo ' selected="selected"'; ?>>180 </option>
-							<option value="240"<?php if($options['default_timeout']==240) echo ' selected="selected"'; ?>>240 </option>
-							<option value="299"<?php if($options['default_timeout']==299) echo ' selected="selected"'; ?>>300 </option>
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<th scope="row"><label for="enable_debugging"><?php _e("Enable debugging", WP_BEIFEN_DOMAIN); ?></label></th>
-					<td>
-						<input type="radio" class="enable_debugging" name="enable_debugging" value="no" 
-						<?php if(!$options['enable_debugging']) echo 'checked="checked"'; ?> /><?php _e("No", WP_BEIFEN_DOMAIN); ?><br/>
-						<input type="radio" class="enable_debugging" name="enable_debugging" value="yes" 
-						<?php if($options['enable_debugging']) echo 'checked="checked"'; ?> /><?php _e("Yes", WP_BEIFEN_DOMAIN); ?>
-					</td>
-				</tr>
-			</tbody>
-		</table>
-	</form>
-	<p class="submit">
-		<input name="Submit" id="wp_beifen_submit" class="button-primary" value="<?php _e("Save Changes", WP_BEIFEN_DOMAIN); ?>" type="submit">
-	</p>
+	<div id="beifen_wrap">
+		<div id="beifen_sidebar">
+			<?php require_once("bf-info.php"); ?>
+		</div>
+		<div id="beifen_content">
+			<h2><?php _e("Settings", WP_BEIFEN_DOMAIN); ?></h2>
+			<div id="update_message" class="updated"></div>
+			<form id="wp_beifen_form">
+				<table class="form-table">
+					<tbody>
+						<tr valign="top" id="backup_directory_row" style="position:relative;">
+							<th scope="row"><label for="backup_directory"><?php _e("Backup directory", WP_BEIFEN_DOMAIN); ?></label></th>
+							<td>
+								<input name="backup_directory" id="backup_directory" value="<?php echo wp_beifen_clean_path($options['plugin_backup_directory']); ?>" class="regular-text" type="text">
+							</td>
+						</tr>
+						<tr valign="top" id="directory_list_row">
+							<th scope="row"><?php _e("Directory List", WP_BEIFEN_DOMAIN); ?></th>
+							<td id="directory_list_cell">
+								<div>
+									<ul id="directory_list">
+									</ul>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<th scope="row"><label for="include_backup_directory"><?php _e("Include backup directory, when creating new backups", WP_BEIFEN_DOMAIN); ?></label></th>
+							<td>
+								<input type="radio" class="include_backup_directory" name="include_backup_directory" value="no" 
+								<?php if(!$options['include_backup_directory']) echo 'checked="checked"'; ?> /><?php _e("No", WP_BEIFEN_DOMAIN); ?><br/>
+								<input type="radio" class="include_backup_directory" name="include_backup_directory" value="yes" 
+								<?php if($options['include_backup_directory']) echo 'checked="checked"'; ?> /><?php _e("Yes", WP_BEIFEN_DOMAIN); ?>
+							</td>
+						</tr>
+						<tr>
+							<th scope="row"><label for="backup_schedule"><?php _e("Activate backup schedule", WP_BEIFEN_DOMAIN); ?></label></th>
+							<td>
+								<input type="radio" class="backup_schedule" name="backup_schedule" value="no" 
+								<?php if(!$options['backup_schedule']) echo 'checked="checked"'; ?> /><?php _e("No", WP_BEIFEN_DOMAIN); ?><br/>
+								<input type="radio" class="backup_schedule" name="backup_schedule" value="yes" 
+								<?php if($options['backup_schedule']) echo 'checked="checked"'; ?> /><?php _e("Yes", WP_BEIFEN_DOMAIN); ?>
+							</td>
+						</tr>
+						<tr valign="top">
+							<th scope="row"><label for="default_timeout"><?php _e("Default timeout (seconds)", WP_BEIFEN_DOMAIN); ?></label></th>
+							<td>
+								<select name="default_timeout" id="default_timeout">
+									<option value="10"<?php if($options['default_timeout']==10) echo ' selected="selected"'; ?>>10 </option>
+									<option value="20"<?php if($options['default_timeout']==20) echo ' selected="selected"'; ?>>20 </option>
+									<option value="30"<?php if($options['default_timeout']==30) echo ' selected="selected"'; ?>>30 </option>
+									<option value="40"<?php if($options['default_timeout']==40) echo ' selected="selected"'; ?>>40 </option>
+									<option value="50"<?php if($options['default_timeout']==50) echo ' selected="selected"'; ?>>50 </option>
+									<option value="60"<?php if($options['default_timeout']==60) echo ' selected="selected"'; ?>>60 </option>
+									<option value="90"<?php if($options['default_timeout']==90) echo ' selected="selected"'; ?>>90 </option>
+									<option value="120"<?php if($options['default_timeout']==120) echo ' selected="selected"'; ?>>120 </option>
+									<option value="180"<?php if($options['default_timeout']==180) echo ' selected="selected"'; ?>>180 </option>
+									<option value="240"<?php if($options['default_timeout']==240) echo ' selected="selected"'; ?>>240 </option>
+									<option value="299"<?php if($options['default_timeout']==299) echo ' selected="selected"'; ?>>300 </option>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<th scope="row"><label for="enable_debugging"><?php _e("Enable debugging", WP_BEIFEN_DOMAIN); ?></label></th>
+							<td>
+								<input type="radio" class="enable_debugging" name="enable_debugging" value="no" 
+								<?php if(!$options['enable_debugging']) echo 'checked="checked"'; ?> /><?php _e("No", WP_BEIFEN_DOMAIN); ?><br/>
+								<input type="radio" class="enable_debugging" name="enable_debugging" value="yes" 
+								<?php if($options['enable_debugging']) echo 'checked="checked"'; ?> /><?php _e("Yes", WP_BEIFEN_DOMAIN); ?>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</form>
+			<p class="submit">
+				<input name="Submit" id="wp_beifen_submit" class="button-primary" value="<?php _e("Save Changes", WP_BEIFEN_DOMAIN); ?>" type="submit">
+			</p>
+		</div>
+		<div class="clear"></div>
+	</div>
 </div>
-<?php require_once("footer.php"); ?>
+<div style="clear:both;"></div>

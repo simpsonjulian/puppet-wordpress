@@ -3,8 +3,8 @@ Contributors: dyersorg
 Donation link: http://www.dyers.org/blog/
 Tags: blogroll,random
 Requires at least: 2.3
-Tested up to: 2.8
-Stable tag: 2.9
+Tested up to: 2.9.1
+Stable tag: 3.3
 
 Allows you to display a configurable number of random links from your Wordpress blogroll
 
@@ -15,13 +15,16 @@ The Better Blogroll widget for Wordpress allows you to display a configurable nu
 
 Some Features:
 
+* Links can be sorted randomly, by title, or by rating.
+* The number of links shown is configurable.
+* Categories from which links are shown is configurable.
+* Links can be set to "nofollow" if your links are coming from paid sources.
+* Capable of Displaying XFN Data.
 * Displays image links, text links, or both.
 * Links can be in a single list or separated by category.
-* Can display each link's category to its right.
-* The categories from which links are shown is configurable.
-* Links can be set to "nofollow" if your links are coming from paid sources.
+* Can display each link's category or rating to its right.
+* The description of each link appears in a tool tip.
 * Allows you to show an explanation that the list is a rolling blogroll.
-* The number of links randomly shown is configurable.
 
 
 

@@ -38,7 +38,21 @@ class Advman_Dal extends OX_Dal
 			$data['settings']['version'] = ADVMAN_VERSION;
 			$data['settings']['openx-sync'] = true;
 			$data['settings']['publisher-id'] = md5(uniqid('', true));
+			$data['settings']['enable-php'] = false;
+			$data['settings']['purge-stats-days'] = 30;
+			$data['settings']['stats'] = true;
+			$data['stats'] = array();
 			$save = true;
+		}
+		if (!empty($data['stats'])) {
+			$oldest = time() - ($data['settings']['purge-stats-days'] * 24 * 60 * 60);
+			foreach ($data['stats'] as $day => $stat) {
+				$ts = strtotime($day);
+				if ($ts < $oldest) {
+					unset($data['stats'][$day]);
+					$save = true;
+				}
+			}
 		}
 		
 		if ($save) {
@@ -131,6 +145,11 @@ class Advman_Dal extends OX_Dal
 				return '';
 			case 'website-url':
 				return get_option('siteurl');
+			case 'yesterday-views':
+				$yesterday = date('Y-m-d', time() - (60 * 60 * 24));
+//				$yesterday = date('Y-m-d', time());  // for testing
+				$stats = $this->data['stats'];
+				return ( empty($stats[$yesterday]) ? 0 : array_sum($stats[$yesterday]) );
 		}
 		return $this->data['settings'][$key];
 	}
@@ -146,6 +165,18 @@ class Advman_Dal extends OX_Dal
 				return false; // all of these settings are read only
 		}
 		$this->data['settings'][$key] = $value;
+		$this->_update_data();
+		return true;
+	}
+	
+	function select_stats()
+	{
+		return $this->data['stats'];
+	}
+	
+	function update_stats($stats)
+	{
+		$this->data['stats'] = $stats;
 		$this->_update_data();
 		return true;
 	}

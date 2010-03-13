@@ -7,7 +7,7 @@ class OX_Tools
 			while (false !== ($file = readdir($handle))) {
 				// Make sure that the first character does not start with a '.' (omit hidden files like '.', '..', '.svn', etc.)
 				// as well as make sure the file is not a directory
-				if ($file[0] != '.') {
+				if ($file[0] != '.' && substr($file, -4) == '.php') {
 					$require_file = is_dir("{$dir}/{$file}") ? "{$dir}/{$file}/{$file}.php" : "{$dir}/{$file}";
 					
 					if (file_exists($require_file)) {
@@ -105,6 +105,15 @@ class OX_Tools
 		return array('sections' => $sct, 'formats' => $fmt);
 	}
 	
+	function sanitize_post_var($field)
+	{
+		if (isset($_POST[$field])) {
+			return OX_Tools::sanitize($_POST[$field], 'key');
+		}
+		
+		return '';
+	}
+	
 	function sanitize($field, $type = null)
 	{
 		if (is_array($field)) {
@@ -132,7 +141,6 @@ class OX_Tools
 				return stripslashes(str_replace("\0", '', $field));
 				break;
 		}
-		
 	}
 	
 	function explode_format($format)

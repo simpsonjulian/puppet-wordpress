@@ -1,3 +1,70 @@
+#beifen_wrap
+{
+	width:100%;
+	position:relative;
+	padding:5px;
+
+}
+
+#beifen_content
+{
+	margin-right:260px;
+}
+
+#beifen_sidebar
+{
+	width:250px;
+	position:absolute;
+	top:5px;
+	right:5px;
+	padding-top:50px;
+}
+
+.beifen_widget
+{
+	border:1px solid #DFDFDF;
+	-moz-border-radius-bottomleft:6px;
+	-moz-border-radius-bottomright:6px;
+	-moz-border-radius-topleft:6px;
+	-moz-border-radius-topright:6px;
+	margin-bottom:20px;
+}
+
+.beifen_widget h3
+{
+	-moz-background-clip:border;
+	-moz-background-inline-policy:continuous;
+	-moz-background-origin:padding;
+	background:#D5E6F2 url(../../../../wp-admin/images/blue-grad.png) repeat-x scroll left top;
+	text-shadow:0 1px 0 #FFFFFF;
+	margin:0 0 0 0;
+	padding:5px;
+	color:#093E56;
+	font-size:12px;
+}
+
+.beifen_widget_content
+{
+	margin:0;
+	padding:0 5px;
+	background:#fff;
+	font-size:11px;
+	-moz-border-radius-bottomleft:6px;
+	-moz-border-radius-bottomright:6px;
+}
+
+.beifen_widget_content p, .beifen_widget_content ul
+{
+	margin:0;
+	padding:5px;
+	font-size:11px;
+}
+
+.beifen_widget_content li
+{
+	margin-left:1.2em;
+}
+
 #directory_list {
 	float:left;
 	border:1px solid #E6DB55;

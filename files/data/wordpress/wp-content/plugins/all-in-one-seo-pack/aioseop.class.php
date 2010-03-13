@@ -2,7 +2,7 @@
 
 class All_in_One_SEO_Pack {
 	
- 	var $version = "1.6.7";
+ 	var $version = "1.6.10.2";
  	
  	/** Max numbers of chars in auto-generated description */
  	var $maximum_description_length = 160;
@@ -118,9 +118,10 @@ class All_in_One_SEO_Pack {
 			$excludedstuff = explode(',',$aioseop_options['aiosp_ex_pages']);
 			foreach($excludedstuff as $exedd){
 				//echo $exedd;
-			if($exedd){
-				if(stristr($currenturl, trim($exedd))){
-					return true;
+			    $exedd = trim($exedd);
+			            if($exedd){
+			                if(stristr($currenturl, $exedd)){
+			                    return true;
 				}
 			}
 		}
@@ -1456,6 +1457,8 @@ href="http://semperfiwebdesign.com/documentation/all-in-one-seo-pack/all-in-one-
 href="http://semperfiwebdesign.com/portfolio/wordpress/wordpress-plugins/forum/"><?php _e('Support', 'all_in_one_seo_pack') ?></a>
 | <a target="_blank" title="<?php _e('All in One SEO Plugin Translations', 'all_in_one_seo_pack') ?>"
 href="http://semperfiwebdesign.com/documentation/all-in-one-seo-pack/translations-for-all-in-one-seo-pack/"><?php _e('Translations', 'all_in_one_seo_pack') ?></a>
+| <strong><a target="_blank" title="<?php _e('Pro Version', 'all_in_one_seo_pack') ?>"
+href="http://wpplugins.com/plugin/50/all-in-one-seo-pack-pro-version"><?php _e('UPGRADE TO PRO VERSION', 'all_in_one_seo_pack') ?></a></strong>
 <br />
 
 <!--<div style="width:75%;background-color:yellow;">
@@ -1471,7 +1474,7 @@ href="http://twitter.com/michaeltorbert/"><img src="<?php //echo WP_PLUGIN_URL; 
 -->
 </p>
 
-<div style="width:824px;">
+<div style="width:832px;">
 <div style="float:left;background-color:white;padding: 10px 10px 10px 10px;margin-right:15px;border: 1px solid #ddd;">
 <div style="width:350px;height:130px;">
 	<h3>Donate</h3>
@@ -1491,9 +1494,9 @@ href="http://twitter.com/michaeltorbert/"><img src="<?php //echo WP_PLUGIN_URL; 
 </div>
 
 <div style="float:left;background-color:white;padding: 10px 10px 10px 10px;border: 1px solid #ddd;">
-<div style="width:415px;height:130px;">
+<div style="width:423px;height:130px;">
 	<h3>PageLines Themes</h3>
-	We would also like to recommend <a href="http://www.pagelines.com/wpthemes/">PageLines</a> for Professional WordPress Themes.  They are attractive, affordable, performance optimized themes that integrate perfectly with All in One SEO Pack to put your professional website at the top of the rankings.
+	We would also like to recommend <a href="http://www.pagelines.com/wpthemes/" target="_blank">PageLines</a> for Professional WordPress Themes.  They are attractive, affordable, performance optimized CMS themes that integrate perfectly with All in One SEO Pack to put your professional website at the top of the rankings.
 </div>
 	<a target="_blank" title="iBlogPro" href="http://www.pagelines.com/wpthemes/">
 	<img src="<?php echo WP_PLUGIN_URL; ?>/all-in-one-seo-pack/images/iblogpro.jpg" alt="<?php _e('iBlogPro theme', 'all_in_one_seo_pack') ?>" />	</a>
@@ -1543,12 +1546,12 @@ href="http://twitter.com/michaeltorbert/"><img src="<?php //echo WP_PLUGIN_URL; 
 <h3><?php _e('Click on option titles to get help!', 'all_in_one_seo_pack') ?></h3>
 
 <?php
-
+function aioseop_mrt_df(){
+	
 if(function_exists('fetch_feed')){ 
 	// start new feed
-?>
-<?php echo "Highest Donations"; ?>
-<?php // Get RSS Feed(s)
+ echo "Highest Donations"; 
+  // Get RSS Feed(s)
 include_once(ABSPATH . WPINC . '/feed.php');
 
 // Get a SimplePie feed object from the specified feed source.
@@ -1655,7 +1658,13 @@ title='<?php echo $item['title']; ?>'>
 	//fall back on something else for feed here
 }
 }
+}
+
+//aioseop_mrt_df();
+
 ?>
+
+
 
 <?php
 global $wpdb;

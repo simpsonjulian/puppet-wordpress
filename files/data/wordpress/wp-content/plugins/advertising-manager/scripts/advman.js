@@ -83,6 +83,18 @@ jQuery(document).ready( function($) {
 		noneSelected: 'No Authors',
 		selectAllText: 'All Authors'
 	});
+	$("#advman-category").multiSelect({
+		oneOrMoreSelected: '*',
+		allSelected: 'All Categories',
+		noneSelected: 'No Categories',
+		selectAllText: 'All Categories'
+	});
+	$("#advman-tag").multiSelect({
+		oneOrMoreSelected: '*',
+		allSelected: 'All Tags',
+		noneSelected: 'No Tags',
+		selectAllText: 'All Tags'
+	});
 	
 //	// 'Select All' text changed
 //	$("#control_8").multiSelect({ selectAllText: 'Pick &lsquo;em all!' });

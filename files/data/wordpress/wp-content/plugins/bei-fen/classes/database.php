@@ -81,6 +81,12 @@ class XinitBackupDatabaseHelper
 		$sql = "SELECT name FROM $this->_tableName WHERE id='$id'";
 		return $this->_connection->get_var($sql);
 	}
+
+	function getIDByName($name)
+	{
+		$sql = "SELECT id FROM $this->_tableName WHERE name='$name'";
+		return $this->_connection->get_var($sql);
+	}
 	
 	function getBackupByID($id)
 	{

@@ -1,13 +1,13 @@
-# Copyright (C) 2009 David Schneider
-# This file is distributed under the same license as the PACKAGE package.
+# SOME DESCRIPTIVE TITLE.
+# This file is put in the public domain.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Bei-Fen WP Plugin translation\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/beifen\n"
-"POT-Creation-Date: 2009-10-29 05:19+0100\n"
-"PO-Revision-Date: 2009-11-03 21:25+0600\n"
+"POT-Creation-Date: 2009-12-22 01:08+0000\n"
+"PO-Revision-Date: 2009-12-23 00:02+0600\n"
 "Last-Translator: iMiKE <M-I-B@yandex.ru>\n"
 "Language-Team: MiB Co.Entertainment <M-I-B@yandex.ru>\n"
 "MIME-Version: 1.0\n"
@@ -16,65 +16,90 @@ msgstr ""
 "X-Poedit-Language: Russian\n"
 "X-Poedit-Country: Russia\n"
 
-#: beifen.php:121
-#: beifen.php:129
-#: pages/settings.php:160
+#: beifen.php:128
+#: beifen.php:136
+#: pages/settings.php:167
 msgid "Settings"
 msgstr "Настройки"
 
-#: beifen.php:130
-#: pages/manage_backups.php:121
+#: beifen.php:137
+#: pages/manage_backups.php:279
 msgid "Manage Backups"
 msgstr "Резервные копии"
 
-#: beifen.php:131
-#: pages/create_backup.php:85
-#: pages/create_backup.php:145
+#: beifen.php:138
+#: pages/create_backup.php:83
+#: pages/create_backup.php:143
 msgid "Create New Backup"
-msgstr "Создание новой резервной копии"
+msgstr "Создать новую резервную копию"
 
-#: beifen.php:133
+#: beifen.php:139
+#: pages/create_scheduled_backup.php:171
+#: pages/create_scheduled_backup.php:351
+msgid "Schedule New Backup"
+msgstr "Запланировать новое резервное копирование"
+
+#: beifen.php:141
 msgid "Backup"
 msgstr "Резервные копии"
 
-#: beifen.php:181
-#: beifen.php:226
+#: beifen.php:191
+#: beifen.php:236
+#: beifen.php:336
 #: includes/change_settings.php:13
 #: includes/change_settings.php:22
 #: includes/change_settings.php:30
 #: includes/change_settings.php:38
 #: includes/create_backup.php:31
-#: includes/create_backup.php:39
-#: includes/create_backup.php:47
-#: includes/create_backup.php:57
-#: includes/create_backup.php:116
+#: includes/create_backup.php:42
+#: includes/create_backup.php:51
+#: includes/create_backup.php:59
+#: includes/create_backup.php:69
+#: includes/create_backup.php:128
+#: includes/create_scheduled_backup.php:31
+#: includes/create_scheduled_backup.php:39
+#: includes/create_scheduled_backup.php:47
+#: includes/create_scheduled_backup.php:57
+#: includes/create_scheduled_backup.php:116
+#: includes/do_schedule.php:60
+#: includes/do_schedule.php:68
+#: includes/do_schedule.php:76
+#: includes/do_schedule.php:86
+#: includes/do_schedule.php:145
 #: includes/get_directories.php:34
-#: includes/restore_backup.php:49
-#: includes/restore_backup.php:62
-#: includes/restore_backup.php:70
-#: includes/restore_backup.php:85
-#: includes/restore_backup.php:93
-#: pages/create_backup.php:68
-#: pages/manage_backups.php:77
-#: pages/manage_backups.php:107
-#: pages/settings.php:112
-#: pages/settings.php:142
+#: includes/restore_backup.php:51
+#: includes/restore_backup.php:64
+#: includes/restore_backup.php:72
+#: includes/restore_backup.php:87
+#: includes/restore_backup.php:98
+#: includes/schedule_backup.php:18
+#: includes/schedule_backup.php:28
+#: includes/schedule_backup.php:39
+#: pages/create_backup.php:61
+#: pages/create_scheduled_backup.php:149
+#: pages/manage_backups.php:140
+#: pages/manage_backups.php:170
+#: pages/manage_backups.php:200
+#: pages/manage_backups.php:236
+#: pages/manage_backups.php:260
+#: pages/settings.php:114
+#: pages/settings.php:144
 msgid "Error"
 msgstr "Ошибка"
 
-#: beifen.php:182
+#: beifen.php:192
 msgid "The requested task is invalid!"
 msgstr "Запрошенная задача неверна!"
 
-#: beifen.php:210
+#: beifen.php:220
 msgid "Warning"
 msgstr "Предупреждение"
 
-#: beifen.php:211
+#: beifen.php:221
 msgid "A warning! Request aborted!"
 msgstr "Предупреждение! Операция отменена!"
 
-#: beifen.php:227
+#: beifen.php:237
 msgid "A critical error occured! Request aborted!"
 msgstr "Произошла критическая ошибка! Операция отменена!"
 
@@ -94,256 +119,506 @@ msgstr "Запись в директорию с резервными копия�
 msgid "The execution time limit is invalid!"
 msgstr "Лимит на время выполнение задачи неверен"
 
-#: includes/change_settings.php:87
-#: includes/create_backup.php:143
-#: includes/delete_backup.php:18
+#: includes/change_settings.php:97
+#: includes/create_backup.php:155
+#: includes/create_scheduled_backup.php:143
+#: includes/delete_backup.php:19
+#: includes/delete_schedule.php:17
+#: includes/do_schedule.php:172
 #: includes/get_backup_count.php:11
 #: includes/get_directories.php:28
-#: includes/restore_backup.php:74
-#: pages/settings.php:71
+#: includes/get_schedule_count.php:7
+#: includes/restore_backup.php:76
+#: includes/schedule_backup.php:49
+#: pages/settings.php:73
 msgid "Success"
 msgstr "Выполнено!"
 
-#: includes/change_settings.php:88
+#: includes/change_settings.php:98
 msgid "All changes were saved successfully!"
 msgstr "Изменения сохранены!"
 
 #: includes/create_backup.php:32
+#: includes/create_scheduled_backup.php:32
+#: includes/do_schedule.php:61
+#: includes/schedule_backup.php:19
 msgid "There is already a backup with this name. Please change the name!"
 msgstr "Резервная копия с таким именем уже имеется. Пожалуйста, измените имя!"
 
-#: includes/create_backup.php:40
+#: includes/create_backup.php:43
+#: includes/schedule_backup.php:40
+msgid "There is already a schedule with this name!"
+msgstr "Уже имеется задача с этим именем!"
+
+#: includes/create_backup.php:52
+#: includes/create_scheduled_backup.php:40
+#: includes/do_schedule.php:69
 msgid "The backup folder is not writable. Please check write-permissions!"
 msgstr "Запись в директорию с резервными копиями невозможна! Пожалуйста, выставьте верные разрешения на запись!"
 
-#: includes/create_backup.php:48
+#: includes/create_backup.php:60
+#: includes/create_scheduled_backup.php:48
+#: includes/do_schedule.php:77
 msgid "Could not create backup folder. Please check write-permissions!"
 msgstr "Невозможно создать папку с резервными копиями. Пожалуйста, выставьте верные разрешения на запись!"
 
-#: includes/create_backup.php:58
+#: includes/create_backup.php:70
+#: includes/create_scheduled_backup.php:58
+#: includes/do_schedule.php:87
 msgid "The database backup folder is not writable. Please check write-permissions!"
 msgstr "Запись в директорию с резервными копиями невозможна! Пожалуйста, выставьте верные разрешения на запись!"
 
-#: includes/create_backup.php:117
-#: includes/restore_backup.php:71
+#: includes/create_backup.php:129
+#: includes/create_scheduled_backup.php:117
+#: includes/do_schedule.php:146
+#: includes/restore_backup.php:73
 msgid "This is not a valid backup type!"
 msgstr "Неверный тип резервной копии!"
 
-#: includes/create_backup.php:144
+#: includes/create_backup.php:156
+#: includes/create_scheduled_backup.php:144
+#: includes/do_schedule.php:173
 msgid "Backup has been successfully created!"
 msgstr "Резерная копия успешно создана!"
 
-#: includes/delete_backup.php:19
+#: includes/create_scheduled_backup.php:170
+msgid "Backup result"
+msgstr "Результат резевного копирования"
+
+#: includes/delete_backup.php:20
+#: includes/delete_schedule.php:18
 msgid "Backup deleted"
 msgstr "Резервная копия удалена"
 
-#: includes/restore_backup.php:50
-#: includes/restore_backup.php:63
+#: includes/restore_backup.php:52
+#: includes/restore_backup.php:65
 msgid "Could not restore database!"
-msgstr "Восстановить резервную копию невозможно!"
+msgstr "Восстановить резервную копию базы данных невозможно!"
 
-#: includes/restore_backup.php:75
+#: includes/restore_backup.php:77
 msgid "Backup was successfully restored!"
 msgstr "Резервная копия успешно восстановлена!"
 
-#: includes/restore_backup.php:94
+#: includes/restore_backup.php:99
 msgid "Invalid backup ID!"
 msgstr "Неверный ID резервной копии!"
 
+#: includes/schedule_backup.php:29
+msgid "The schedule is past due!"
+msgstr "Задача просрочена!"
+
+#: includes/schedule_backup.php:50
+msgid "Backup schedule was successfully saved!"
+msgstr "Задача резервного копирования успешно сохранена!"
+
+#: pages/bf-info.php:2
+msgid "News about Bei Fen"
+msgstr "Новости о плагине Bei Fen"
+
+#: pages/bf-info.php:14
+msgid "No items"
+msgstr "Нет элементов"
+
+#: pages/bf-info.php:27
+msgid "Documentation and Support"
+msgstr "Документация и поддержка"
+
+#: pages/bf-info.php:30
+msgid "Read the manual"
+msgstr "Читать инструкцию"
+
+#: pages/bf-info.php:31
+msgid "Get support"
+msgstr "Запросить помощь"
+
+#: pages/bf-info.php:36
+msgid "Donate"
+msgstr "Пожертвовать"
+
+#: pages/bf-info.php:38
+msgid "Please consider donating to improve the development of Bei Fen and benefit from this in return. You can even donate without paying any money!"
+msgstr "Пожалуйста, поддержите плагин чтобы улучшить разработку плагина Bei Fen и получить выгоду от этого в ответ. Вы можете поддержать плагин даже не жертвуя деньги!"
+
+#: pages/bf-info.php:38
+msgid "Read about how you can donate!"
+msgstr "Прочесть о том, как Вы можете поддержать плагин!"
+
 #: pages/create_backup.php:22
+#: pages/create_scheduled_backup.php:85
 msgid "Creating backup, please don't leave this page!"
 msgstr "Создаём резервную копию, пожалуйста, не покидайте страницу!"
 
-#: pages/create_backup.php:33
-msgid "You are going to create a new backup! This may take some time!"
-msgstr "Вы приступаете к созданию новой резервной копии, процесс может занять некоторое время!"
-
-#: pages/create_backup.php:69
-#: pages/manage_backups.php:78
-#: pages/manage_backups.php:108
-#: pages/settings.php:113
-#: pages/settings.php:143
+#: pages/create_backup.php:62
+#: pages/create_scheduled_backup.php:150
+#: pages/manage_backups.php:141
+#: pages/manage_backups.php:171
+#: pages/manage_backups.php:201
+#: pages/manage_backups.php:237
+#: pages/manage_backups.php:261
+#: pages/settings.php:115
+#: pages/settings.php:145
 msgid "The server response was invalid!"
 msgstr "Неверный ответ сервера!"
 
-#: pages/create_backup.php:71
-#: pages/manage_backups.php:80
-#: pages/manage_backups.php:110
-#: pages/settings.php:115
-#: pages/settings.php:145
+#: pages/create_backup.php:64
+#: pages/create_scheduled_backup.php:152
+#: pages/manage_backups.php:143
+#: pages/manage_backups.php:173
+#: pages/manage_backups.php:203
+#: pages/manage_backups.php:239
+#: pages/manage_backups.php:263
+#: pages/settings.php:117
+#: pages/settings.php:147
 msgid "Server Response"
 msgstr "Ответ сервера"
 
-#: pages/create_backup.php:91
-#: pages/manage_backups.php:127
+#: pages/create_backup.php:89
+#: pages/create_scheduled_backup.php:177
+#: pages/manage_backups.php:285
 msgid "Please review your settings before first use."
-msgstr "Пожалуйста, проверьте Ваши настройки перед первым использованием."
+msgstr "Пожалуйста, проверьте Ваши настройки плагина перед его первым использованием."
 
-#: pages/create_backup.php:91
-#: pages/manage_backups.php:102
-#: pages/manage_backups.php:127
-#: pages/manage_backups.php:201
+#: pages/create_backup.php:89
+#: pages/create_scheduled_backup.php:177
+#: pages/manage_backups.php:231
+#: pages/manage_backups.php:255
+#: pages/manage_backups.php:285
+#: pages/manage_backups.php:359
+#: pages/manage_backups.php:376
 msgid "You can do so"
 msgstr "Вы можете это сделать"
 
-#: pages/create_backup.php:91
-#: pages/manage_backups.php:102
-#: pages/manage_backups.php:127
-#: pages/manage_backups.php:203
+#: pages/create_backup.php:89
+#: pages/create_scheduled_backup.php:177
+#: pages/manage_backups.php:231
+#: pages/manage_backups.php:255
+#: pages/manage_backups.php:285
+#: pages/manage_backups.php:361
+#: pages/manage_backups.php:378
 msgid "here"
 msgstr "здесь"
 
-#: pages/create_backup.php:100
-#: pages/manage_backups.php:142
-#: pages/manage_backups.php:151
+#: pages/create_backup.php:98
+#: pages/create_scheduled_backup.php:186
+#: pages/manage_backups.php:300
+#: pages/manage_backups.php:309
+#: pages/manage_backups.php:384
+#: pages/manage_backups.php:392
 msgid "Backup Name"
 msgstr "Название резервной копии"
 
-#: pages/create_backup.php:106
+#: pages/create_backup.php:104
+#: pages/create_scheduled_backup.php:192
 msgid "Backup Type"
 msgstr "Тип резервной копии"
 
-#: pages/create_backup.php:109
+#: pages/create_backup.php:107
+#: pages/create_scheduled_backup.php:195
 msgid "Complete"
 msgstr "Полная копия (БД+файлы)"
 
-#: pages/create_backup.php:110
+#: pages/create_backup.php:108
+#: pages/create_scheduled_backup.php:196
 msgid "Files Only"
 msgstr "Только файлы"
 
-#: pages/create_backup.php:111
+#: pages/create_backup.php:109
+#: pages/create_scheduled_backup.php:197
 msgid "Database Only"
 msgstr "Только база данных"
 
-#: pages/create_backup.php:117
+#: pages/create_backup.php:115
+#: pages/create_scheduled_backup.php:203
 msgid "Compress files with GZIP"
 msgstr "Архивировать при помощи GZIP"
 
-#: pages/create_backup.php:119
-#: pages/manage_backups.php:182
-#: pages/settings.php:184
-#: pages/settings.php:211
+#: pages/create_backup.php:117
+#: pages/create_scheduled_backup.php:205
+#: pages/create_scheduled_backup.php:330
+#: pages/create_scheduled_backup.php:339
+#: pages/manage_backups.php:340
+#: pages/settings.php:191
+#: pages/settings.php:200
+#: pages/settings.php:227
 msgid "No"
 msgstr "Нет"
 
-#: pages/create_backup.php:120
-#: pages/manage_backups.php:178
-#: pages/settings.php:186
-#: pages/settings.php:213
+#: pages/create_backup.php:118
+#: pages/create_scheduled_backup.php:206
+#: pages/create_scheduled_backup.php:331
+#: pages/create_scheduled_backup.php:338
+#: pages/manage_backups.php:336
+#: pages/settings.php:193
+#: pages/settings.php:202
+#: pages/settings.php:229
 msgid "Yes"
 msgstr "Да"
 
-#: pages/create_backup.php:125
+#: pages/create_backup.php:123
+#: pages/create_scheduled_backup.php:211
 msgid "Timeout (seconds)"
 msgstr "Таймаут (в секундах)"
 
-#: pages/manage_backups.php:32
-msgid "Deleting backup"
-msgstr "Удаление резервной копии"
+#: pages/create_scheduled_backup.php:229
+#: pages/manage_backups.php:385
+#: pages/manage_backups.php:393
+msgid "Schedule Type"
+msgstr "Тип запланированной задачи"
 
+#: pages/create_scheduled_backup.php:232
+msgid "Single Backup"
+msgstr "Одиночное резервное копирование"
+
+#: pages/create_scheduled_backup.php:233
+msgid "Frequent Backup"
+msgstr "Повторяющееся резервное копирование"
+
+#: pages/create_scheduled_backup.php:238
+msgid "Schedule Frequence"
+msgstr "Частота повторения"
+
+#: pages/create_scheduled_backup.php:241
+#: pages/manage_backups.php:7
+msgid "Daily"
+msgstr "Ежеденевно"
+
+#: pages/create_scheduled_backup.php:242
+#: pages/manage_backups.php:15
+msgid "Weekly"
+msgstr "Еженедельно"
+
+#: pages/create_scheduled_backup.php:243
+#: pages/manage_backups.php:50
+msgid "Monthly"
+msgstr "Ежемесячно"
+
+#: pages/create_scheduled_backup.php:246
+#: pages/manage_backups.php:22
+msgid "Monday"
+msgstr "Понедельник"
+
+#: pages/create_scheduled_backup.php:247
+#: pages/manage_backups.php:25
+msgid "Tuesday"
+msgstr "Вторник"
+
+#: pages/create_scheduled_backup.php:248
+#: pages/manage_backups.php:28
+msgid "Wednesday"
+msgstr "Среда"
+
+#: pages/create_scheduled_backup.php:249
+#: pages/manage_backups.php:31
+msgid "Thursday"
+msgstr "Четверг"
+
+#: pages/create_scheduled_backup.php:250
 #: pages/manage_backups.php:34
-msgid "You are going to delete this backup! You won't be able to restore it later!"
-msgstr "Вы собираетесь удалить эту резервную копию! Вы больше не сможете ею воспользоваться!"
+msgid "Friday"
+msgstr "Пятница"
 
-#: pages/manage_backups.php:34
-#: pages/manage_backups.php:49
-msgid "Are you sure?"
-msgstr "Вы уверены?"
+#: pages/create_scheduled_backup.php:251
+#: pages/manage_backups.php:37
+msgid "Saturday"
+msgstr "Суббота"
 
-#: pages/manage_backups.php:47
-msgid "Restoring backup"
-msgstr "Восстановление из резервной копии"
+#: pages/create_scheduled_backup.php:252
+#: pages/manage_backups.php:40
+msgid "Sunday"
+msgstr "Воскресенье"
 
-#: pages/manage_backups.php:49
-msgid "You are going to restore this backup! Please backup all files, if your are not sure!"
-msgstr "Вы собираетесь восстановить данные из этой резервной копии! Если Вы не уверены - восстанавливайте все файлы из резервной копии!"
+#: pages/create_scheduled_backup.php:255
+msgid "First day of month"
+msgstr "Первый день месяца"
 
-#: pages/manage_backups.php:102
-#: pages/manage_backups.php:199
-msgid "No backups created so far!"
-msgstr "Не было создано ни одной резервной копии!"
+#: pages/create_scheduled_backup.php:256
+msgid "Last day of month"
+msgstr "Последний день месяца"
 
-#: pages/manage_backups.php:143
-#: pages/manage_backups.php:152
+#: pages/create_scheduled_backup.php:261
+#: pages/manage_backups.php:301
+#: pages/manage_backups.php:310
 msgid "Create Date"
 msgstr "Дата создания"
 
-#: pages/manage_backups.php:144
-#: pages/manage_backups.php:153
+#: pages/create_scheduled_backup.php:279
+msgid "January"
+msgstr "Январь"
+
+#: pages/create_scheduled_backup.php:280
+msgid "February"
+msgstr "Февраль"
+
+#: pages/create_scheduled_backup.php:281
+msgid "March"
+msgstr "Март"
+
+#: pages/create_scheduled_backup.php:282
+msgid "April"
+msgstr "Апрель"
+
+#: pages/create_scheduled_backup.php:283
+msgid "May"
+msgstr "Май"
+
+#: pages/create_scheduled_backup.php:284
+msgid "June"
+msgstr "Июнь"
+
+#: pages/create_scheduled_backup.php:285
+msgid "July"
+msgstr "Июль"
+
+#: pages/create_scheduled_backup.php:286
+msgid "August"
+msgstr "Август"
+
+#: pages/create_scheduled_backup.php:287
+msgid "September"
+msgstr "Сентябрь"
+
+#: pages/create_scheduled_backup.php:288
+msgid "October"
+msgstr "Октябрь"
+
+#: pages/create_scheduled_backup.php:289
+msgid "November"
+msgstr "Ноябрь"
+
+#: pages/create_scheduled_backup.php:290
+msgid "December"
+msgstr "Декабрь"
+
+#: pages/create_scheduled_backup.php:301
+msgid "Schedule Time"
+msgstr "Время выполнения"
+
+#: pages/create_scheduled_backup.php:328
+msgid "Delete old backup"
+msgstr "Удалить старую резервную копию?"
+
+#: pages/create_scheduled_backup.php:335
+msgid "Send confirmation/failure message of backup via email"
+msgstr "Уведомлять об успешном/неудачном резервном копировании по e-mail"
+
+#: pages/create_scheduled_backup.php:343
+msgid "Send message to the following email address"
+msgstr "Отслыать сообщение на следующий e-mail адрес"
+
+#: pages/manage_backups.php:17
+msgid "every"
+msgstr "каждый"
+
+#: pages/manage_backups.php:55
+msgid "first day of month"
+msgstr "первый день месяца"
+
+#: pages/manage_backups.php:59
+msgid "last day of month"
+msgstr "последний день месяца"
+
+#: pages/manage_backups.php:106
+msgid "Deleting backup"
+msgstr "Удаление резервной копии"
+
+#: pages/manage_backups.php:114
+msgid "Restoring backup"
+msgstr "Восстановление из резервной копии"
+
+#: pages/manage_backups.php:122
+msgid "Deleting schedule"
+msgstr "Удаление расписания"
+
+#: pages/manage_backups.php:231
+#: pages/manage_backups.php:357
+msgid "No backups created so far!"
+msgstr "Не было создано ни одной резервной копии!"
+
+#: pages/manage_backups.php:255
+#: pages/manage_backups.php:374
+msgid "No backups scheduled so far!"
+msgstr "Не было запланировано ни одного резервного копирования!"
+
+#: pages/manage_backups.php:302
+#: pages/manage_backups.php:311
 msgid "Type"
 msgstr "Тип"
 
-#: pages/manage_backups.php:145
-#: pages/manage_backups.php:154
+#: pages/manage_backups.php:303
+#: pages/manage_backups.php:312
 msgid "Is Zipped?"
 msgstr "Архив?"
 
-#: pages/manage_backups.php:146
-#: pages/manage_backups.php:155
+#: pages/manage_backups.php:304
+#: pages/manage_backups.php:313
+#: pages/manage_backups.php:387
+#: pages/manage_backups.php:395
 msgid "Actions"
 msgstr "Действия"
 
-#: pages/manage_backups.php:186
+#: pages/manage_backups.php:344
+#: pages/manage_backups.php:416
 msgid "Delete"
 msgstr "Удалить"
 
-#: pages/manage_backups.php:187
+#: pages/manage_backups.php:345
 msgid "Restore"
 msgstr "Восстановить"
 
-#: pages/settings.php:31
+#: pages/manage_backups.php:366
+msgid "Scheduled Backups"
+msgstr "Запланированные резервные копирования"
+
+#: pages/manage_backups.php:386
+#: pages/manage_backups.php:394
+msgid "Next Backup"
+msgstr "Следующая резервная копия"
+
+#: pages/manage_backups.php:409
+msgid "Single"
+msgstr "Одиночная"
+
+#: pages/manage_backups.php:411
+msgid "Frequent"
+msgstr "Повторяющаяся"
+
+#: pages/settings.php:33
 msgid "Saving settings, please don't leave this page!"
 msgstr "Сохранение настроек, пожалуйста, не покидайте страницу!"
 
-#: pages/settings.php:76
+#: pages/settings.php:78
 msgid "Close"
 msgstr "Закрыть"
 
-#: pages/settings.php:98
+#: pages/settings.php:100
 msgid "Directory is empty!"
 msgstr "Директория пуста!"
 
-#: pages/settings.php:166
+#: pages/settings.php:173
 msgid "Backup directory"
 msgstr "Директория с резервными копиями"
 
-#: pages/settings.php:172
+#: pages/settings.php:179
 msgid "Directory List"
 msgstr "Список директорий"
 
-#: pages/settings.php:181
+#: pages/settings.php:188
 msgid "Include backup directory, when creating new backups"
 msgstr "Включать в бэкап директорию с резервными копиями"
 
-#: pages/settings.php:190
+#: pages/settings.php:197
+msgid "Activate backup schedule"
+msgstr "Включить резервное копирование по расписанию"
+
+#: pages/settings.php:206
 msgid "Default timeout (seconds)"
 msgstr "Таймаут по-умолчанию (в секундах)"
 
-#: pages/settings.php:208
+#: pages/settings.php:224
 msgid "Enable debugging"
 msgstr "Показывать отладочную информацию"
 
-#: pages/settings.php:220
+#: pages/settings.php:236
 msgid "Save Changes"
 msgstr "Сохранить изменения"
-
-#. Plugin Name of an extension
-msgid "Bei Fen"
-msgstr "Bei Fen"
-
-#. Plugin URI of an extension
-msgid "http://www.david-schneider.name/projects/beifen/"
-msgstr "http://www.david-schneider.name/projects/beifen/"
-
-#. Description of an extension
-msgid "A backup plugin for Wordpress. You can create full, files-only, and database-only backups!"
-msgstr "Плагин создания резервных копий сайта для Wordpress. Создаёт резервные копии за считанные секунды! Вы можете создавать полные копии либо исключительно базы данных или файлов!"
-
-#. Author of an extension
-msgid "David Schneider"
-msgstr "Дэвид Шнейдер"
-
-#. Author URI of an extension
-msgid "http://www.david-schneider.name/"
-msgstr "http://www.david-schneider.name/"
 

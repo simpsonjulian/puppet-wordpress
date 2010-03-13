@@ -2,8 +2,10 @@
 
 function wp_beifen_process_ajax_request($request_options)
 {
-	// Get options
+	// Get options and schedules, need to rewrite them after restore
 	$options = get_option(WP_BEIFEN_OPTIONS);
+	$scheduled_backups = get_option('WP_BEIFEN_SCHEDULED_BACKUPS');
+	
 	// Load required class definitions and create instances
 	require_once($options['plugin_location'] . 'classes' . DS . 'file.php');
 	require_once($options['plugin_location'] . 'classes' . DS . 'database.php');
@@ -88,6 +90,9 @@ function wp_beifen_process_ajax_request($request_options)
 	}
 	else
 	{
+	
+		update_option(WP_BEIFEN_OPTIONS,$options);
+		update_option('WP_BEIFEN_SCHEDULED_BACKUPS',$scheduled_backups);
 		//$bkp_file->destination_writable($test);
 		// Return success message
 		$result['status'] = __("Error", WP_BEIFEN_DOMAIN);

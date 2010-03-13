@@ -2,13 +2,13 @@
 /*
 Plugin Name: Akismet
 Plugin URI: http://akismet.com/
-Description: Akismet checks your comments against the Akismet web service to see if they look like spam or not. You need a <a href="http://wordpress.com/api-keys/">WordPress.com API key</a> to use it. You can review the spam it catches under "Comments." To show off your Akismet stats just put <code>&lt;?php akismet_counter(); ?&gt;</code> in your template. See also: <a href="http://wordpress.org/extend/plugins/stats/">WP Stats plugin</a>.
-Version: 2.2.6
+Description: Akismet checks your comments against the Akismet web service to see if they look like spam or not. You need a <a href="http://akismet.com/get/">WordPress.com API key</a> to use it. You can review the spam it catches under "Comments." To show off your Akismet stats just put <code>&lt;?php akismet_counter(); ?&gt;</code> in your template. See also: <a href="http://wordpress.org/extend/plugins/stats/">WP Stats plugin</a>.
+Version: 2.2.7
 Author: Matt Mullenweg
 Author URI: http://ma.tt/
 */
 
-define('AKISMET_VERSION', '2.2.6');
+define('AKISMET_VERSION', '2.2.7');
 
 // If you hardcode a WP.com API key here, all key config screens will be hidden
 if ( defined('WPCOM_API_KEY') )
@@ -122,7 +122,7 @@ function akismet_conf() {
 		'new_key_invalid' => array('color' => 'd22', 'text' => __('The key you entered is invalid. Please double-check it.')),
 		'new_key_failed' => array('color' => 'd22', 'text' => __('The key you entered could not be verified because a connection to akismet.com could not be established. Please check your server configuration.')),
 		'no_connection' => array('color' => 'd22', 'text' => __('There was a problem connecting to the Akismet server. Please check your server configuration.')),
-		'key_empty' => array('color' => 'aa0', 'text' => sprintf(__('Please enter an API key. (<a href="%s" style="color:#fff">Get your key.</a>)'), 'http://wordpress.com/profile/')),
+		'key_empty' => array('color' => 'aa0', 'text' => sprintf(__('Please enter an API key. (<a href="%s" style="color:#fff">Get your key.</a>)'), 'http://akismet.com/get/')),
 		'key_valid' => array('color' => '2d2', 'text' => __('This key is valid.')),
 		'key_failed' => array('color' => 'aa0', 'text' => __('The key below was previously validated but a connection to akismet.com can not be established at this time. Please check your server configuration.')));
 ?>
@@ -134,7 +134,7 @@ function akismet_conf() {
 <div class="narrow">
 <form action="" method="post" id="akismet-conf" style="margin: auto; width: 400px; ">
 <?php if ( !$wpcom_api_key ) { ?>
-	<p><?php printf(__('For many people, <a href="%1$s">Akismet</a> will greatly reduce or even completely eliminate the comment and trackback spam you get on your site. If one does happen to get through, simply mark it as "spam" on the moderation screen and Akismet will learn from the mistakes. If you don\'t have a WordPress.com account yet, you can get one at <a href="%2$s">WordPress.com</a>.'), 'http://akismet.com/', 'http://wordpress.com/api-keys/'); ?></p>
+	<p><?php printf(__('For many people, <a href="%1$s">Akismet</a> will greatly reduce or even completely eliminate the comment and trackback spam you get on your site. If one does happen to get through, simply mark it as "spam" on the moderation screen and Akismet will learn from the mistakes. If you don\'t have a WordPress.com account yet, you can get one at <a href="%2$s">Akismet.com</a>.'), 'http://akismet.com/', 'http://akismet.com/get/'); ?></p>
 
 <?php akismet_nonce_field($akismet_nonce) ?>
 <h3><label for="key"><?php _e('WordPress.com API Key'); ?></label></h3>
@@ -315,6 +315,10 @@ function akismet_get_server_connectivity( $cache_timeout = 86400 ) {
 
 // Returns true if server connectivity was OK at the last check, false if there was a problem that needs to be fixed.
 function akismet_server_connectivity_ok() {
+	// skip the check on WPMU because the status page is hidden
+	global $wpcom_api_key;
+	if ( $wpcom_api_key )
+		return true;
 	$servers = akismet_get_server_connectivity();
 	return !( empty($servers) || !count($servers) || count( array_filter($servers) ) < count($servers) );
 }
@@ -400,6 +404,14 @@ function akismet_http_post($request, $host, $path, $port = 80, $ip=null) {
 	return $response;
 }
 
+// filter handler used to return a spam result to pre_comment_approved
+function akismet_result_spam( $approved ) {
+	// bump the counter here instead of when the filter is added to reduce the possibility of overcounting
+	if ( $incr = apply_filters('akismet_spam_count_incr', 1) )
+		update_option( 'akismet_spam_count', get_option('akismet_spam_count') + $incr );
+	return 'spam';
+}
+
 function akismet_auto_check_comment( $comment ) {
 	global $akismet_api_host, $akismet_api_port;
 
@@ -423,8 +435,8 @@ function akismet_auto_check_comment( $comment ) {
 
 	$response = akismet_http_post($query_string, $akismet_api_host, '/1.1/comment-check', $akismet_api_port);
 	if ( 'true' == $response[1] ) {
-		add_filter('pre_comment_approved', create_function('$a', 'return \'spam\';'));
-		update_option( 'akismet_spam_count', get_option('akismet_spam_count') + 1 );
+		// akismet_spam_count will be incremented later by akismet_result_spam()
+		add_filter('pre_comment_approved', 'akismet_result_spam');
 
 		do_action( 'akismet_spam_caught' );
 
@@ -432,9 +444,13 @@ function akismet_auto_check_comment( $comment ) {
 		$last_updated = strtotime( $post->post_modified_gmt );
 		$diff = time() - $last_updated;
 		$diff = $diff / 86400;
-
-		if ( $post->post_type == 'post' && $diff > 30 && get_option( 'akismet_discard_month' ) == 'true' )
+		
+		if ( $post->post_type == 'post' && $diff > 30 && get_option( 'akismet_discard_month' ) == 'true' ) {
+			// akismet_result_spam() won't be called so bump the counter here
+			if ( $incr = apply_filters('akismet_spam_count_incr', 1) )
+				update_option( 'akismet_spam_count', get_option('akismet_spam_count') + $incr );
 			die;
+		}
 	}
 	akismet_delete_old();
 	return $comment;

@@ -7,7 +7,7 @@ function wp_beifen_process_ajax_request($request_options)
 	// Load required class definition and create instance
 	require_once($options['plugin_location'] . 'classes' . DS . 'database.php');
 	$bkp_db = new XinitBackupDatabaseHelper();
-	
+
 	$result['status'] = __("Success", WP_BEIFEN_DOMAIN);
 	$result['count'] = $bkp_db->getBackupCount();
 	return $result;

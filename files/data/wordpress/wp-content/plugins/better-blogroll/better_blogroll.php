@@ -4,13 +4,13 @@ Plugin Name: Better Blogroll
 Plugin URI: http://www.dyers.org/blog/better-blogroll-widget-for-wordpress/
 Description: Pulls a configurable number of links and their categories from the WordPress Link Manager and gives you more control of your blogroll.
 Author: Jon Dyer
-Version: 2.9
+Version: 3.3
 Author URI: http://www.dyers.org/blog/
 */
 
 function widget_betterblogroll_init() {
 
-	if ( !function_exists('register_sidebar_widget') || !function_exists('register_widget_control') ) 
+	if ( !function_exists('register_sidebar_widget') || !function_exists('register_widget_control')) 
 		return;
 
 	function widget_betterblogroll($args) {
@@ -32,11 +32,10 @@ function widget_betterblogroll_init() {
 		$bbw_use_link_name = $options['use_link_name'] ? '1': '0';//should the link name be shown in the list?
 		$bbw_use_nofollow = $options['use_nofollow'] ? '1': '0';//If links are not trusted (paid links), they can be set to nofollow.
 		$bbw_separate_cats = $options['separate_cats'] ? '1': '0';//If links are not trusted (paid links), they can be set to nofollow.
-		if (!$bbw_number || $bbw_number<1) $bbw_number = 10;
-		if (!$bbw_title) $bbw_title = 'A Better Blogroll';
-		
+		$bbw_use_rating = $options['use_rating'] ? '1': '0';//should the link's rating be shown?
+		$bbw_order=$options['order'];//setting  the sort order
 		$bbw_clean_limit_cat = implode ("','",explode(",",$bbw_limit_cat));
-
+		if (!$bbw_number || $bbw_number<1) $bbw_number = 10;
 		// Output
 
 		echo $before_widget . $before_title . $bbw_title . $after_title;
@@ -45,16 +44,16 @@ function widget_betterblogroll_init() {
 		global $wpdb;
 
 		if (!$bbw_separate_cats){//if the user wants a single list...
-			$querystr = "SELECT DISTINCT link_url, name, link_name, link_target, link_image, link_description, link_rel FROM $wpdb->links INNER JOIN ($wpdb->term_relationships INNER JOIN( $wpdb->terms INNER JOIN $wpdb->term_taxonomy ON $wpdb->terms.term_id=$wpdb->term_taxonomy.term_id) ON $wpdb->term_taxonomy.term_taxonomy_id=$wpdb->term_relationships.term_taxonomy_id)ON $wpdb->links.link_id=$wpdb->term_relationships.object_id WHERE $wpdb->term_taxonomy.taxonomy='link_category' AND $wpdb->links.link_visible = 'Y'";
+			$querystr = "SELECT DISTINCT link_url, name, link_name, link_target, link_image, link_description, link_rel, link_rating  FROM $wpdb->links INNER JOIN ($wpdb->term_relationships INNER JOIN( $wpdb->terms INNER JOIN $wpdb->term_taxonomy ON $wpdb->terms.term_id=$wpdb->term_taxonomy.term_id) ON $wpdb->term_taxonomy.term_taxonomy_id=$wpdb->term_relationships.term_taxonomy_id)ON $wpdb->links.link_id=$wpdb->term_relationships.object_id WHERE $wpdb->term_taxonomy.taxonomy='link_category' AND $wpdb->links.link_visible = 'Y'";
 							
 			if ($bbw_limit_cat){//if the user limits the blogroll to specific categories, add it to the query
 						$querystr .= " AND $wpdb->terms.name $bbw_limit_cat_not IN ('$bbw_clean_limit_cat')";	
 			}
 				
-			$querystr .= " ORDER BY rand() LIMIT $bbw_number";
-			echo bbw_get_data($querystr,$bbw_use_nofollow,$bbw_use_images,$bbw_use_link_name,$bbw_use_cat,$bbw_cat,$bbw_separate_cats);
+			$querystr .= " ORDER BY $bbw_order LIMIT $bbw_number";
+			echo bbw_get_data($querystr,$bbw_use_nofollow,$bbw_use_images,$bbw_use_link_name,$bbw_use_cat,$bbw_cat,$bbw_separate_cats,$bbw_use_rating);
 		
-		}else{//if  the user wants multiple lists...
+		}else{//if the user wants multiple lists...
 			$bbw_clean_limit_cat_array = explode("','",$bbw_clean_limit_cat);	
 			if ($bbw_limit_cat && !$bbw_limit_cat_not){
 			}else{
@@ -70,14 +69,15 @@ function widget_betterblogroll_init() {
 				}
 			}		
 			foreach ($bbw_clean_limit_cat_array as $bbw_cat){
-				$querystr = "SELECT DISTINCT link_url, name, link_name, link_target, link_image, link_description, link_rel FROM $wpdb->links INNER JOIN ($wpdb->term_relationships INNER JOIN( $wpdb->terms INNER JOIN $wpdb->term_taxonomy ON $wpdb->terms.term_id=$wpdb->term_taxonomy.term_id) ON $wpdb->term_taxonomy.term_taxonomy_id=$wpdb->term_relationships.term_taxonomy_id)ON $wpdb->links.link_id=$wpdb->term_relationships.object_id WHERE $wpdb->term_taxonomy.taxonomy='link_category' AND $wpdb->links.link_visible = 'Y' AND $wpdb->terms.name IN ('$bbw_cat') ORDER BY rand() LIMIT $bbw_number";	
-			echo bbw_get_data($querystr,$bbw_use_nofollow,$bbw_use_images,$bbw_use_link_name,$bbw_use_cat,$bbw_cat,$bbw_separate_cats);
+				$querystr = "SELECT DISTINCT link_url, name, link_name, link_target, link_image, link_description, link_rel, link_rating FROM $wpdb->links INNER JOIN ($wpdb->term_relationships INNER JOIN( $wpdb->terms INNER JOIN $wpdb->term_taxonomy ON $wpdb->terms.term_id=$wpdb->term_taxonomy.term_id) ON $wpdb->term_taxonomy.term_taxonomy_id=$wpdb->term_relationships.term_taxonomy_id)ON $wpdb->links.link_id=$wpdb->term_relationships.object_id WHERE $wpdb->term_taxonomy.taxonomy='link_category' AND $wpdb->links.link_visible = 'Y' AND $wpdb->terms.name IN ('$bbw_cat') ORDER BY $bbw_order LIMIT $bbw_number";	
+				echo bbw_get_data($querystr,$bbw_use_nofollow,$bbw_use_images,$bbw_use_link_name,$bbw_use_cat,$bbw_cat,$bbw_separate_cats,$bbw_use_rating);
 			}
 		}
 		echo $after_widget;	
+		
 	}
 
-	function bbw_get_data($querystr,$bbw_use_nofollow,$bbw_use_images,$bbw_use_link_name,$bbw_use_cat,$bbw_cat,$bbw_separate_cats){
+	function bbw_get_data($querystr,$bbw_use_nofollow,$bbw_use_images,$bbw_use_link_name,$bbw_use_cat,$bbw_cat,$bbw_separate_cats,$bbw_use_rating){
 		global $wpdb;
 
 		$bbw_links = $wpdb->get_results($querystr, OBJECT);
@@ -95,6 +95,7 @@ function widget_betterblogroll_init() {
 				$bbw_link_image = $bbwlink->link_image;
 				$bbw_link_target = $bbwlink->link_target;
 				$bbw_link_rel = $bbwlink->link_rel;
+				$bbw_link_rating = $bbwlink->link_rating;
 
 				$bbw_result.= '<li><a';
 				if ($bbw_use_nofollow){
@@ -112,7 +113,9 @@ function widget_betterblogroll_init() {
 					$bbw_result.= $bbw_link_name;}
 				$bbw_result.= '</a>';
 				if ($bbw_use_cat) {$bbw_result.= ' <small>('.$bbw_link_cat.')</small>';}
+				if ($bbw_use_rating) {$bbw_result.= ' <small>('.$bbw_link_rating.')</small>';}
 				$bbw_result.= '</li>';
+
 			}
 		}else $bbw_result.= "<li>No Blogroll Links</li>";
 		$bbw_result.= '</ul>';
@@ -127,7 +130,7 @@ function widget_betterblogroll_init() {
 		$options = get_option('widget_betterblogroll');
 		// options exist? if not set defaults
 		if ( !is_array($options) )
-			$options = array('title'=>'Recent Posts', 'show'=>10,'explanation'=>'This random selection from my daily reads changes each time the page is refreshed.');
+			$options = array('title'=>'A Better Blogroll', 'show'=>10,'order'=>'rand()','use_link_name'=>'1','explanation'=>'This random selection from my daily reads changes each time the page is refreshed.');
 		
 		// form posted?
 		if ( $_POST['betterblogroll-submit'] ) {
@@ -143,6 +146,8 @@ function widget_betterblogroll_init() {
 			$options['use_link_name'] = isset($_POST['betterblogroll-use_link_name']);
 			$options['use_nofollow'] = isset($_POST['betterblogroll-use_nofollow']);
 			$options['separate_cats'] = isset($_POST['betterblogroll-separate_cats']);
+			$options['use_rating'] = isset($_POST['betterblogroll-use_rating']);
+			$options['order'] = strip_tags(stripslashes($_POST['betterblogroll-order']));
 			update_option('widget_betterblogroll', $options);
 		}
 
@@ -157,6 +162,8 @@ function widget_betterblogroll_init() {
 		$bbw_use_link_name = $options['use_link_name'] ? 'checked="checked"' : '';
 		$bbw_use_nofollow = $options['use_nofollow'] ? 'checked="checked"' : '';
 		$bbw_separate_cats = $options['separate_cats'] ? 'checked="checked"' : '';
+		$bbw_use_rating = $options['use_rating'] ? 'checked="checked"' : '';
+		$bbw_order = htmlspecialchars($options['order'], ENT_QUOTES);
 		// The form fields
 		echo '<p style="text-align:right;">
 				<label for="betterblogroll-title">' . __('Title:') . ' 
@@ -171,12 +178,26 @@ function widget_betterblogroll_init() {
 				<input style="width: 25px;" id="betterblogroll-show" name="betterblogroll-show" type="text" value="'.$bbw_number.'" />
 				</label></p>';
 		echo '<p style="text-align:right;">
+				<label for="betterblogroll-order">' . __('Sort Order:');
+				$bbw_sort_array = array('Random'=>'rand()','Title ASC'=>'link_name ASC','Title DSC'=>'link_name DESC','Rating ASC'=>'link_rating ASC','Rating DSC'=>'link_rating DESC',);
+				echo '<select id="betterblogroll-order" name="betterblogroll-order">';
+				foreach($bbw_sort_array as $text=>$sqltext){
+					echo '<option value="'.$sqltext.'"';
+					if ($sqltext==$bbw_order){echo ' selected="selected"';}
+					echo '>'.$text.'</option> ';
+				}
+		echo '</label></p>';
+		echo '<p style="text-align:right;">
 				<label for="betterblogroll-use_link_name">' . __('Show Text Links?:') . ' 
 				<input class="checkbox" type="checkbox" '.$bbw_use_link_name.' id="betterblogroll-use_link_name" name="betterblogroll-use_link_name" />
 				</label></p>';
 		echo '<p style="text-align:right;">
 				<label for="betterblogroll-use_images">' . __('Show Images?:') . ' 
 				<input class="checkbox" type="checkbox" '.$bbw_use_images.' id="betterblogroll-use_images" name="betterblogroll-use_images" />
+				</label></p>';
+		echo '<p style="text-align:right;">
+				<label for="betterblogroll-use_rating">' . __('Show Link Rating?:') . ' 
+				<input class="checkbox" type="checkbox" '.$bbw_use_rating.' id="betterblogroll-use_rating" name="betterblogroll-use_rating" />
 				</label></p>';
 		echo '<p style="text-align:right;">
 				<label for="betterblogroll-use_cat">' . __('Show Link Categories?:') . ' 

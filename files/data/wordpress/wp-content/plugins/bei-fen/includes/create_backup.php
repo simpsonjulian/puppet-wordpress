@@ -7,18 +7,18 @@ function wp_beifen_process_ajax_request($request_options)
 
 	// Get options
 	$options = get_option(WP_BEIFEN_OPTIONS);
-	
+
 	// A shortcut for DIRECTORY_SEPARATOR
 	if(!defined('DS'))
 	{
 		define('DS', DIRECTORY_SEPARATOR);
 	}
-	
+
 	// Defines for recursive function use
 	define('WP_BEIFEN_DIR', $options['plugin_backup_directory']);
 	define('WP_BEIFEN_CURRENT_BACKUP', WP_BEIFEN_DIR . $request_options['backup_name'] . DS);
 	define('WP_BEIFEN_CURRENT_DB_DIR', WP_BEIFEN_CURRENT_BACKUP . 'database' . DS);
-	
+
 	// Load required class definitions and create instances
 	require_once($options['plugin_location'] . 'classes' . DS . 'file.php');
 	require_once($options['plugin_location'] . 'classes' . DS . 'database.php');
@@ -33,6 +33,18 @@ function wp_beifen_process_ajax_request($request_options)
 		return $result;
 	}
 	
+	// Check for existing schedules with same name
+	$scheduled_backups = get_option('WP_BEIFEN_SCHEDULED_BACKUPS');
+	foreach($scheduled_backups as $scheduled_backup)
+	{
+		if($scheduled_backup['backup_name']==$request_options['backup_name'])
+		{
+			$result['status'] = __("Error", WP_BEIFEN_DOMAIN);
+			$result['message'] =__("There is already a schedule with this name!", WP_BEIFEN_DOMAIN);
+			return $result;
+		}
+	}
+
 	// Check if main backup directory is writable
 	if(!is_writable(WP_BEIFEN_DIR))
 	{
@@ -40,7 +52,7 @@ function wp_beifen_process_ajax_request($request_options)
 		$result['message'] = __("The backup folder is not writable. Please check write-permissions!", WP_BEIFEN_DOMAIN);
 		return $result;
 	}
-	
+
 	// Check if backup destination directory is writable and existing
 	if(!@mkdir(WP_BEIFEN_CURRENT_BACKUP) && !file_exists(WP_BEIFEN_CURRENT_BACKUP))
 	{
@@ -48,7 +60,7 @@ function wp_beifen_process_ajax_request($request_options)
 		$result['message'] = __("Could not create backup folder. Please check write-permissions!", WP_BEIFEN_DOMAIN);
 		return $result;
 	}
-	
+
 	// if DB backup, check db destionation
 	if(($request_options['backup_type'] == 'Complete') || ($request_options['backup_type'] == 'DB'))
 	{
@@ -59,7 +71,7 @@ function wp_beifen_process_ajax_request($request_options)
 			return $result;
 		}
 	}
-	
+
 	// Windows path hack
 	if(DS=='/')
 	{
@@ -70,7 +82,7 @@ function wp_beifen_process_ajax_request($request_options)
 		$custom_abspath = substr(ABSPATH, 0, -1);
 		define('ABSPATH_CUSTOM', $custom_abspath);
 	}
-	
+
 	// Exclude backup directories
 	$exclude = array();
 	// Exclude the backup itself
@@ -80,7 +92,7 @@ function wp_beifen_process_ajax_request($request_options)
 	{
 		$exclude[] = WP_BEIFEN_DIR;
 	}
-	
+
 	// Do it!
 	switch($request_options['backup_type'])
 	{
@@ -117,7 +129,7 @@ function wp_beifen_process_ajax_request($request_options)
 			$result['message'] = __("This is not a valid backup type!", WP_BEIFEN_DOMAIN);
 			return $result;
 	}
-	
+
 	// Zip backup, if requested
 	if($request_options["compress_backup"]=='Yes')
 	{
@@ -125,26 +137,26 @@ function wp_beifen_process_ajax_request($request_options)
 		$zipper = new XinitBackupZipHelper();
 		$zipper->createZip(WP_BEIFEN_CURRENT_BACKUP . $request_options['backup_name'].'.zip', WP_BEIFEN_CURRENT_BACKUP);
 	}
-	
+
 	// Create index.html and .htaccess
 	$empty_html = '<html><body></body></html>';
 	$htaccess_l1 = "RewriteEngine on\n";
-	$htaccess_l2 = "RewriteRule (.*) " . get_bloginfo('url') . "/ [R=301,L]";	
+	$htaccess_l2 = "RewriteRule (.*) " . get_bloginfo('url') . "/ [R=301,L]";
 	$bkp_file->writeTextToFile(WP_BEIFEN_CURRENT_BACKUP . 'index.html', $empty_html, 'a');
 	$bkp_file->writeTextToFile(WP_BEIFEN_CURRENT_BACKUP . '.htaccess', $htaccess_l1, 'w');
 	$bkp_file->writeTextToFile(WP_BEIFEN_CURRENT_BACKUP . '.htaccess', $htaccess_l2, 'a');
 	$bkp_file->writeTextToFile(WP_BEIFEN_CURRENT_DB_DIR . 'index.html', $empty_html, 'a');
 	$bkp_file->writeTextToFile(WP_BEIFEN_CURRENT_DB_DIR . '.htaccess', $htaccess_l1, 'w');
 	$bkp_file->writeTextToFile(WP_BEIFEN_CURRENT_DB_DIR . '.htaccess', $htaccess_l2, 'a');
-	
+
 	// If everythings ok ...
 	$zipped = ($request_options["compress_backup"]=='Yes')  ? "TRUE" : "FALSE";
-	$bkp_db->insertNewBackupEntry($request_options['backup_name'], WP_BEIFEN_CURRENT_BACKUP, $request_options['backup_type'], $zipped);	
+	$bkp_db->insertNewBackupEntry($request_options['backup_name'], WP_BEIFEN_CURRENT_BACKUP, $request_options['backup_type'], $zipped);
 	$result['status'] = __("Success", WP_BEIFEN_DOMAIN);
 	$result['message'] = __("Backup has been successfully created!", WP_BEIFEN_DOMAIN);
 	if($options['enable_debugging']==true)
 	{
-		$memory_usage = memory_get_usage()/1048576;		
+		$memory_usage = memory_get_usage()/1048576;
 		$result['message'] .= '<br/>Memory usage: ' . number_format($memory_usage, 2) . ' MB';
 	}
 	return $result;

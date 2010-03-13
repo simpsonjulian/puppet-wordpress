@@ -3,7 +3,7 @@
 Plugin Name: PostRank
 Plugin URI: http://www.postrank.com/publishers/wordpress
 Description: Showcase your Top Posts with the <a href="http://www.postrank.com/publishers">PostRank widget</a>, track social media analytics, and engage with your readers from the WP dashboard. Learn more about <a href="http://www.postrank.com/postrank">PostRank</a>.
-Version: 1.1.1
+Version: 1.2
 Author: Trevor Creech
 Author URI: http://trevorcreech.com/
 */
@@ -11,6 +11,7 @@ Author URI: http://trevorcreech.com/
 // POSTRANK_DB_VERSION is used to check if the postrank table needs to be upgraded.  Change this if the schema in update_postrank_db is changed
 define('POSTRANK_DB_VERSION', '0.1.1');
 define('POSTRANK_APPKEY', 'wp-postrank');
+define('POSTRANK_ANALYTICS_HOST', 'https://analytics.postrank.com');
 global $wpdb;
 define('POSTRANK_TABLE_NAME', $wpdb->prefix . 'postrank');
 
@@ -167,49 +168,77 @@ function widget_postrank_init()
 			update_option('widget_postrank', $options);
 		}
 
-		echo '<p><label for="postrank-num">Show: </label>';
+		echo '<p><label>Show:';
 		echo '<select name="postrank-num" class="widefat">';
 		for($i = 1; $i <= 15; $i ++)
 		{
 			echo '<option ' . ($i == $options['num'] ? 'selected="selected" ' : '') . 'value="' . $i . '">' . $i . ' Posts</option>';
 		}
 		echo '</select>';
-		echo '</p>';
+		echo '</label></p>';
+		/* For some reason <label for="id"> is being broken by the WP javascript, and implicit labels with images don't work in IE.  So the labels currently work in everything except IE. */
 		foreach($themes as $theme_id => $theme_name)
 		{
-			echo '<p style="float: left; margin-right: 5px;">';
-			echo '<label for="' . $theme_id . '"><img style="display: block; width: 73px;" alt="' . $theme_name . '" title="' . $theme_name . '" src="' . get_postrank_path() . '/images/' . $theme_id . '.png" /></label>';
-			echo '<input type="radio" id="' . $theme_id . '" style="display: block; margin: auto;" name="postrank-theme" ' . ($options['theme'] == $theme_id ? 'checked="checked" ' : '') . 'value="' . $theme_id . '" />';
+			echo '<p style="float: left;">';
+			echo '<label><img style="display: block; width: 73px;" alt="' . $theme_name . '" title="' . $theme_name . '" src="' . get_postrank_path() . '/images/' . $theme_id . '.png" />';
+			echo '<input type="radio" id="' . $theme_id . '" style="display: block; margin: auto;" name="postrank-theme" ' . ($options['theme'] == $theme_id ? 'checked="checked" ' : '') . 'value="' . $theme_id . '" /></label>';
 			echo '</p>';
 		}
 		echo '<div style="clear:both;"></div>';
 		echo '<input type="hidden" id="postrank-submit" name="postrank-submit" value="1" />';
 	}
 
-	if (function_exists('register_sidebar_widget'))
+	register_sidebar_widget('PostRank', 'widget_postrank');
+	register_widget_control('PostRank', 'widget_postrank_control', 240, 400);
+}
+
+function dashboard_widget_postrank_init()
+{
+	if (!get_option('postrank_feed_hash') || !get_option('postrank_display_dashboard', true))
+		return;
+
+	function dashboard_widget_postrank($args)
 	{
-		register_sidebar_widget('PostRank', 'widget_postrank');
-		register_widget_control('PostRank', 'widget_postrank_control', 240, 400);
+		?>
+	  <iframe id="postrank-dashboard-widget" src="<?php echo POSTRANK_ANALYTICS_HOST ?>/wordpress_summary/<?php echo get_option('postrank_feed_hash'); ?>" style="width:100%; height: 485px;" frameborder="0">
+	  </iframe>
+	  <?php
 	}
+
+	function add_dashboard_widget_postrank()
+	{
+	  wp_add_dashboard_widget('dashboard_widget_postrank', 'PostRank Analytics <span style="font-weight: normal"> | 30 Day Summary</span>', 'dashboard_widget_postrank');
+	}
+	add_action('wp_dashboard_setup', 'add_dashboard_widget_postrank');
 }
 
 add_action('plugins_loaded', 'widget_postrank_init');
+add_action('plugins_loaded', 'dashboard_widget_postrank_init');
 
 function postrank_js_widget($feed_hash, $num, $theme)
 {
 ?>
-
+<div class="postrank-widget <?php echo $theme ?>">
 <script type="text/javascript" src="http://api.postrank.com/static/widget-v2.js"></script>
 <script type="text/javascript">
 //<![CDATA[
 	var options = {
 		"feed_hash": "<?php echo $feed_hash ?>", // Unique feed identifier
 		"num": <?php echo $num ?>, // Number of top posts to display
-		"theme": "<?php echo $theme ?>" // blueAndBlue, blackAndGray
+		"theme": "<?php echo $theme ?>", // blueAndBlue, blackAndGray
+		"hasLink": true
 	}   
 	new PostRankWidget(options);
 //]]>
 </script>
+<div class="powered-by-postrank-wrapper">
+<div class="powered-by-postrank">
+<a href="http://www.postrank.com/?utm_source=topposts&utm_medium=widget&utm_content=topposts&utm_campaign=pr-1"><span>Powered by Postrank</span></a>
+</div>
+<div class="pr_bottomCornerSet"><div class="pr_clearBottomLeft"></div><div class="pr_solidSpecialMiddle"></div><div class="pr_clearBottomRight"></div></div>
+</div>
+</div>
+
 
 <?php
 }
@@ -410,6 +439,7 @@ function postrank_badge_css()
 		margin: 0 0.2em;
 		position:relative;
 		text-align:center;
+		text-decoration: none;
 		width:34px;
 	}
 
@@ -690,12 +720,21 @@ function postrank_options()
 	<?php _e('Display PostRanks on Admin Pages') ?>
 	</label>
 	</th>
+  </tr>
+
+	<tr>
+	<th scope="row" colspan="2" class="th-full">
+	<label for="postrank_display_dashboard">
+	<input name="postrank_display_dashboard" type="checkbox" id="postrank_display_dashboard" value="1"<?php checked('1', get_option('postrank_display_dashboard', true)); ?> />
+	<?php _e('Display the PostRank Analytics Dashboard Widget') ?>
+	</label>
+	</th>
 	</tr>
 
 	</table>
 
 	<input type="hidden" name="action" value="update" />
-	<input type="hidden" name="page_options" value="postrank_feed_hash,postrank_display_admin" />
+	<input type="hidden" name="page_options" value="postrank_feed_hash,postrank_display_admin,postrank_display_dashboard" />
 
 	<p class="submit">
 	<input class="button-primary" type="submit" name="Submit" value="<?php _e('Save Changes') ?>" />
@@ -798,7 +837,6 @@ function update_postrank_db()
 
 /* Theme */
 add_action('wp_head','postrank_badge_css');
-add_action('wp_head','postrank_badge_javascript');
 
 /* WP-Cron */
 add_action('postrank_hourly_cache_check', 'update_postrank_cache');
