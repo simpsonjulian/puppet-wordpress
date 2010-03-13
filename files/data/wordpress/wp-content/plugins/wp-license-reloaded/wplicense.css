@@ -5,10 +5,18 @@
  * See README for a little more detail.
  */
 
+/** Edit me to fit your particular look **/
+#cc_js_lic-menu 
+{
+        margin: 0 auto;
+        /*border: 1px solid #ddd;*/
+}
+
+
 .cc_js_body {
   background-color: #fff;
   color: #343434;
-  font: 71%/145% "Lucida Grande", verdana, sans-serif;
+  font: 60% "Lucida Grande", verdana, sans-serif;
   padding: 0;
   margin: 0;
   text-align: center;
@@ -47,7 +55,7 @@ a:hover.cs_js_a {
     text-align:     center;
     padding:        3%;
     margin-bottom: 2.7%;
-		width: 85%;
+
 }
 
 #cc_js_jurisdiction_box
@@ -78,7 +86,7 @@ select#cc_js_jurisdiction
 
 textarea#cc_js_result
 {
-    width: 91%;
+    width: 9%;
     border: 1px solid #ccc;
     color: gray;
     margin-top: 1%;
@@ -116,13 +124,15 @@ a.cc_js_a img
 
 #cc_js_required
 {
-    border: 1px solid #ccc;
-    padding: 0.5% 2% 1% 2%;
+
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    padding: 4% 2%;
     margin-bottom: 1%;
-    margin-top: 1%;
-    /* background: #efefef; */
-    background: #eef6e6;
-		width: 87%;
+    margin-top: 2px;
+    /* background: #efefef; 
+    background: #eef6e6;*/
+
 }
 
 #cc_js_work_title
@@ -155,9 +165,14 @@ img.cc_js_info {
 	float: right;
 }
 
-#cc_js_lic-menu p, #cc_js_jurisdiction_box {
-	width: 18em;
+#cc_js_jurisdiction_box {
+  clear: left;
+  
+}
+
+#cc_js_lic-menu p{
 	padding: 3px 0 5px 0;
+  margin: 0 0 5px 0;
 }
 
 .cc_js_tooltip
@@ -189,9 +204,50 @@ img.cc_js_info {
 .cc_js_question
 {
     cursor:         help;
-    color:          #00b;
+    /*color:          #00b;*/
+    border-bottom: 1px dashed #66b;
 }
 
-#cc_js_lic-menu p {
-	margin: 0 0 5px 0;
+.cc_js_hidden {
+    display: none;
+}
+
+#cc_js_required .cc_js_question { border: none; }
+
+
+
+#cc_js_want_cc_license_at_all {
+  background-color: #eef6e6;
+  padding: 1em;
+  padding-left: 0;
+}
+
+#cc_js_want_cc_license_at_all span {
+  margin-right: 10px;
+  margin-left: 10px;
+  padding: 0.5em;
+}
+#cc_js_want_cc_license_at_all span span {
+  margin: 0;
+  padding: 0;
+}
+
+#cc_js_required p { padding-bottom: 50px; }
+
+#cc_js_remix-label span {
+  background: url('http://creativecommons.org/images/deed/remix.png') no-repeat top left;
+  padding-left: 60px;
+  padding-bottom: 60px;
+}
+
+#cc_js_nc-label span {
+  background: url('http://creativecommons.org/images/deed/nc.png') no-repeat top left;
+  padding-left: 60px;
+  padding-bottom: 60px;
+}
+
+#cc_js_sa-label span {
+  background: url('http://creativecommons.org/images/deed/sa.png') no-repeat top left;
+  padding-left: 60px;
+  padding-bottom: 60px;
 }
