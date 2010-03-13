@@ -62,4 +62,12 @@
 	};
 </script>
 
-<script type="text/javascript" charset="utf-8" src="http://<?php echo strtolower(get_option('disqus_forum_url')); ?>.<?php echo DISQUS_DOMAIN; ?>/disqus.js?v=2.0&slug=<?php echo $dsq_response['thread_slug']; ?>&pname=wordpress&pver=<?php echo $dsq_version; ?>"></script>
+<script type="text/javascript" charset="utf-8">
+(function() {
+	var dsq = document.createElement('script');
+	dsq.type = 'text/javascript';
+	dsq.async = true;
+	dsq.src = "http://<?php echo strtolower(get_option('disqus_forum_url')); ?>.<?php echo DISQUS_DOMAIN; ?>/disqus.js?v=2.0&slug=<?php echo $dsq_response['thread_slug']; ?>&pname=wordpress&pver=<?php echo $dsq_version; ?>";
+	(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>

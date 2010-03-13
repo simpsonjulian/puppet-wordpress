@@ -128,7 +128,7 @@ if ($post_adexp=='90') { $expiry = time() + 90 * 24 * 60 * 60; $expiry = strftim
 if ($post_adexp=='120') { $expiry = time() + 120 * 24 * 60 * 60; $expiry = strftime('%m/%d/%Y', $expiry); $theenddate = $expiry; }
 if ($post_editedad!='') { $theenddate = $post_adexpmo.'/'.$post_adexpday.'/'.$post_adexpyr; }
 if ($post_editedad=='') {
-$updatedb = "INSERT INTO $adtable_name (slot, name, start_date, end_date, clicks, status, target, image_url) VALUES ('$post_adslot', '$post_adname', '$today','$theenddate','$post_countclicks', '1', '$post_adtarget','$post_adimage')";
+$updatedb = "INSERT INTO $adtable_name (slot, name, start_date, end_date, clicks, status, target, image_url, pre_exp_email) VALUES ('$post_adslot', '$post_adname', '$today','$theenddate','$post_countclicks', '1', '$post_adtarget','$post_adimage', '0')";
 $results = $wpdb->query($updatedb);
 echo '<div id="message" class="updated fade"><p>Ad &quot;'.$post_adname.'&quot; created.</p></div>';
 } else {

@@ -5,8 +5,8 @@ Author URI: http://www.webmaster-source.com
 Donate link: http://www.webmaster-source.com/donate/?plugin=wp125
 Tags: ads, 125x125, management, advertisement
 Requires at least: 2.3
-Tested up to: 2.8
-Stable tag: 1.3.6
+Tested up to: 2.9.1
+Stable tag: 1.3.9
 
 Easy management of 125x125 ads on your blog.  Ads can be run for a specified number of days, and will automatically be taken down. Track clicks too.
 
@@ -97,8 +97,22 @@ If you're having a problem with the plugin, try posting on the official WordPres
 
 
 
-== Version History ==
+== Translation Credits ==
+* Danish Translation: [Georg S. Adamsen](http://wordpress.blogos.dk/)
+* French Translation: Alexandre Cloquet
+* Italian Translation: [Gianni Diurno](http://gidibao.net/index.php/portfolio/)
+* Russian Translation: [M. Comfi](http://www.comfi.com)
+* Simplified Chinese Translation: [Sam Zuo](http://bwskyer.com/)
+* Dutch Translation: Jackey van Melis
+* Brasilian Portuguese Translation: José de Menezes Filho
+
+
+
+== Changelog ==
 * 1.0.0 - Initial release
 * 1.1.x - Some security and performance fixes, adds several new customization options and a few major features.
 * 1.2.x - Added new features: Recieve email notifications in advance of ads expiring, alternating CSS classes on ads, and open ads in new windows if you absolutely *must.*
 * 1.3.x - Localization support (with French and Spanish to start), iCalendar subscription of ad expirations, WP Dashboard widget. Fixed errant "ADLINK_EXTRA"s in Single ads, fixed "no ads, no placeholders" bug, etc..
+* 1.3.7 - Added Russian translation.
+* 1.3.8 - Added zh_CN translation
+* 1.3.9 - Changed SQL query on 131 of adminmenus.php to fix bug where ads are not inserted in some situations. Added Dutch and Brasilian Portuguese translation files.

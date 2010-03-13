@@ -1,0 +1,196 @@
+a#ecordia-seo-analysis-analyze-button.ecordia-disabled {
+	color: #aaa !important;
+	display: none;
+}
+
+#ecordia-https-warning {
+	margin: 5px 0 15px;
+	border-color: #E6DB55;
+	-moz-border-radius:3px;
+	-moz-border-radius:3px;
+	-moz-border-radius:3px;
+	-moz-border-radius:3px;
+	border-radius: 3px;
+	border-style:solid;
+	border-width:1px;
+	padding:0 0.6em;
+}
+
+#ecordia-https-warning p {
+	line-height:1;
+	margin:0.5em 0;
+	padding:2px;
+}
+
+#ecordia-ajax-feedback {
+	display: none;
+}
+
+#ecordia-error-message {
+	margin: 0;
+	padding: .5em;
+}
+
+.ecordia-center {
+	text-align: center;
+}
+
+.ecordia-error {
+	color: #f00;
+}
+
+.scorecard-option-title {
+	font-weight: bold;
+}
+
+.ecordia-learn-more {
+    border-bottom: 1px dashed #000;
+}
+
+#ecordia-seo-analysis-requirement-list .incomplete .complete, #ecordia-seo-analysis-requirement-list .complete .incomplete {
+    display: none;
+}
+
+#ecordia-analysis-score-table .complete, #ecordia-analysis-score-table .incomplete, #ecordia-analysis-score-table .warn {
+    padding-left: 50px;
+    background-repeat: no-repeat;
+    background-position: 15px center;
+    min-height: 16px;
+}
+
+#ecordia-analysis-score-table li {
+    margin: 0;
+    padding: 5px 0;
+}
+
+#overall-score-analysis {
+    display: block;
+    text-align: center;
+    font-size: 80px;
+    margin-bottom: 30px;
+}
+
+#ecordia-analysis-score-table .ecordia-middle-cell {
+    vertical-align: middle;
+    border-right-width: 1px;
+    border-right-style: solid;
+}
+
+#ecordia-analysis-score-table .ecordia-no-pad {
+    padding: 0;
+}
+
+#ecordia-score-analysis-overview {
+    width: 185px;
+    border-right-width: 1px;
+    border-right-style: solid;
+}
+
+#ecordia-analysis-score-table .complete {
+    background-image: url('images/complete.png');
+}
+
+#ecordia-analysis-score-table .incomplete {
+    background-image: url('images/incomplete.png');
+}
+
+#ecordia-analysis-score-table .warn {
+    background-color: #FFFFCC;
+    background-image: url('images/warn.png');
+}
+
+#ecordia-seo-analysis-requirement-list span {
+    padding-left: 30px;
+    background-repeat: no-repeat;
+    background-position: left center;
+    min-height: 16px;
+    display: block;
+}
+
+#ecordia-seo-analysis-requirement-list span.complete {
+    background-image: url('images/complete.png');
+}
+
+#ecordia-seo-analysis-requirement-list span.incomplete {
+    background-image: url('images/incomplete.png');
+}
+
+#ecordia-analyze-action {
+    -moz-background-clip: border;
+    -moz-background-inline-policy: continuous;
+    -moz-background-origin: padding;
+    border-top: medium none;
+    clear: both;
+    padding: 6px;
+    background: #EAF2FA none repeat scroll 0 0;
+    margin: 0 -6px -6px;
+}
+
+#ecordia-review-score {
+    width: 106px;
+    float: left;
+    text-align: center;
+}
+
+#ecordia-review-keywords {
+	float: left;
+}
+
+#ecordia-review-score-number {
+    font-size: 2em;
+}
+
+#ecordia-tags {
+    display: block;
+    width: 80%;
+    margin: 0 auto;
+    background: #F1F1F1;
+    font-weight: bold;
+    padding: 10px;
+    border: 1px solid #CCCCCC;
+}
+
+.ecordia-score-low {
+    color: #f00;
+}
+
+.ecordia-score-medium {
+    color: #D5A03C;
+}
+
+.ecordia-score-high {
+    color: #6DB457;
+}
+
+.ecordia-score-low-background {
+	background: #FFEBE8;
+}
+
+.ecordia-score-medium-background {
+	background: #FFFBCC;
+}
+
+.ecordia-score-high-background {
+	background: #90EE90;
+}
+
+#ecordia-google-item {
+	border:1px solid #8DB4E0;
+	padding:10px 15px;
+}
+
+.ecordia-google-item-title {
+	color:blue;
+	font-size:123.1%;
+	padding:0 !important;
+	text-decoration:underline;
+}
+
+.ecordia-google-item-detail {
+	display:block;
+	width:544px;
+}
+
+.ecordia-google-item-url {
+	color:#339933;
+}
