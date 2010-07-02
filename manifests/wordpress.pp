@@ -37,8 +37,7 @@ class wordpress  {
         mode => 0755,
         owner => $wordpress::www_user,
         group => $wordpress::www_group,
-        require => File["content dir"],
-        require => Class["wordpress"];
+        require => [File["content dir"], Class["wordpress"]];
   		
      "wordpress etc dir":
         path => "/etc/wordpress",
@@ -50,8 +49,7 @@ class wordpress  {
    file{"${wordpress::wordpress_dir}/wp-content/advanced-cache.php":
       owner => $wordpress::www_user,
       group => $wordpress::www_group,
-      require => Class["wordpress"],
-      require => Class["wordpress::installation"];
+      require =>[ Class["wordpress"], Class["wordpress::installation"]];
     }
   }
 
