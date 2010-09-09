@@ -24,15 +24,14 @@
  */
 
 /**
- * You can override this in your my-hacks.php file You can also override this
- * in a plugin file. The my-hacks.php is deprecated in its usage.
+ * You can override this in a plugin.
  *
  * @since 1.2.0
  */
-if (!defined('CUSTOM_TAGS'))
-	define('CUSTOM_TAGS', false);
+if ( ! defined( 'CUSTOM_TAGS' ) )
+	define( 'CUSTOM_TAGS', false );
 
-if (!CUSTOM_TAGS) {
+if ( ! CUSTOM_TAGS ) {
 	/**
 	 * Kses global for default allowable HTML tags.
 	 *
@@ -57,6 +56,22 @@ if (!CUSTOM_TAGS) {
 			'title' => array ()),
 		'acronym' => array(
 			'title' => array ()),
+		'article' => array(
+			'align' => array (),
+			'class' => array (),
+			'dir' => array (),
+			'lang' => array(),
+			'style' => array (),
+			'xml:lang' => array(),
+		),
+		'aside' => array(
+			'align' => array (),
+			'class' => array (),
+			'dir' => array (),
+			'lang' => array(),
+			'style' => array (),
+			'xml:lang' => array(),
+		),
 		'b' => array(),
 		'big' => array(),
 		'blockquote' => array(
@@ -94,6 +109,15 @@ if (!CUSTOM_TAGS) {
 		'del' => array(
 			'datetime' => array ()),
 		'dd' => array(),
+		'details' => array(
+			'align' => array (),
+			'class' => array (),
+			'dir' => array (),
+			'lang' => array(),
+			'open' => array (),
+			'style' => array (),
+			'xml:lang' => array(),
+		),
 		'div' => array(
 			'align' => array (),
 			'class' => array (),
@@ -105,10 +129,34 @@ if (!CUSTOM_TAGS) {
 		'dt' => array(),
 		'em' => array(),
 		'fieldset' => array(),
+		'figure' => array(
+			'align' => array (),
+			'class' => array (),
+			'dir' => array (),
+			'lang' => array(),
+			'style' => array (),
+			'xml:lang' => array(),
+		),
+		'figcaption' => array(
+			'align' => array (),
+			'class' => array (),
+			'dir' => array (),
+			'lang' => array(),
+			'style' => array (),
+			'xml:lang' => array(),
+		),
 		'font' => array(
 			'color' => array (),
 			'face' => array (),
 			'size' => array ()),
+		'footer' => array(
+			'align' => array (),
+			'class' => array (),
+			'dir' => array (),
+			'lang' => array(),
+			'style' => array (),
+			'xml:lang' => array(),
+		),
 		'form' => array(
 			'action' => array (),
 			'accept' => array (),
@@ -147,6 +195,22 @@ if (!CUSTOM_TAGS) {
 			'class' => array (),
 			'id'    => array (),
 			'style' => array ()),
+		'header' => array(
+			'align' => array (),
+			'class' => array (),
+			'dir' => array (),
+			'lang' => array(),
+			'style' => array (),
+			'xml:lang' => array(),
+		),
+		'hgroup' => array(
+			'align' => array (),
+			'class' => array (),
+			'dir' => array (),
+			'lang' => array(),
+			'style' => array (),
+			'xml:lang' => array(),
+		),
 		'hr' => array (
 			'align' => array (),
 			'class' => array (),
@@ -177,6 +241,18 @@ if (!CUSTOM_TAGS) {
 		'li' => array (
 			'align' => array (),
 			'class' => array ()),
+		'menu' => array (
+			'class' => array (),
+			'style' => array (),
+			'type' => array ()),
+		'nav' => array(
+			'align' => array (),
+			'class' => array (),
+			'dir' => array (),
+			'lang' => array(),
+			'style' => array (),
+			'xml:lang' => array(),
+		),
 		'p' => array(
 			'class' => array (),
 			'align' => array (),
@@ -198,9 +274,25 @@ if (!CUSTOM_TAGS) {
 			'style' => array (),
 			'title' => array (),
 			'xml:lang' => array()),
+		'section' => array(
+			'align' => array (),
+			'class' => array (),
+			'dir' => array (),
+			'lang' => array(),
+			'style' => array (),
+			'xml:lang' => array(),
+		),
 		'strike' => array(),
 		'strong' => array(),
 		'sub' => array(),
+		'summary' => array(
+			'align' => array (),
+			'class' => array (),
+			'dir' => array (),
+			'lang' => array(),
+			'style' => array (),
+			'xml:lang' => array(),
+		),
 		'sup' => array(),
 		'table' => array(
 			'align' => array (),
@@ -333,6 +425,50 @@ if (!CUSTOM_TAGS) {
 		//	'u' => array(),
 		//	'ul' => array(),
 	);
+
+	$allowedentitynames = array(
+		'nbsp',    'iexcl',  'cent',    'pound',  'curren', 'yen',
+		'brvbar',  'sect',   'uml',     'copy',   'ordf',   'laquo',
+		'not',     'shy',    'reg',     'macr',   'deg',    'plusmn',
+		'acute',   'micro',  'para',    'middot', 'cedil',  'ordm',
+		'raquo',   'iquest', 'Agrave',  'Aacute', 'Acirc',  'Atilde',
+		'Auml',    'Aring',  'AElig',   'Ccedil', 'Egrave', 'Eacute',
+		'Ecirc',   'Euml',   'Igrave',  'Iacute', 'Icirc',  'Iuml',
+		'ETH',     'Ntilde', 'Ograve',  'Oacute', 'Ocirc',  'Otilde',
+		'Ouml',    'times',  'Oslash',  'Ugrave', 'Uacute', 'Ucirc',
+		'Uuml',    'Yacute', 'THORN',   'szlig',  'agrave', 'aacute',
+		'acirc',   'atilde', 'auml',    'aring',  'aelig',  'ccedil',
+		'egrave',  'eacute', 'ecirc',   'euml',   'igrave', 'iacute',
+		'icirc',   'iuml',   'eth',     'ntilde', 'ograve', 'oacute',
+		'ocirc',   'otilde', 'ouml',    'divide', 'oslash', 'ugrave',
+		'uacute',  'ucirc',  'uuml',    'yacute', 'thorn',  'yuml',
+		'quot',    'amp',    'lt',      'gt',     'apos',   'OElig',
+		'oelig',   'Scaron', 'scaron',  'Yuml',   'circ',   'tilde',
+		'ensp',    'emsp',   'thinsp',  'zwnj',   'zwj',    'lrm',
+		'rlm',     'ndash',  'mdash',   'lsquo',  'rsquo',  'sbquo',
+		'ldquo',   'rdquo',  'bdquo',   'dagger', 'Dagger', 'permil',
+		'lsaquo',  'rsaquo', 'euro',    'fnof',   'Alpha',  'Beta',
+		'Gamma',   'Delta',  'Epsilon', 'Zeta',   'Eta',    'Theta',
+		'Iota',    'Kappa',  'Lambda',  'Mu',     'Nu',     'Xi',
+		'Omicron', 'Pi',     'Rho',     'Sigma',  'Tau',    'Upsilon',
+		'Phi',     'Chi',    'Psi',     'Omega',  'alpha',  'beta',
+		'gamma',   'delta',  'epsilon', 'zeta',   'eta',    'theta',
+		'iota',    'kappa',  'lambda',  'mu',     'nu',     'xi',
+		'omicron', 'pi',     'rho',     'sigmaf', 'sigma',  'tau',
+		'upsilon', 'phi',    'chi',     'psi',    'omega',  'thetasym',
+		'upsih',   'piv',    'bull',    'hellip', 'prime',  'Prime',
+		'oline',   'frasl',  'weierp',  'image',  'real',   'trade',
+		'alefsym', 'larr',   'uarr',    'rarr',   'darr',   'harr',
+		'crarr',   'lArr',   'uArr',    'rArr',   'dArr',   'hArr',
+		'forall',  'part',   'exist',   'empty',  'nabla',  'isin',
+		'notin',   'ni',     'prod',    'sum',    'minus',  'lowast',
+		'radic',   'prop',   'infin',   'ang',    'and',    'or',
+		'cap',     'cup',    'int',     'sim',    'cong',   'asymp',
+		'ne',      'equiv',  'le',      'ge',     'sub',    'sup',
+		'nsub',    'sube',   'supe',    'oplus',  'otimes', 'perp',
+		'sdot',    'lceil',  'rceil',   'lfloor', 'rfloor', 'lang',
+		'rang',    'loz',    'spades',  'clubs',  'hearts', 'diams',
+	);
 }
 
 /**
@@ -344,9 +480,9 @@ if (!CUSTOM_TAGS) {
  * call this function.
  *
  * The default allowed protocols are 'http', 'https', 'ftp', 'mailto', 'news',
- * 'irc', 'gopher', 'nntp', 'feed', and finally 'telnet. This covers all common
- * link protocols, except for 'javascript' which should not be allowed for
- * untrusted users.
+ * 'irc', 'gopher', 'nntp', 'feed', 'telnet, 'mms', 'rtsp' and 'svn'. This
+ * covers all common link protocols, except for 'javascript' which should not
+ * be allowed for untrusted users.
  *
  * @since 1.0.0
  *
@@ -355,7 +491,8 @@ if (!CUSTOM_TAGS) {
  * @param array $allowed_protocols Optional. Allowed protocol in links.
  * @return string Filtered content with only allowed HTML elements
  */
-function wp_kses($string, $allowed_html, $allowed_protocols = array ('http', 'https', 'ftp', 'ftps', 'mailto', 'news', 'irc', 'gopher', 'nntp', 'feed', 'telnet')) {
+function wp_kses($string, $allowed_html, $allowed_protocols = array ()) {
+	$allowed_protocols = wp_parse_args( $allowed_protocols, apply_filters('kses_allowed_protocols', array ('http', 'https', 'ftp', 'ftps', 'mailto', 'news', 'irc', 'gopher', 'nntp', 'feed', 'telnet', 'mms', 'rtsp', 'svn') ));
 	$string = wp_kses_no_null($string);
 	$string = wp_kses_js_entities($string);
 	$string = wp_kses_normalize_entities($string);
@@ -495,7 +632,7 @@ function wp_kses_attr($element, $attr, $allowed_html, $allowed_protocols) {
 	# Is there a closing XHTML slash at the end of the attributes?
 
 	$xhtml_slash = '';
-	if (preg_match('%\s/\s*$%', $attr))
+	if (preg_match('%\s*/\s*$%', $attr))
 		$xhtml_slash = ' /';
 
 	# Are any attributes allowed at all for this element?
@@ -621,7 +758,7 @@ function wp_kses_hair($attr, $allowed_protocols) {
 
 			case 2 : # attribute value, a URL after href= for instance
 
-				if (preg_match('/^"([^"]*)"(\s+|$)/', $attr, $match))
+				if (preg_match('%^"([^"]*)"(\s+|/?$)%', $attr, $match))
 					# "value"
 					{
 					$thisval = $match[1];
@@ -637,7 +774,7 @@ function wp_kses_hair($attr, $allowed_protocols) {
 					break;
 				}
 
-				if (preg_match("/^'([^']*)'(\s+|$)/", $attr, $match))
+				if (preg_match("%^'([^']*)'(\s+|/?$)%", $attr, $match))
 					# 'value'
 					{
 					$thisval = $match[1];
@@ -653,7 +790,7 @@ function wp_kses_hair($attr, $allowed_protocols) {
 					break;
 				}
 
-				if (preg_match("%^([^\s\"']+)(\s+|$)%", $attr, $match))
+				if (preg_match("%^([^\s\"']+)(\s+|/?$)%", $attr, $match))
 					# value
 					{
 					$thisval = $match[1];
@@ -696,10 +833,10 @@ function wp_kses_hair($attr, $allowed_protocols) {
  * @since 1.0.0
  *
  * @param string $value Attribute value
- * @param string $vless Whether the value is valueless or not. Use 'y' or 'n'
+ * @param string $vless Whether the value is valueless. Use 'y' or 'n'
  * @param string $checkname What $checkvalue is checking for.
  * @param mixed $checkvalue What constraint the value should pass
- * @return bool Whether check passes (true) or not (false)
+ * @return bool Whether check passes
  */
 function wp_kses_check_attr_val($value, $vless, $checkname, $checkvalue) {
 	$ok = true;
@@ -775,7 +912,6 @@ function wp_kses_check_attr_val($value, $vless, $checkname, $checkvalue) {
  */
 function wp_kses_bad_protocol($string, $allowed_protocols) {
 	$string = wp_kses_no_null($string);
-	$string = preg_replace('/\xad+/', '', $string); # deals with Opera "feature"
 	$string2 = $string.'a';
 
 	while ($string != $string2) {
@@ -909,7 +1045,7 @@ function wp_kses_bad_protocol_once2($matches) {
 	global $_kses_allowed_protocols;
 
 	if ( is_array($matches) ) {
-		if ( ! isset($matches[1]) || empty($matches[1]) )
+		if ( empty($matches[1]) )
 			return '';
 
 		$string = $matches[1];
@@ -920,8 +1056,6 @@ function wp_kses_bad_protocol_once2($matches) {
 	$string2 = wp_kses_decode_entities($string);
 	$string2 = preg_replace('/\s/', '', $string2);
 	$string2 = wp_kses_no_null($string2);
-	$string2 = preg_replace('/\xad+/', '', $string2);
-	# deals with Opera "feature"
 	$string2 = strtolower($string2);
 
 	$allowed = false;
@@ -955,11 +1089,32 @@ function wp_kses_normalize_entities($string) {
 
 	# Change back the allowed entities in our entity whitelist
 
-	$string = preg_replace('/&amp;([A-Za-z][A-Za-z0-9]{0,19});/', '&\\1;', $string);
-	$string = preg_replace_callback('/&amp;#0*([0-9]{1,5});/', 'wp_kses_normalize_entities2', $string);
-	$string = preg_replace_callback('/&amp;#([Xx])0*(([0-9A-Fa-f]{2}){1,2});/', 'wp_kses_normalize_entities3', $string);
+	$string = preg_replace_callback('/&amp;([A-Za-z]{2,8});/', 'wp_kses_named_entities', $string);
+	$string = preg_replace_callback('/&amp;#(0*[0-9]{1,7});/', 'wp_kses_normalize_entities2', $string);
+	$string = preg_replace_callback('/&amp;#[Xx](0*[0-9A-Fa-f]{1,6});/', 'wp_kses_normalize_entities3', $string);
 
 	return $string;
+}
+
+/**
+ * Callback for wp_kses_normalize_entities() regular expression.
+ *
+ * This function only accepts valid named entity references, which are finite,
+ * case-sensitive, and highly scrutinized by HTML and XML validators.
+ *
+ * @since 3.0.0
+ *
+ * @param array $matches preg_replace_callback() matches array
+ * @return string Correctly encoded entity
+ */
+function wp_kses_named_entities($matches) {
+	global $allowedentitynames;
+
+	if ( empty($matches[1]) )
+		return '';
+
+	$i = $matches[1];
+	return ( ( ! in_array($i, $allowedentitynames) ) ? "&amp;$i;" : "&$i;" );
 }
 
 /**
@@ -975,11 +1130,18 @@ function wp_kses_normalize_entities($string) {
  * @return string Correctly encoded entity
  */
 function wp_kses_normalize_entities2($matches) {
-	if ( ! isset($matches[1]) || empty($matches[1]) )
+	if ( empty($matches[1]) )
 		return '';
 
 	$i = $matches[1];
-	return ( ( ! valid_unicode($i) ) || ($i > 65535) ? "&amp;#$i;" : "&#$i;" );
+	if (valid_unicode($i)) {
+		$i = str_pad(ltrim($i,'0'), 3, '0', STR_PAD_LEFT);
+		$i = "&#$i;";
+	} else {
+		$i = "&amp;#$i;";
+	}
+
+	return $i;
 }
 
 /**
@@ -994,11 +1156,11 @@ function wp_kses_normalize_entities2($matches) {
  * @return string Correctly encoded entity
  */
 function wp_kses_normalize_entities3($matches) {
-	if ( ! isset($matches[2]) || empty($matches[2]) )
+	if ( empty($matches[1]) )
 		return '';
 
-	$hexchars = $matches[2];
-	return ( ( ! valid_unicode(hexdec($hexchars)) ) ? "&amp;#x$hexchars;" : "&#x$hexchars;" );
+	$hexchars = $matches[1];
+	return ( ( ! valid_unicode(hexdec($hexchars)) ) ? "&amp;#x$hexchars;" : '&#x'.ltrim($hexchars,'0').';' );
 }
 
 /**
@@ -1027,10 +1189,30 @@ function valid_unicode($i) {
  * @return string Content after decoded entities
  */
 function wp_kses_decode_entities($string) {
-	$string = preg_replace_callback('/&#([0-9]+);/', create_function('$match', 'return chr($match[1]);'), $string);
-	$string = preg_replace_callback('/&#[Xx]([0-9A-Fa-f]+);/', create_function('$match', 'return chr(hexdec($match[1]));'), $string);
+	$string = preg_replace_callback('/&#([0-9]+);/', '_wp_kses_decode_entities_chr', $string);
+	$string = preg_replace_callback('/&#[Xx]([0-9A-Fa-f]+);/', '_wp_kses_decode_entities_chr_hexdec', $string);
 
 	return $string;
+}
+
+/**
+ * Regex callback for wp_kses_decode_entities()
+ *
+ * @param array $match preg match
+ * @return string
+ */
+function _wp_kses_decode_entities_chr( $match ) {
+	return chr( $match[1] );
+}
+
+/**
+ * Regex callback for wp_kses_decode_entities()
+ *
+ * @param array $match preg match
+ * @return string
+ */
+function _wp_kses_decode_entities_chr_hexdec( $match ) {
+	return chr( hexdec( $match[1] ) );
 }
 
 /**
@@ -1039,12 +1221,26 @@ function wp_kses_decode_entities($string) {
  * @since 1.0.0
  * @uses $allowedtags
  *
- * @param string $data Content to filter
+ * @param string $data Content to filter, expected to be escaped with slashes
  * @return string Filtered content
  */
 function wp_filter_kses($data) {
 	global $allowedtags;
 	return addslashes( wp_kses(stripslashes( $data ), $allowedtags) );
+}
+
+/**
+ * Sanitize content with allowed HTML Kses rules.
+ *
+ * @since 2.9.0
+ * @uses $allowedtags
+ *
+ * @param string $data Content to filter, expected to not be escaped
+ * @return string Filtered content
+ */
+function wp_kses_data($data) {
+	global $allowedtags;
+	return wp_kses( $data , $allowedtags );
 }
 
 /**
@@ -1056,12 +1252,29 @@ function wp_filter_kses($data) {
  * @since 2.0.0
  * @uses $allowedposttags
  *
- * @param string $data Post content to filter
+ * @param string $data Post content to filter, expected to be escaped with slashes
  * @return string Filtered post content with allowed HTML tags and attributes intact.
  */
 function wp_filter_post_kses($data) {
 	global $allowedposttags;
 	return addslashes ( wp_kses(stripslashes( $data ), $allowedposttags) );
+}
+
+/**
+ * Sanitize content for allowed HTML tags for post content.
+ *
+ * Post content refers to the page contents of the 'post' type and not $_POST
+ * data from forms.
+ *
+ * @since 2.9.0
+ * @uses $allowedposttags
+ *
+ * @param string $data Post content to filter
+ * @return string Filtered post content with allowed HTML tags and attributes intact.
+ */
+function wp_kses_post($data) {
+	global $allowedposttags;
+	return wp_kses( $data , $allowedposttags );
 }
 
 /**
@@ -1148,24 +1361,32 @@ function kses_init() {
 add_action('init', 'kses_init');
 add_action('set_current_user', 'kses_init');
 
+/**
+ * Inline CSS filter
+ *
+ * @since 2.8.1
+ */
 function safecss_filter_attr( $css, $deprecated = '' ) {
+	if ( !empty( $deprecated ) )
+		_deprecated_argument( __FUNCTION__, '2.8.1' ); // Never implemented
+
 	$css = wp_kses_no_null($css);
 	$css = str_replace(array("\n","\r","\t"), '', $css);
 
-	if ( preg_match( '%[\\(&]|/\*%', $css ) ) // remove any inline css containing \ ( & or comments
+	if ( preg_match( '%[\\(&=}]|/\*%', $css ) ) // remove any inline css containing \ ( & } = or comments
 		return '';
 
-	$css_array = split( ';', trim( $css ) );
-	$allowed_attr = apply_filters( 'safe_style_css', array( 'text-align', 'margin', 'color', 'float', 
-	'border', 'background', 'background-color', 'border-bottom', 'border-bottom-color', 
+	$css_array = explode( ';', trim( $css ) );
+	$allowed_attr = apply_filters( 'safe_style_css', array( 'text-align', 'margin', 'color', 'float',
+	'border', 'background', 'background-color', 'border-bottom', 'border-bottom-color',
 	'border-bottom-style', 'border-bottom-width', 'border-collapse', 'border-color', 'border-left',
-	'border-left-color', 'border-left-style', 'border-left-width', 'border-right', 'border-right-color', 
-	'border-right-style', 'border-right-width', 'border-spacing', 'border-style', 'border-top', 
-	'border-top-color', 'border-top-style', 'border-top-width', 'border-width', 'caption-side', 
-	'clear', 'cursor', 'direction', 'font', 'font-family', 'font-size', 'font-style', 
-	'font-variant', 'font-weight', 'height', 'letter-spacing', 'line-height', 'margin-bottom', 
-	'margin-left', 'margin-right', 'margin-top', 'overflow', 'padding', 'padding-bottom', 
-	'padding-left', 'padding-right', 'padding-top', 'text-decoration', 'text-indent', 'vertical-align', 
+	'border-left-color', 'border-left-style', 'border-left-width', 'border-right', 'border-right-color',
+	'border-right-style', 'border-right-width', 'border-spacing', 'border-style', 'border-top',
+	'border-top-color', 'border-top-style', 'border-top-width', 'border-width', 'caption-side',
+	'clear', 'cursor', 'direction', 'font', 'font-family', 'font-size', 'font-style',
+	'font-variant', 'font-weight', 'height', 'letter-spacing', 'line-height', 'margin-bottom',
+	'margin-left', 'margin-right', 'margin-top', 'overflow', 'padding', 'padding-bottom',
+	'padding-left', 'padding-right', 'padding-top', 'text-decoration', 'text-indent', 'vertical-align',
 	'width' ) );
 
 	if ( empty($allowed_attr) )

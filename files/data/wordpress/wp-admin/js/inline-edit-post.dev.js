@@ -8,9 +8,6 @@ inlineEditPost = {
 		t.type = $('table.widefat').hasClass('page') ? 'page' : 'post';
 		t.what = '#'+t.type+'-';
 
-		// get all editable rows
-		t.rows = $('tr.iedit');
-
 		// prepare the edit rows
 		qeRow.keyup(function(e) { if(e.which == 27) return inlineEditPost.revert(); });
 		bulkRow.keyup(function(e) { if (e.which == 27) return inlineEditPost.revert(); });
@@ -31,7 +28,7 @@ inlineEditPost = {
 		});
 
 		// add events
-		t.addEvents(t.rows);
+		$('a.editinline').live('click', function() { inlineEditPost.edit(this); return false; });
 
 		$('#bulk-title-div').parents('fieldset').after(
 			$('#inline-edit fieldset.inline-edit-categories').clone()
@@ -39,17 +36,13 @@ inlineEditPost = {
 			$('#inline-edit label.inline-edit-tags').clone()
 		);
 
-		// categories expandable?
+		// hiearchical taxonomies expandable?
 		$('span.catshow').click(function() {
-			$('.inline-editor ul.cat-checklist').addClass("cat-hover");
-			$('.inline-editor span.cathide').show();
-			$(this).hide();
+			$(this).hide().next().show().parent().next().addClass("cat-hover");
 		});
 
 		$('span.cathide').click(function() {
-			$('.inline-editor ul.cat-checklist').removeClass("cat-hover");
-			$('.inline-editor span.catshow').show();
-			$(this).hide();
+			$(this).hide().prev().show().parent().next().removeClass("cat-hover");
 		});
 
 		$('select[name="_status"] option[value="future"]', bulkRow).remove();
@@ -76,15 +69,8 @@ inlineEditPost = {
 		$(t.what+t.getId(el)).css('display') == 'none' ? t.revert() : t.edit(el);
 	},
 
-	addEvents : function(r) {
-		r.each(function() {
-			var row = $(this);
-			$('a.editinline', row).click(function() { inlineEditPost.edit(this); return false; });
-		});
-	},
-
 	setBulk : function() {
-		var te = '', type = this.type, tax;
+		var te = '', type = this.type, tax, c = true;
 		this.revert();
 
 		$('#bulk-edit td').attr('colspan', $('.widefat:first thead th:visible').length);
@@ -93,11 +79,15 @@ inlineEditPost = {
 
 		$('tbody th.check-column input[type="checkbox"]').each(function(i){
 			if ( $(this).attr('checked') ) {
+				c = false;
 				var id = $(this).val(), theTitle;
 				theTitle = $('#inline_'+id+' .post_title').text() || inlineEditL10n.notitle;
 				te += '<div id="ttle'+id+'"><a id="_'+id+'" class="ntdelbutton" title="'+inlineEditL10n.ntdeltitle+'">X</a>'+theTitle+'</div>';
 			}
 		});
+
+		if ( c )
+			return this.revert();
 
 		$('#bulk-titles').html(te);
 		$('#bulk-titles a').click(function() {
@@ -124,7 +114,6 @@ inlineEditPost = {
 
 		fields = ['post_title', 'post_name', 'post_author', '_status', 'jj', 'mm', 'aa', 'hh', 'mn', 'ss', 'post_password'];
 		if ( t.type == 'page' ) fields.push('post_parent', 'menu_order', 'page_template');
-		if ( t.type == 'post' ) fields.push('tags_input');
 
 		// add the new blank row
 		editRow = $('#inline-edit').clone(true);
@@ -136,6 +125,11 @@ inlineEditPost = {
 
 		// populate the data
 		rowData = $('#inline_'+id);
+		if ( !$(':input[name="post_author"] option[value=' + $('.post_author', rowData).text() + ']', editRow).val() ) {
+			// author no longer has edit caps, so we need to add them to the list of authors
+			$(':input[name="post_author"]', editRow).prepend('<option value="' + $('.post_author', rowData).text() + '">' + $('#' + t.type + '-' + id + ' .author').text() + '</option>');
+		}
+
 		for ( f = 0; f < fields.length; f++ ) {
 			$(':input[name="'+fields[f]+'"]', editRow).val( $('.'+fields[f], rowData).text() );
 		}
@@ -147,9 +141,24 @@ inlineEditPost = {
 		if ( $('.sticky', rowData).text() == 'sticky' )
 			$('input[name="sticky"]', editRow).attr("checked", "checked");
 
-		// categories
-		if ( cats = $('.post_category', rowData).text() )
-			$('ul.cat-checklist :checkbox', editRow).val(cats.split(','));
+		// hierarchical taxonomies
+		$('.post_category', rowData).each(function(){
+			if( term_ids = $(this).text() )
+			{
+				taxname = $(this).attr('id').replace('_'+id, '');
+				$('ul.'+taxname+'-checklist :checkbox', editRow).val(term_ids.split(','));
+			}
+		});
+		//flat taxonomies
+		$('.tags_input', rowData).each(function(){
+			if( terms = $(this).text() )
+			{
+				taxname = $(this).attr('id').replace('_'+id, '');
+				$('textarea.tax_input_'+taxname, editRow).val(terms);
+				$('textarea.tax_input_'+taxname, editRow).suggest( 'admin-ajax.php?action=ajax-tag-search&tax='+taxname, { delay: 500, minchars: 2, multiple: true, multipleSep: ", " } );
+			}
+		});
+
 
 		// handle the post status
 		status = $('._status', rowData).text();
@@ -181,17 +190,11 @@ inlineEditPost = {
 		$(editRow).attr('id', 'edit-'+id).addClass('inline-editor').show();
 		$('.ptitle', editRow).focus();
 
-		// enable autocomplete for tags
-		if ( t.type == 'post' ) {
-			tax = 'post_tag';
-			$('tr.inline-editor textarea[name="tags_input"]').suggest( 'admin-ajax.php?action=ajax-tag-search&tax='+tax, { delay: 500, minchars: 2, multiple: true, multipleSep: ", " } );
-		}
-
 		return false;
 	},
 
 	save : function(id) {
-		var params, fields;
+		var params, fields, page = $('.post_status_page').val() || '';
 
 		if( typeof(id) == 'object' )
 			id = this.getId(id);
@@ -200,12 +203,13 @@ inlineEditPost = {
 
 		params = {
 			action: 'inline-save',
-			post_type: this.type,
+			post_type: typenow,
 			post_ID: id,
-			edit_date: 'true'
+			edit_date: 'true',
+			post_status: page
 		};
 
-		fields = $('#edit-'+id+' :input').fieldSerialize();
+		fields = $('#edit-'+id+' :input').serialize();
 		params = fields + '&' + $.param(params);
 
 		// make ajax request
@@ -217,15 +221,7 @@ inlineEditPost = {
 					if ( -1 != r.indexOf('<tr') ) {
 						$(inlineEditPost.what+id).remove();
 						$('#edit-'+id).before(r).remove();
-
-						var row = $(inlineEditPost.what+id);
-						row.hide();
-
-						if ( 'draft' == $('input[name="post_status"]').val() )
-							row.find('td.column-comments').hide();
-
-						inlineEditPost.addEvents(row);
-						row.fadeIn();
+						$(inlineEditPost.what+id).hide().fadeIn();
 					} else {
 						r = r.replace( /<.[^<>]*?>/g, '' );
 						$('#edit-'+id+' .inline-edit-save').append('<span class="error">'+r+'</span>');

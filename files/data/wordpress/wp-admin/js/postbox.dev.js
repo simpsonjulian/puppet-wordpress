@@ -5,6 +5,7 @@ var postboxes;
 			this.init(page,args);
 			$('.postbox h3, .postbox .handlediv').click( function() {
 				var p = $(this).parent('.postbox'), id = p.attr('id');
+
 				p.toggleClass('closed');
 				postboxes.save_state(page);
 				if ( id ) {
@@ -19,6 +20,7 @@ var postboxes;
 			} );
 			$('.hide-postbox-tog').click( function() {
 				var box = $(this).val();
+
 				if ( $(this).attr('checked') ) {
 					$('#' + box).show();
 					if ( $.isFunction( postboxes.pbshow ) )
@@ -115,8 +117,9 @@ var postboxes;
 
 		save_state : function(page) {
 			var closed = $('.postbox').filter('.closed').map(function() { return this.id; }).get().join(','),
-			hidden = $('.postbox').filter(':hidden').map(function() { return this.id; }).get().join(',');
-			$.post(postboxL10n.requestFile, {
+				hidden = $('.postbox').filter(':hidden').map(function() { return this.id; }).get().join(',');
+
+			$.post(ajaxurl, {
 				action: 'closed-postboxes',
 				closed: closed,
 				hidden: hidden,
@@ -127,6 +130,7 @@ var postboxes;
 
 		save_order : function(page) {
 			var postVars, page_columns = $('.columns-prefs input:checked').val() || 0;
+
 			postVars = {
 				action: 'meta-box-order',
 				_ajax_nonce: $('#meta-box-order-nonce').val(),
@@ -136,7 +140,7 @@ var postboxes;
 			$('.meta-box-sortables').each( function() {
 				postVars["order[" + this.id.split('-')[0] + "]"] = $(this).sortable( 'toArray' ).join(',');
 			} );
-			$.post( postboxL10n.requestFile, postVars );
+			$.post( ajaxurl, postVars );
 		},
 
 		/* Callbacks */

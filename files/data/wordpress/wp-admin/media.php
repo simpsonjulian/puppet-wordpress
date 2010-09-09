@@ -7,7 +7,7 @@
  */
 
 /** Load WordPress Administration Bootstrap */
-require_once('admin.php');
+require_once('./admin.php');
 
 $parent_file = 'upload.php';
 $submenu_file = 'upload.php';
@@ -58,11 +58,16 @@ case 'edit' :
 
 	$att = get_post($att_id);
 
+	if ( empty($att->ID) ) wp_die( __('You attempted to edit an attachment that doesn&#8217;t exist. Perhaps it was deleted?') );
+	if ( $att->post_status == 'trash' ) wp_die( __('You can&#8217;t edit this attachment because it is in the Trash. Please move it out of the Trash and try again.') );
+
 	add_filter('attachment_fields_to_edit', 'media_single_attachment_fields_to_edit', 10, 2);
 
 	wp_enqueue_script( 'wp-ajax-response' );
+	wp_enqueue_script('image-edit');
+	wp_enqueue_style('imgareaselect');
 
-	require( 'admin-header.php' );
+	require( './admin-header.php' );
 
 	$parent_file = 'upload.php';
 	$message = '';
@@ -71,7 +76,7 @@ case 'edit' :
 		switch ( $_GET['message'] ) :
 		case 'updated' :
 			$message = __('Media attachment updated.');
-			$class = 'updated fade';
+			$class = 'updated';
 			break;
 		endswitch;
 	}
@@ -84,7 +89,11 @@ case 'edit' :
 <?php screen_icon(); ?>
 <h2><?php _e( 'Edit Media' ); ?></h2>
 
-<form method="post" action="<?php echo esc_url( remove_query_arg( 'message' ) ); ?>" class="media-upload-form" id="media-single-form">
+<form method="post" action="" class="media-upload-form" id="media-single-form">
+<p class="submit" style="padding-bottom: 0;">
+<input type="submit" class="button-primary" name="save" value="<?php esc_attr_e('Update Media'); ?>" />
+</p>
+
 <div class="media-single">
 <div id='media-item-<?php echo $att_id; ?>' class='media-item'>
 <?php echo get_media_item( $att_id, array( 'toggle' => false, 'send' => false, 'delete' => false, 'show_title' => false, 'errors' => $errors ) ); ?>
@@ -105,7 +114,7 @@ case 'edit' :
 
 <?php
 
-	require( 'admin-footer.php' );
+	require( './admin-footer.php' );
 
 	exit;
 

@@ -83,7 +83,7 @@ function validate_username( $username ) {
  * 'first_name' - The user's first name.
  * 'last_name' - The user's last name.
  * 'description' - A string containing content about the user.
- * 'rich_editing' - A string for whether to enable the rich editor or not. False
+ * 'rich_editing' - A string for whether to enable the rich editor. False
  *		if not empty.
  * 'user_registered' - The date the user registered. Format is 'Y-m-d H:i:s'.
  * 'role' - A string used to set the user's role.
@@ -98,7 +98,7 @@ function validate_username( $username ) {
  * @uses do_action() Calls 'user_register' hook when creating a new user giving the user's ID
  *
  * @param array $userdata An array of user data.
- * @return int The newly created user's ID.
+ * @return int|WP_Error The newly created user's ID or a WP_Error object if the user could not be created.
  */
 function wp_insert_user($userdata) {
 	global $wpdb;
@@ -119,6 +119,15 @@ function wp_insert_user($userdata) {
 	$user_login = sanitize_user($user_login, true);
 	$user_login = apply_filters('pre_user_login', $user_login);
 
+	//Remove any non-printable chars from the login string to see if we have ended up with an empty username
+	$user_login = trim($user_login);
+
+	if ( empty($user_login) )
+		return new WP_Error('empty_user_login', __('Cannot create a user with an empty login name.') );
+
+	if ( !$update && username_exists( $user_login ) )
+		return new WP_Error('existing_user_login', __('This username is already registered.') );
+
 	if ( empty($user_nicename) )
 		$user_nicename = sanitize_title( $user_login );
 	$user_nicename = apply_filters('pre_user_nicename', $user_nicename);
@@ -130,6 +139,9 @@ function wp_insert_user($userdata) {
 	if ( empty($user_email) )
 		$user_email = '';
 	$user_email = apply_filters('pre_user_email', $user_email);
+
+	if ( !$update && ! defined( 'WP_IMPORTING' ) && email_exists($user_email) )
+		return new WP_Error('existing_user_email', __('This email address is already registered.') );
 
 	if ( empty($display_name) )
 		$display_name = $user_login;
@@ -164,21 +176,12 @@ function wp_insert_user($userdata) {
 	if ( empty($use_ssl) )
 		$use_ssl = 0;
 
-	if ( empty($jabber) )
-		$jabber = '';
-
-	if ( empty($aim) )
-		$aim = '';
-
-	if ( empty($yim) )
-		$yim = '';
-
 	if ( empty($user_registered) )
 		$user_registered = gmdate('Y-m-d H:i:s');
 
 	$user_nicename_check = $wpdb->get_var( $wpdb->prepare("SELECT ID FROM $wpdb->users WHERE user_nicename = %s AND user_login != %s LIMIT 1" , $user_nicename, $user_login));
 
-	if ($user_nicename_check) {
+	if ( $user_nicename_check ) {
 		$suffix = 2;
 		while ($user_nicename_check) {
 			$alt_user_nicename = $user_nicename . "-$suffix";
@@ -199,17 +202,21 @@ function wp_insert_user($userdata) {
 		$user_id = (int) $wpdb->insert_id;
 	}
 
-	update_usermeta( $user_id, 'first_name', $first_name);
-	update_usermeta( $user_id, 'last_name', $last_name);
-	update_usermeta( $user_id, 'nickname', $nickname );
-	update_usermeta( $user_id, 'description', $description );
-	update_usermeta( $user_id, 'jabber', $jabber );
-	update_usermeta( $user_id, 'aim', $aim );
-	update_usermeta( $user_id, 'yim', $yim );
-	update_usermeta( $user_id, 'rich_editing', $rich_editing);
-	update_usermeta( $user_id, 'comment_shortcuts', $comment_shortcuts);
-	update_usermeta( $user_id, 'admin_color', $admin_color);
-	update_usermeta( $user_id, 'use_ssl', $use_ssl);
+	update_user_meta( $user_id, 'first_name', $first_name);
+	update_user_meta( $user_id, 'last_name', $last_name);
+	update_user_meta( $user_id, 'nickname', $nickname );
+	update_user_meta( $user_id, 'description', $description );
+	update_user_meta( $user_id, 'rich_editing', $rich_editing);
+	update_user_meta( $user_id, 'comment_shortcuts', $comment_shortcuts);
+	update_user_meta( $user_id, 'admin_color', $admin_color);
+	update_user_meta( $user_id, 'use_ssl', $use_ssl);
+
+	foreach ( _wp_get_user_contactmethods() as $method => $name ) {
+		if ( empty($$method) )
+			$$method = '';
+
+		update_user_meta( $user_id, $method, $$method );
+	}
 
 	if ( isset($role) ) {
 		$user = new WP_User($user_id);
@@ -264,6 +271,8 @@ function wp_update_user($userdata) {
 		$userdata['user_pass'] = wp_hash_password($userdata['user_pass']);
 	}
 
+	wp_cache_delete($user[ 'user_email' ], 'useremail');
+
 	// Merge old and new fields with new fields overwriting old ones.
 	$userdata = array_merge($user, $userdata);
 	$user_id = wp_insert_user($userdata);
@@ -288,7 +297,6 @@ function wp_update_user($userdata) {
  *
  * @since 2.0.0
  * @see wp_insert_user() More complete way to create a new user
- * @uses $wpdb Escapes $username and $email parameters
  *
  * @param string $username The user's username.
  * @param string $password The user's password.
@@ -296,14 +304,30 @@ function wp_update_user($userdata) {
  * @return int The new user's ID.
  */
 function wp_create_user($username, $password, $email = '') {
-	global $wpdb;
-
-	$user_login = $wpdb->escape($username);
-	$user_email = $wpdb->escape($email);
+	$user_login = esc_sql( $username );
+	$user_email = esc_sql( $email    );
 	$user_pass = $password;
 
 	$userdata = compact('user_login', 'user_email', 'user_pass');
 	return wp_insert_user($userdata);
+}
+
+
+/**
+ * Set up the default contact methods
+ *
+ * @access private
+ * @since
+ *
+ * @return array $user_contactmethods Array of contact methods and their labels.
+ */
+function _wp_get_user_contactmethods() {
+	$user_contactmethods = array(
+		'aim' => __('AIM'),
+		'yim' => __('Yahoo IM'),
+		'jabber' => __('Jabber / Google Talk')
+	);
+	return apply_filters('user_contactmethods',$user_contactmethods);
 }
 
 ?>

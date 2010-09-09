@@ -13,7 +13,7 @@
  */
 class WP_Filesystem_Base {
 	/**
-	 * Whether to display debug data for the connection or not.
+	 * Whether to display debug data for the connection.
 	 *
 	 * @since 2.5
 	 * @access public
@@ -142,6 +142,7 @@ class WP_Filesystem_Base {
 				if ( defined($constant) && $folder === $dir )
 					return trailingslashit(constant($constant));
 		} elseif ( 'direct' == $this->method ) {
+			$folder = str_replace('\\', '/', $folder); //Windows path sanitiation
 			return trailingslashit($folder);
 		}
 
@@ -156,7 +157,7 @@ class WP_Filesystem_Base {
 			$this->cache[ $folder ] = $folder;
 			return $folder;
 		}
-		if( $return = $this->search_for_folder($folder) )
+		if ( $return = $this->search_for_folder($folder) )
 			$this->cache[ $folder ] = $return;
 		return $return;
 	}
@@ -210,7 +211,7 @@ class WP_Filesystem_Base {
 			return trailingslashit($base . $last_path);
 		}
 		if ( $loop )
-			return false;//Prevent tihs function looping again.
+			return false; //Prevent tihs function looping again.
 		//As an extra last resort, Change back to / if the folder wasnt found. This comes into effect when the CWD is /home/user/ but WP is at /var/www/.... mainly dedicated setups.
 		return $this->search_for_folder($folder, '/', true);
 
@@ -242,7 +243,7 @@ class WP_Filesystem_Base {
 			$info = 'd';
 		elseif (($perms & 0x2000) == 0x2000) // Character special
 			$info = 'c';
-		elseif (($perms & 0x1000) == 0x1000)// FIFO pipe
+		elseif (($perms & 0x1000) == 0x1000) // FIFO pipe
 			$info = 'p';
 		else // Unknown
 			$info = 'u';
@@ -288,8 +289,8 @@ class WP_Filesystem_Base {
 		$legal =  array('', 'w', 'r', 'x', '-');
 		$attarray = preg_split('//', $mode);
 
-		for($i=0; $i < count($attarray); $i++)
-		   if($key = array_search($attarray[$i], $legal))
+		for ($i=0; $i < count($attarray); $i++)
+		   if ($key = array_search($attarray[$i], $legal))
 			   $realmode .= $legal[$key];
 
 		$mode = str_pad($realmode, 9, '-');
