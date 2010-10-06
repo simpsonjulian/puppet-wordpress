@@ -1,7 +1,7 @@
 <?php
 /*
  
- $Id: sitemap-ui.php 183641 2009-12-17 00:45:09Z arnee $
+ $Id: sitemap-ui.php 241392 2010-05-15 09:51:44Z arnee $
 
 */
 
@@ -796,7 +796,7 @@ class GoogleSitemapGeneratorUI {
 								</label>
 								<a href="javascript:void(document.getElementById('sm_manual_help').style.display='');">[?]</a>
 								<span id="sm_manual_help" style="display:none;"><br />
-								<?php echo str_replace("%1",trailingslashit(get_bloginfo('siteurl')) . "?sm_command=build&amp;sm_key=" . $this->sg->GetOption("b_manual_key"),__('This will allow you to refresh your sitemap if an external tool wrote into the WordPress database without using the WordPress API. Use the following URL to start the process: <a href="%1">%1</a> Please check the result box above to see if sitemap was successfully built.', 'sitemap')); ?>
+								<?php echo str_replace("%1",trailingslashit(get_bloginfo('url')) . "?sm_command=build&amp;sm_key=" . $this->sg->GetOption("b_manual_key"),__('This will allow you to refresh your sitemap if an external tool wrote into the WordPress database without using the WordPress API. Use the following URL to start the process: <a href="%1">%1</a> Please check the result box above to see if sitemap was successfully built.', 'sitemap')); ?>
 								</span>
 							</li>
 						</ul>

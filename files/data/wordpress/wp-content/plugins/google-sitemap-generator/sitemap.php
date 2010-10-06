@@ -1,7 +1,7 @@
 <?php
 
 /*
- $Id: sitemap.php 183644 2009-12-17 01:00:22Z arnee $
+ $Id: sitemap.php 246883 2010-05-29 07:28:03Z arnee $
 
  Google XML Sitemaps Generator for WordPress
  ==============================================================================
@@ -25,7 +25,7 @@
  Plugin Name: Google XML Sitemaps
  Plugin URI: http://www.arnebrachhold.de/redir/sitemap-home/
  Description: This plugin will generate a special XML sitemap which will help search engines like Google, Yahoo, Bing and Ask.com to better index your blog.
- Version: 3.2.2
+ Version: 3.2.4
  Author: Arne Brachhold
  Author URI: http://www.arnebrachhold.de/
  Text Domain: sitemap
@@ -47,6 +47,15 @@ class GoogleSitemapGeneratorLoader {
 	 * If the sm_command and sm_key GET params are given, the function will init the generator to rebuild the sitemap.
 	 */
 	function Enable() {
+
+		//Check for 3.0 multisite, NOT supported yet!
+		if((defined('WP_ALLOW_MULTISITE') && WP_ALLOW_MULTISITE) || (function_exists('is_multisite') && is_multisite())) {
+			if(function_exists('is_super_admin') && is_super_admin()) {
+				add_action('admin_notices',  array('GoogleSitemapGeneratorLoader', 'AddMultisiteWarning'));
+			}	
+			
+			return;
+		}
 		
 		//Register the sitemap creator to wordpress...
 		add_action('admin_menu', array('GoogleSitemapGeneratorLoader', 'RegisterAdminPage'));
@@ -88,6 +97,13 @@ class GoogleSitemapGeneratorLoader {
 			GoogleSitemapGeneratorLoader::CallShowPingResult();
 		}
 	}
+	
+	/**
+	 * Outputs the warning bar if multisite mode is activated
+	 */
+	function AddMultisiteWarning() {
+		echo "<div id='sm-multisite-warning' class='error fade'><p><strong>".__('Google XML Sitemaps is not multisite compatible.','sitemap')."</strong><br /> ".sprintf(__('Unfortunately the Google XML Sitemaps plugin was not tested with the multisite feature of WordPress 3.0 yet. The plugin will not be active until you disable the multisite mode. Otherwise go to <a href="%1$s">active plugins</a> and deactivate the Google XML Sitemaps plugin to make this message disappear.','sitemap'), "plugins.php?plugin_status=active")."</p></div>";
+	}
 
 	/**
 	 * Registers the plugin in the admin menu system
@@ -95,7 +111,7 @@ class GoogleSitemapGeneratorLoader {
 	function RegisterAdminPage() {
 		
 		if (function_exists('add_options_page')) {
-			add_options_page(__('XML-Sitemap Generator','sitemap'), __('XML-Sitemap','sitemap'), 10, GoogleSitemapGeneratorLoader::GetBaseName(), array('GoogleSitemapGeneratorLoader','CallHtmlShowOptionsPage'));
+			add_options_page(__('XML-Sitemap Generator','sitemap'), __('XML-Sitemap','sitemap'), 'level_10', GoogleSitemapGeneratorLoader::GetBaseName(), array('GoogleSitemapGeneratorLoader','CallHtmlShowOptionsPage'));
 		}
 	}
 	
@@ -214,8 +230,8 @@ class GoogleSitemapGeneratorLoader {
 	function LoadPlugin() {
 		
 		$mem = abs(intval(@ini_get('memory_limit')));
-		if($mem && $mem < 32) {
-			@ini_set('memory_limit', '32M');
+		if($mem && $mem < 64) {
+			@ini_set('memory_limit', '64M');
 		}
 		
 		$time = abs(intval(@ini_get("max_execution_time")));
