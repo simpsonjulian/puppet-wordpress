@@ -10,6 +10,7 @@ class wordpress  {
     package {   
       'php5-mysql': ensure => present; 
       'php5-cli':   ensure => present; 
+      'php5-curl':  ensure => present; 
       'libapache2-mod-php5': 
                     ensure => present; 
       'php5':       ensure => present; 
